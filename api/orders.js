@@ -3,6 +3,9 @@ const {
   calculateOrderTotals,
   normalizeItemName,
   formatNaira,
+  BRANCH_CONTACTS,
+  getBranchWhatsAppNumber,
+  getAllBranchContacts,
 } = require("../js/order.js");
 const { generateOrderPin, allocateOrderPin } = require("./pin-manager.js");
 
@@ -200,6 +203,7 @@ function validateOrder(body, orderPin) {
       customerEmail: email,
       fulfilment,
       location,
+      branchContact: getBranchWhatsAppNumber(location),
       address: fulfilment === "Delivery" ? address : "",
       items: allItems,
       notes,
@@ -247,11 +251,13 @@ module.exports = async function handler(req, res) {
         process.env.RESTAURANT_WHATSAPP_NUMBER ||
         process.env.WHATSAPP_ORDER_RECIPIENT;
       const recipient = getRestaurantWhatsAppNumber();
+      const branchContacts = getAllBranchContacts();
       const { isConfigured: dbConfigured } = require("./db");
       return res.status(200).json({
         configured: true,
         usingDefault: !envRecipient,
         recipient,
+        branchContacts,
         envRecipientConfigured: Boolean(envRecipient),
         databaseConfigured: dbConfigured(),
       });
@@ -320,7 +326,8 @@ module.exports = async function handler(req, res) {
       }
     }
 
-    const recipient = getRestaurantWhatsAppNumber();
+    const branchLocation = validatedOrder.orderData.location;
+    const recipient = getBranchWhatsAppNumber(branchLocation);
     const whatsappUrl = `https://wa.me/${recipient}?text=${encodeURIComponent(validatedOrder.message)}`;
 
     return res.status(200).json({
@@ -328,6 +335,8 @@ module.exports = async function handler(req, res) {
       orderId,
       orderPin,
       pricing: validatedOrder.pricing,
+      branchLocation,
+      branchContact: recipient,
       whatsappUrl,
     });
   } finally {

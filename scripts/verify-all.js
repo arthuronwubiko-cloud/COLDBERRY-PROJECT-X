@@ -916,10 +916,13 @@ async function checkWhatsAppApi() {
     diagRes.statusCode === 200 &&
     diagRes.body?.configured === true &&
     diagRes.body?.recipient === "2349055303848" &&
+    typeof diagRes.body?.branchContacts === "object" &&
+    diagRes.body?.branchContacts["Garki, Abuja"]?.phone === "2349055303848" &&
+    diagRes.body?.branchContacts["Yaba, Lagos"]?.phone === "2348023456701" &&
     /^\d{8,15}$/.test(String(diagRes.body?.recipient || ""));
   record(
     "api-whatsapp",
-    "GET /api/orders?diagnostics=1 returns restaurant WhatsApp recipient 2349055303848",
+    "GET /api/orders?diagnostics=1 returns restaurant WhatsApp recipient 2349055303848 and branch contacts directory",
     diagOk,
     `status=${diagRes.statusCode}, recipient=${diagRes.body?.recipient}`
   );
@@ -951,6 +954,8 @@ async function checkWhatsAppApi() {
   const deliveryOk =
     deliveryRes.statusCode === 200 &&
     Boolean(deliveryRes.body?.orderId) &&
+    deliveryRes.body?.branchLocation === "Garki, Abuja" &&
+    deliveryRes.body?.branchContact === "2349055303848" &&
     deliveryRes.body?.pricing?.subtotal === 30600 &&
     deliveryRes.body?.pricing?.serviceFee === 800 &&
     deliveryRes.body?.pricing?.deliveryFee === 4590 &&
@@ -993,11 +998,14 @@ async function checkWhatsAppApi() {
     pickupRes
   );
   const pickupUrl = String(pickupRes.body?.whatsappUrl || "");
-  const pickupText = pickupUrl.startsWith("https://wa.me/2349055303848")
+  const pickupText = (pickupUrl.startsWith("https://wa.me/2348023456701") || pickupUrl.startsWith("https://wa.me/2349055303848"))
     ? new URL(pickupUrl).searchParams.get("text") || ""
     : "";
   const pickupOk =
     pickupRes.statusCode === 200 &&
+    pickupRes.body?.branchLocation === "Yaba, Lagos" &&
+    pickupRes.body?.branchContact === "2348023456701" &&
+    pickupUrl.startsWith("https://wa.me/2348023456701") &&
     pickupRes.body?.pricing?.serviceFee === 800 &&
     pickupRes.body?.pricing?.deliveryFee === 0 &&
     pickupRes.body?.pricing?.grandTotal === 31400 &&
@@ -1009,7 +1017,7 @@ async function checkWhatsAppApi() {
     !pickupText.includes("17.5%");
   record(
     "api-whatsapp",
-    "POST /api/orders (Pickup) sets ₦800 service fee, free pickup delivery fee line, and correct grand total",
+    "POST /api/orders (Pickup) routes to Yaba branch WhatsApp contact 2348023456701 and sets free pickup total",
     pickupOk,
     `status=${pickupRes.statusCode}, grandTotal=${pickupRes.body?.pricing?.grandTotal}`
   );

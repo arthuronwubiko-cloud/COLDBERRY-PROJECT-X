@@ -4772,3 +4772,45 @@ a {
   background: #FF6B4A;
   color: #FFFFFF !important;
 }
+
+/* Branch WhatsApp Contact Routing Badges */
+.branch-contact-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding: 0.45rem 0.85rem;
+  background: rgba(37, 211, 102, 0.12);
+  border: 1px solid rgba(37, 211, 102, 0.35);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: #0b6848;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+[data-theme="dark"] .branch-contact-badge {
+  background: rgba(37, 211, 102, 0.16);
+  border-color: rgba(37, 211, 102, 0.45);
+  color: #25d366;
+}
+
+.order-branch-route-note {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(37, 211, 102, 0.1);
+  border: 1px solid rgba(37, 211, 102, 0.3);
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+  margin: 0.75rem 0;
+  font-size: 0.9rem;
+  color: #0b6848;
+  line-height: 1.4;
+}
+
+[data-theme="dark"] .order-branch-route-note {
+  background: rgba(37, 211, 102, 0.15);
+  border-color: rgba(37, 211, 102, 0.4);
+  color: #8ce4a7;
+}

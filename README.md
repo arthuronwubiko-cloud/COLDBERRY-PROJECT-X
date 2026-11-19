@@ -448,7 +448,15 @@ Authenticate via `POST /api/admin` (`{ action: "login", username, password }`) u
 
 | Variable | Required | Purpose |
 | --- | --- | --- |
-| `RESTAURANT_WHATSAPP_NUMBER` | Optional | Restaurant WhatsApp number (defaults to `2349055303848`) |
+| `RESTAURANT_WHATSAPP_NUMBER` | Optional | Fallback Restaurant WhatsApp number (defaults to `2349055303848`) |
+| `BRANCH_GARKI_PHONE` | Optional | Override Garki, Abuja branch WhatsApp (default: `2349055303848`) |
+| `BRANCH_LUGBE_PHONE` | Optional | Override Lugbe, Abuja branch WhatsApp (default: `2349055303849`) |
+| `BRANCH_YABA_PHONE` | Optional | Override Yaba, Lagos branch WhatsApp (default: `2348023456701`) |
+| `BRANCH_SURULERE_PHONE` | Optional | Override Surulere, Lagos branch WhatsApp (default: `2348023456702`) |
+| `BRANCH_OKOTA_PHONE` | Optional | Override Okota, Lagos branch WhatsApp (default: `2348023456703`) |
+| `BRANCH_FESTAC_PHONE` | Optional | Override Festac, Lagos branch WhatsApp (default: `2348023456704`) |
+| `BRANCH_AJAO_PHONE` | Optional | Override Ajao, Lagos branch WhatsApp (default: `2348023456705`) |
+| `BRANCH_CONTACTS` | Optional | JSON string mapping any branch name to a phone number |
 | `SUPABASE_URL` | Optional | Supabase project URL e.g. `https://tfpedhsgktihxkeuoztv.supabase.co` |
 | `SUPABASE_KEY` | Optional | Supabase API key (anon or service_role) |
 | `DATABASE_URL` | Optional | Enables Neon Postgres order storage (alternative to Supabase) |

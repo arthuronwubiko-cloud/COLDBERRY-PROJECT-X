@@ -8,6 +8,124 @@
   const SERVICE_FEE = 800; // Flat service fee in NGN
   const DEFAULT_RESTAURANT_WHATSAPP_NUMBER = "2349055303848";
 
+  // Dedicated WhatsApp dispatch contacts for each branch outlet
+  const BRANCH_CONTACTS = {
+    "Garki, Abuja": {
+      phone: "2349055303848",
+      display: "+234 905 530 3848",
+      name: "Garki Branch",
+      city: "Abuja",
+      envKey: "BRANCH_GARKI",
+    },
+    "Lugbe, Abuja": {
+      phone: "2349055303849",
+      display: "+234 905 530 3849",
+      name: "Lugbe Branch",
+      city: "Abuja",
+      envKey: "BRANCH_LUGBE",
+    },
+    "Yaba, Lagos": {
+      phone: "2348023456701",
+      display: "+234 802 345 6701",
+      name: "Yaba Branch",
+      city: "Lagos",
+      envKey: "BRANCH_YABA",
+    },
+    "Surulere, Lagos": {
+      phone: "2348023456702",
+      display: "+234 802 345 6702",
+      name: "Surulere Branch",
+      city: "Lagos",
+      envKey: "BRANCH_SURULERE",
+    },
+    "Okota, Lagos": {
+      phone: "2348023456703",
+      display: "+234 802 345 6703",
+      name: "Okota Branch",
+      city: "Lagos",
+      envKey: "BRANCH_OKOTA",
+    },
+    "Festac, Lagos": {
+      phone: "2348023456704",
+      display: "+234 802 345 6704",
+      name: "Festac Branch",
+      city: "Lagos",
+      envKey: "BRANCH_FESTAC",
+    },
+    "Ajao, Lagos": {
+      phone: "2348023456705",
+      display: "+234 802 345 6705",
+      name: "Ajao Branch",
+      city: "Lagos",
+      envKey: "BRANCH_AJAO",
+    },
+  };
+
+  function getBranchWhatsAppNumber(location) {
+    if (typeof window !== "undefined" && window.BRANCH_CONTACTS && window.BRANCH_CONTACTS[location]) {
+      const val = window.BRANCH_CONTACTS[location];
+      const p = typeof val === "object" ? val.phone : val;
+      const digits = String(p).replace(/\D/g, "");
+      if (/^\d{8,15}$/.test(digits)) return digits;
+    }
+
+    const branch = BRANCH_CONTACTS[location];
+
+    if (branch && branch.envKey && typeof process !== "undefined" && process.env) {
+      const envNum =
+        process.env[`${branch.envKey}_PHONE`] ||
+        process.env[`${branch.envKey}_WHATSAPP`];
+      if (envNum) {
+        const digits = String(envNum).replace(/\D/g, "");
+        if (/^\d{8,15}$/.test(digits)) return digits;
+      }
+    }
+
+    if (typeof process !== "undefined" && process.env?.BRANCH_CONTACTS) {
+      try {
+        const parsed = JSON.parse(process.env.BRANCH_CONTACTS);
+        if (parsed && typeof parsed === "object" && parsed[location]) {
+          const digits = String(parsed[location]).replace(/\D/g, "");
+          if (/^\d{8,15}$/.test(digits)) return digits;
+        }
+      } catch (_) {}
+    }
+
+    if (branch && branch.phone) {
+      return branch.phone;
+    }
+
+    if (typeof process !== "undefined" && process.env) {
+      const envNumber =
+        process.env.RESTAURANT_WHATSAPP_NUMBER ||
+        process.env.WHATSAPP_ORDER_RECIPIENT;
+      if (envNumber) {
+        const digits = String(envNumber).replace(/\D/g, "");
+        if (/^\d{8,15}$/.test(digits)) return digits;
+      }
+    }
+
+    if (typeof window !== "undefined" && window.RESTAURANT_WHATSAPP_NUMBER) {
+      const digits = String(window.RESTAURANT_WHATSAPP_NUMBER).replace(/\D/g, "");
+      if (/^\d{8,15}$/.test(digits)) return digits;
+    }
+
+    return DEFAULT_RESTAURANT_WHATSAPP_NUMBER;
+  }
+
+  function getAllBranchContacts() {
+    const contacts = {};
+    for (const [loc, info] of Object.entries(BRANCH_CONTACTS)) {
+      contacts[loc] = {
+        phone: getBranchWhatsAppNumber(loc),
+        display: info.display,
+        name: info.name,
+        city: info.city,
+      };
+    }
+    return contacts;
+  }
+
   // Item prices map in Nigerian Naira (NGN)
   const ITEM_PRICES = {
     // Popular Sides & Add-ons
@@ -898,10 +1016,8 @@
       payload.orderPin = generateOrderPin();
     }
     const message = formatWhatsAppMessage(payload);
-    const recipient =
-      (typeof window !== "undefined" && window.RESTAURANT_WHATSAPP_NUMBER) ||
-      DEFAULT_RESTAURANT_WHATSAPP_NUMBER;
-    const cleanRecipient = String(recipient).replace(/\D/g, "") || DEFAULT_RESTAURANT_WHATSAPP_NUMBER;
+    const location = payload.location || "";
+    const cleanRecipient = getBranchWhatsAppNumber(location);
     return `https://wa.me/${cleanRecipient}?text=${encodeURIComponent(message)}`;
   }
 
@@ -916,6 +1032,12 @@
           .then((data) => {
             if (data && data.recipient) {
               window.RESTAURANT_WHATSAPP_NUMBER = data.recipient;
+            }
+            if (data && data.branchContacts) {
+              window.BRANCH_CONTACTS = data.branchContacts;
+              if (typeof updateBranchContactDisplay === "function") {
+                updateBranchContactDisplay();
+              }
             }
           })
           .catch(() => {});
@@ -953,6 +1075,29 @@
         if (raw.startsWith("+") || !codeEl || !codeEl.value) return raw;
         const digits = raw.replace(/\D/g, "").replace(/^0+/, "");
         return digits ? `${codeEl.value}${digits}` : raw;
+      }
+
+      function updateBranchContactDisplay() {
+        const branchContactEl = document.getElementById("branch-contact-info");
+        const branchPhoneEl = document.getElementById("branch-contact-phone");
+        const branchNameEl = document.getElementById("branch-contact-name");
+        const loc = orderLocation ? orderLocation.value : "";
+        if (!branchContactEl) return;
+        if (!loc || !BRANCH_CONTACTS[loc]) {
+          branchContactEl.hidden = true;
+          return;
+        }
+        const branch = BRANCH_CONTACTS[loc];
+        const rawPhone = getBranchWhatsAppNumber(loc);
+        const displayPhone = branch.display || `+${rawPhone}`;
+        if (branchPhoneEl) branchPhoneEl.textContent = displayPhone;
+        if (branchNameEl) branchNameEl.textContent = branch.name || loc;
+        branchContactEl.hidden = false;
+      }
+
+      if (orderLocation) {
+        orderLocation.addEventListener("change", updateBranchContactDisplay);
+        updateBranchContactDisplay();
       }
 
       function getCurrentFulfilment() {
@@ -1623,6 +1768,16 @@
           whatsappMessageLink.hidden = false;
         }
 
+        const branchNoticeEl = document.getElementById("order-branch-route-note");
+        const confirmBranchName = document.getElementById("confirm-branch-name");
+        const confirmBranchNumber = document.getElementById("confirm-branch-number");
+        const branchInfo = BRANCH_CONTACTS[payload.location];
+        if (branchNoticeEl && confirmBranchName && confirmBranchNumber && branchInfo) {
+          confirmBranchName.textContent = branchInfo.name;
+          confirmBranchNumber.textContent = branchInfo.display;
+          branchNoticeEl.hidden = false;
+        }
+
         orderForm.hidden = true;
         if (confirmation) {
           confirmation.hidden = false;
@@ -1652,6 +1807,9 @@
       SERVICE_FEE,
       DELIVERY_FEE_RATE,
       generateOrderPin,
+      BRANCH_CONTACTS,
+      getBranchWhatsAppNumber,
+      getAllBranchContacts,
     };
   }
 
@@ -1671,6 +1829,9 @@
       SERVICE_FEE,
       DELIVERY_FEE_RATE,
       generateOrderPin,
+      BRANCH_CONTACTS,
+      getBranchWhatsAppNumber,
+      getAllBranchContacts,
     };
   }
 })();
