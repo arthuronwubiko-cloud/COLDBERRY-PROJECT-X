@@ -28,6 +28,9 @@ const {
   getAllCustomerMessages,
   savePromotionalEmail,
   getPromotionalEmails,
+  getRoleCredential,
+  getAllRoleCredentials,
+  saveRoleCredential,
 } = require("./db");
 
 const CREDENTIAL_REGEX = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9]{14}$/;
@@ -376,12 +379,68 @@ function authenticateCredentials(username, password) {
   return null;
 }
 
+function generateRandom14CharCredential() {
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789";
+  while (true) {
+    let out = "";
+    for (let i = 0; i < 14; i++) {
+      out += chars[crypto.randomInt(chars.length)];
+    }
+    if (CREDENTIAL_REGEX.test(out)) return out;
+  }
+}
+
+async function authenticateCredentialsAsync(username, password) {
+  if (!CREDENTIAL_REGEX.test(String(username || "")) || !CREDENTIAL_REGEX.test(String(password || ""))) {
+    return { invalidFormat: true };
+  }
+  const cleanUser = String(username);
+  const pHex = sha256Hex(password);
+  const staticAuth = authenticateCredentials(username, password);
+
+  // Admin credentials are never overridden or shut down by role_credentials
+  if (staticAuth && staticAuth.role === "admin") {
+    return staticAuth;
+  }
+
+  const { staff: staffRec, driver: driverRec } = await getAllRoleCredentials();
+
+  // Check if either staff or driver has an active DB override or is shut down
+  for (const [roleName, rec] of [["staff", staffRec], ["driver", driverRec]]) {
+    if (!rec) continue;
+    if (rec.disabled) {
+      // If user is trying the matching username or the static credentials for this shut-down role, reject as disabled
+      if ((rec.username && rec.username === cleanUser) || (staticAuth && staticAuth.role === roleName)) {
+        return { disabled: true, role: roleName };
+      }
+      continue;
+    }
+    if (rec.password_hash) {
+      const userMatches = rec.username ? rec.username === cleanUser : (staticAuth && staticAuth.role === roleName);
+      if (userMatches && timingSafeHexEqual(pHex, rec.password_hash)) {
+        return { username: cleanUser, role: roleName };
+      }
+      // Once a role has a rotated password in DB, old static credentials for that role are invalidated
+      if (staticAuth && staticAuth.role === roleName) {
+        return null;
+      }
+    }
+  }
+
+  if (staticAuth && !staticAuth.invalidFormat) {
+    return staticAuth;
+  }
+  return null;
+}
+
 function issueSessionToken(username, role) {
+  const now = Date.now();
   const payload = Buffer.from(
     JSON.stringify({
       u: username,
       r: role,
-      exp: Date.now() + SESSION_TTL_MS,
+      iat: now,
+      exp: now + SESSION_TTL_MS,
     }),
     "utf8"
   ).toString("base64url");
@@ -404,13 +463,13 @@ function verifySessionToken(token) {
     if (!decoded || !decoded.r || !decoded.u || Date.now() > Number(decoded.exp || 0)) {
       return null;
     }
-    return { username: decoded.u, role: decoded.r };
+    return { username: decoded.u, role: decoded.r, iat: Number(decoded.iat || 0) };
   } catch (_) {
     return null;
   }
 }
 
-function resolveAuthFromRequest(req) {
+async function resolveAuthFromRequest(req) {
   const headers = req.headers || {};
 
   // 1. Bearer session token or legacy ADMIN_SECRET
@@ -419,7 +478,17 @@ function resolveAuthFromRequest(req) {
 
   if (candidateToken) {
     const tokenAuth = verifySessionToken(candidateToken);
-    if (tokenAuth) return tokenAuth;
+    if (tokenAuth) {
+      if (tokenAuth.role === "staff" || tokenAuth.role === "driver") {
+        const rec = await getRoleCredential(tokenAuth.role);
+        if (rec) {
+          if (rec.disabled) return null;
+          const updatedMs = Date.parse(rec.updated_at || 0) || 0;
+          if (updatedMs > (tokenAuth.iat || 0)) return null;
+        }
+      }
+      return { username: tokenAuth.username, role: tokenAuth.role };
+    }
 
     const envSecret = process.env.ADMIN_SECRET;
     if (envSecret && candidateToken === envSecret) {
@@ -431,8 +500,8 @@ function resolveAuthFromRequest(req) {
   const hdrUser = headers["x-auth-username"];
   const hdrPass = headers["x-auth-password"];
   if (hdrUser && hdrPass) {
-    const auth = authenticateCredentials(hdrUser, hdrPass);
-    if (auth && !auth.invalidFormat) return auth;
+    const auth = await authenticateCredentialsAsync(hdrUser, hdrPass);
+    if (auth && !auth.invalidFormat && !auth.disabled) return auth;
   }
 
   // 3. HTTP Basic auth header
@@ -443,8 +512,8 @@ function resolveAuthFromRequest(req) {
       if (sep > 0) {
         const u = decoded.slice(0, sep);
         const p = decoded.slice(sep + 1);
-        const auth = authenticateCredentials(u, p);
-        if (auth && !auth.invalidFormat) return auth;
+        const auth = await authenticateCredentialsAsync(u, p);
+        if (auth && !auth.invalidFormat && !auth.disabled) return auth;
       }
     } catch (_) {}
   }
@@ -567,7 +636,7 @@ module.exports = async function handler(req, res) {
 
     // 1. Verify Refund Token (requires admin or staff authentication)
     if (action === "verify_refund_token" || action === "verify_refund") {
-      const postAuth = resolveAuthFromRequest(req);
+      const postAuth = await resolveAuthFromRequest(req);
       if (!postAuth) {
         return res.status(401).json({ error: "Unauthorized. Admin or staff authentication required." });
       }
@@ -599,7 +668,7 @@ module.exports = async function handler(req, res) {
 
     // 2. Check-In / Claim Refund Token (requires admin or staff authentication)
     if (action === "check_in_refund" || action === "claim_refund" || action === "checkin_refund") {
-      const postAuth = resolveAuthFromRequest(req);
+      const postAuth = await resolveAuthFromRequest(req);
       if (!postAuth) {
         return res.status(401).json({ error: "Unauthorized. Admin or staff authentication required." });
       }
@@ -629,7 +698,7 @@ module.exports = async function handler(req, res) {
 
     // 4. Admin Broadcast or Direct Message to Customers
     if (action === "send_message") {
-      const postAuth = resolveAuthFromRequest(req);
+      const postAuth = await resolveAuthFromRequest(req);
       if (!postAuth || postAuth.role !== "admin") {
         return res.status(403).json({ error: "Access denied: Only admin accounts can send customer messages." });
       }
@@ -648,7 +717,7 @@ module.exports = async function handler(req, res) {
 
     // 5. Admin Promotional Email Campaign (Admin Only)
     if (action === "send_promo_email") {
-      const postAuth = resolveAuthFromRequest(req);
+      const postAuth = await resolveAuthFromRequest(req);
       if (!postAuth || postAuth.role !== "admin") {
         return res.status(403).json({ error: "Access denied: Only admin accounts can send promotional emails." });
       }
@@ -730,14 +799,102 @@ module.exports = async function handler(req, res) {
       });
     }
 
+    // 6. Admin Random Password Rotation for Staff / Driver (Admin Only)
+    if (action === "rotate_role_password") {
+      const postAuth = await resolveAuthFromRequest(req);
+      if (!postAuth) {
+        return res.status(401).json({ error: "Unauthorized. Admin authentication required." });
+      }
+      if (postAuth.role !== "admin") {
+        return res.status(403).json({ error: "Access denied: Only admin accounts can rotate staff or driver passwords." });
+      }
+      const targetRole = String(body.role || "").trim().toLowerCase();
+      if (!["staff", "driver"].includes(targetRole)) {
+        return res.status(400).json({ error: "Role must be 'staff' or 'driver'." });
+      }
+
+      const existing = await getRoleCredential(targetRole);
+      let newUsername = typeof body.username === "string" && CREDENTIAL_REGEX.test(body.username.trim())
+        ? body.username.trim()
+        : (existing?.username && CREDENTIAL_REGEX.test(existing.username) && body.rotateUsername !== true
+            ? existing.username
+            : generateRandom14CharCredential());
+      if (body.rotateUsername === true || !existing?.username) {
+        newUsername = generateRandom14CharCredential();
+      }
+      const newPassword = generateRandom14CharCredential();
+      const passwordHash = sha256Hex(newPassword);
+
+      const saved = await saveRoleCredential({
+        role: targetRole,
+        username: newUsername,
+        passwordHash,
+        disabled: false,
+        updatedBy: postAuth.username,
+      });
+      if (saved.error) {
+        return res.status(400).json({ error: saved.error });
+      }
+
+      return res.status(200).json({
+        success: true,
+        role: targetRole,
+        username: newUsername,
+        password: newPassword,
+        disabled: false,
+        updatedBy: postAuth.username,
+        updatedAt: saved.record?.updated_at || new Date().toISOString(),
+      });
+    }
+
+    // 7. Admin Shut Down / Disable Staff or Driver Access (Admin Only)
+    if (action === "shutdown_role_password") {
+      const postAuth = await resolveAuthFromRequest(req);
+      if (!postAuth) {
+        return res.status(401).json({ error: "Unauthorized. Admin authentication required." });
+      }
+      if (postAuth.role !== "admin") {
+        return res.status(403).json({ error: "Access denied: Only admin accounts can shut down staff or driver access." });
+      }
+      const targetRole = String(body.role || "").trim().toLowerCase();
+      if (!["staff", "driver"].includes(targetRole)) {
+        return res.status(400).json({ error: "Role must be 'staff' or 'driver'." });
+      }
+
+      const existing = await getRoleCredential(targetRole);
+      const saved = await saveRoleCredential({
+        role: targetRole,
+        username: existing?.username || null,
+        passwordHash: null,
+        disabled: true,
+        updatedBy: postAuth.username,
+      });
+      if (saved.error) {
+        return res.status(400).json({ error: saved.error });
+      }
+
+      return res.status(200).json({
+        success: true,
+        role: targetRole,
+        disabled: true,
+        updatedBy: postAuth.username,
+        updatedAt: saved.record?.updated_at || new Date().toISOString(),
+      });
+    }
+
     // Default POST: Login / verify 14-character alphanumeric username + password
     const username = String(body.username || "").trim();
     const password = String(body.password || "").trim();
 
-    const result = authenticateCredentials(username, password);
+    const result = await authenticateCredentialsAsync(username, password);
     if (result && result.invalidFormat) {
       return res.status(400).json({
         error: "Username and password must each be exactly 14 alphanumeric characters (letters and numbers).",
+      });
+    }
+    if (result && result.disabled) {
+      return res.status(403).json({
+        error: `This ${result.role} account has been shut down by an administrator.`,
       });
     }
     if (!result) {
@@ -754,7 +911,7 @@ module.exports = async function handler(req, res) {
     });
   }
 
-  const auth = resolveAuthFromRequest(req);
+  const auth = await resolveAuthFromRequest(req);
   if (!auth) {
     return res.status(401).json({ error: "Unauthorized. Valid username and password session required." });
   }
@@ -1034,6 +1191,26 @@ module.exports = async function handler(req, res) {
       count: result.feedback?.length || 0,
       provider: result.provider,
       activeVisitors: getActiveVisitorCount(),
+    });
+  }
+
+  // GET: Staff & Driver Access Control Status (Admin Only)
+  if (req.query?.tab === "credentials" || req.query?.view === "credentials") {
+    if (auth.role !== "admin") {
+      return res.status(403).json({ error: "Access denied: Only admin accounts can view staff and driver credential status." });
+    }
+    const { staff, driver } = await getAllRoleCredentials();
+    const formatRoleStatus = (roleName, rec) => ({
+      role: roleName,
+      username: rec?.username || null,
+      disabled: Boolean(rec?.disabled),
+      hasCustomPassword: Boolean(rec?.password_hash),
+      updatedBy: rec?.updated_by || null,
+      updatedAt: rec?.updated_at || null,
+    });
+    return res.status(200).json({
+      staff: formatRoleStatus("staff", staff),
+      driver: formatRoleStatus("driver", driver),
     });
   }
 
