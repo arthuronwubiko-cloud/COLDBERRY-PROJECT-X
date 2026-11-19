@@ -1,0 +1,96 @@
+{
+  "brand": "Coldberry Ice Cream Nigeria",
+  "domain": "coldberry.ng",
+  "currency": "₦",
+  "fees": {
+    "serviceFee": 800,
+    "deliveryFeeRate": 0.15,
+    "halfAndHalfSurchargeRate": 0.05
+  },
+  "pizzaSizes": ["Medium", "Large", "Champion"],
+  "pizzaTiers": {
+    "traditional": {
+      "name": "Classic Creamery",
+      "prices": { "Medium": 11200, "Large": 14150, "Champion": 21200 },
+      "formatted": { "Medium": "₦11,200", "Large": "₦14,150", "Champion": "₦21,200" },
+      "pizzas": [
+        "Coldberry Vanilla Bean",
+        "Strawberry Bliss Swirl",
+        "Belgian Chocolate Fudge",
+        "BlueMoon Berry Cream",
+        "Caramel Popcorn Crunch",
+        "Pepperoni Pizza",
+        "BBQ Chicken Pizza",
+        "Chicken Supreme Pizza",
+        "Veggie Supreme Pizza",
+        "BBQ Beef Pizza"
+      ]
+    },
+    "special": {
+      "name": "Signature Rolled & Swirl",
+      "prices": { "Medium": 12200, "Large": 14800, "Champion": 22000 },
+      "formatted": { "Medium": "₦12,200", "Large": "₦14,800", "Champion": "₦22,000" },
+      "pizzas": [
+        "Coldberry Delight",
+        "Oreo & Strawberry Roll",
+        "Rainbow Berry Rolls",
+        "Caramel Swirl Sundae",
+        "Beef Suya Pizza",
+        "Shawarma Pizza",
+        "Chicken Suya Pizza",
+        "Sweet Chilli Chicken"
+      ]
+    },
+    "exclusive": {
+      "name": "Supreme Indulgence",
+      "prices": { "Medium": 13500, "Large": 15000, "Champion": 23500 },
+      "formatted": { "Medium": "₦13,500", "Large": "₦15,000", "Champion": "₦23,500" },
+      "pizzas": [
+        "Chocolate Romance Supreme",
+        "Cheesecake Fantasy Crunch",
+        "Fresh Cream & Berry Classic",
+        "Meatylover Pizza",
+        "Sweet & Hot Pizza",
+        "Margherita Pizza"
+      ]
+    },
+    "nineoverloaded": {
+      "name": "Overloaded Creamery Tub",
+      "prices": { "Medium": 15100, "Large": 16500, "Champion": 25000 },
+      "formatted": { "Medium": "₦15,100", "Large": "₦16,500", "Champion": "₦25,000" },
+      "pizzas": [
+        "Coldberry Nineoverloaded Tub",
+        "Nineoverloaded Pizza"
+      ]
+    }
+  },
+  "sidesAndDrinks": {
+    "Dipped Waffle Bowl (6 pcs)": 4700,
+    "Chicken Wings (6 pcs)": 4700,
+    "Creamy Waffle Roll": 4400,
+    "Shawarma Roll": 4400,
+    "Shawarma": 4400,
+    "Cold Coca-Cola (50cl)": 900,
+    "Coca-Cola (50cl)": 900,
+    "Coca-Cola": 900,
+    "Cold Coca-Cola": 900,
+    "Bottled Water": 500,
+    "Bottled Water (75cl)": 500,
+    "Fanta (50cl)": 900,
+    "Fanta": 900,
+    "Sprite (50cl)": 900,
+    "Sprite": 900,
+    "Monster Green (400ml)": 2200,
+    "Monster Green": 2200,
+    "Schweppes (Can)": 1000,
+    "Schweppes Chapman (Can)": 1000,
+    "Schweppes (PET)": 1100,
+    "Schweppes Chapman (PET)": 1100
+  },
+  "combos": {
+    "The Festive Box": 28000,
+    "Duo Deal": 22000,
+    "Champion Feast": 40000,
+    "Double Delight Treat": 23000
+  }
+}

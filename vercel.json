@@ -1,0 +1,54 @@
+{
+  "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "romeos-project-x-admin.vercel.app"
+        }
+      ],
+      "destination": "/admin",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "romeos-project-x-admin.vercel.app"
+        }
+      ],
+      "destination": "/admin.html"
+    },
+    { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/admin-console", "destination": "/admin.html" },
+    { "source": "/feedback", "destination": "/feedback.html" },
+    { "source": "/customer-feedback", "destination": "/feedback.html" },
+    { "source": "/refunds", "destination": "/refunds.html" },
+    { "source": "/refund-tokens", "destination": "/refunds.html" },
+    { "source": "/driver", "destination": "/driver.html" },
+    { "source": "/driver-console", "destination": "/driver.html" },
+    { "source": "/track", "destination": "/track.html" },
+    { "source": "/order", "destination": "/order.html" },
+    { "source": "/login", "destination": "/login.html" },
+    { "source": "/deals", "destination": "/pizzadeals.html" },
+    { "source": "/menu", "destination": "/890b.html" }
+  ],
+  "functions": {
+    "api/*.js": {
+      "maxDuration": 15
+    }
+  },
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store" }
+      ]
+    }
+  ]
+}

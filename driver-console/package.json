@@ -1,0 +1,9 @@
+{
+  "name": "romeos-project-x-driver",
+  "version": "1.0.0",
+  "description": "Standalone Delivery Driver Console for Romeo's Pizza Nigeria",
+  "private": true,
+  "scripts": {
+    "dev": "node server.js"
+  }
+}

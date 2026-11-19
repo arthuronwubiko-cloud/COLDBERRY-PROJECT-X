@@ -1,0 +1,9 @@
+{
+  "name": "romeos-project-x-admin",
+  "version": "1.0.0",
+  "description": "Separately hosted, role-locked Order Verification Console for Romeo's Pizza Nigeria",
+  "private": true,
+  "scripts": {
+    "dev": "node local-dev-server.js"
+  }
+}

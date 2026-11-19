@@ -1,0 +1,2980 @@
+{
+ "meta": {
+  "title": "",
+  "raw_chars": 20744,
+  "seen": [
+   "40ce857423243fd5",
+   "e89ef855ced37058",
+   "25488698a6fc6fc5",
+   "4fbbca49e1813465",
+   "4a678b46c71da0ff",
+   "029209147dd3880a",
+   "79e7deb3bc288bff",
+   "bf72353afaef8c4c",
+   "567423aa9f0575c2",
+   "1faae2de89b896c2",
+   "76b4f44cdf80824f",
+   "cb38d1e827873f3c",
+   "2e7a6d4f2b99c849",
+   "e1d8436867b7a5c1",
+   "63326d5f58b150fe",
+   "96f449572bb9634a",
+   "22aac5cb7c639df5",
+   "25c33b7b8adb204f",
+   "e2606255290e9da9",
+   "1d880e9edcc0ea39",
+   "3498b0edbf235bdc",
+   "23e2ab24a7137fe0",
+   "8fd134cc5a761e79",
+   "90a81bdd78246cf5",
+   "f634955b89129205",
+   "8fe2ba3b102adcde",
+   "7d518967c06dd449",
+   "269b120dc04a18a6",
+   "aded0b54d4423a94",
+   "e5c5975ac91990b2",
+   "0997a6ea2d143e5b",
+   "7aefd45e2f11be28",
+   "0e814e58da283281",
+   "c288f508f51ba6b3",
+   "30d6e8f43f57602d",
+   "c35330f3d127ff0f",
+   "0895868ea2523b50",
+   "a2de740c5d2057e7",
+   "d052491a1f03afc4",
+   "66b8b667ca9c7fe5",
+   "7522157a26da4ae5",
+   "85036ddc1d137d9f",
+   "56d83fec412a87b6",
+   "ecfd0705ec5e024d",
+   "8ac70800c9f124a9",
+   "019d5c607a32eb6e",
+   "724299920022570b",
+   "38f6bec1ecf86339",
+   "1e25a12596fbed83",
+   "3e2dc4a9920fa402",
+   "ca2814fee6c516dc",
+   "5ffd7b3988fccdaa",
+   "e7dbd18d1cb0e6f2",
+   "2f66f8b1844b6dbb",
+   "6aa4639a3f8f313d",
+   "b5f39969b6a8468d",
+   "ddf4e9dcf2292748",
+   "1f1da90f3728071c",
+   "ab3af0212298b268",
+   "9840206b89212405",
+   "1bb0ce1285c601fe",
+   "01157948614f0654",
+   "47207b4e61c3fb08",
+   "6907a9209d24f3bc",
+   "6f203ce8099fef15",
+   "009cd2e45d02ae93",
+   "6f675eab3e667d0b"
+  ]
+ },
+ "nodes": {
+  "event:85e9dfd": {
+   "type": "event",
+   "label": "feat: add 1-click order PIN copy buttons across checkout, t…",
+   "summary": "",
+   "date": "2026-11-18",
+   "status": "n/a",
+   "source": "git"
+  },
+  "file:README.md": {
+   "type": "file",
+   "label": "README.md",
+   "summary": "README.md",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:VERIFICATION-LOG.md": {
+   "type": "file",
+   "label": "VERIFICATION-LOG.md",
+   "summary": "VERIFICATION-LOG.md",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:admin.html": {
+   "type": "file",
+   "label": "admin.html",
+   "summary": "admin.html",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:js/order.js": {
+   "type": "file",
+   "label": "order.js",
+   "summary": "js/order.js",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:order.html": {
+   "type": "file",
+   "label": "order.html",
+   "summary": "order.html",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:peter890.css": {
+   "type": "file",
+   "label": "peter890.css",
+   "summary": "peter890.css",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:scripts/verify-all.js": {
+   "type": "file",
+   "label": "verify-all.js",
+   "summary": "scripts/verify-all.js",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:track.html": {
+   "type": "file",
+   "label": "track.html",
+   "summary": "track.html",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "event:c553acd": {
+   "type": "event",
+   "label": "feat: add zero-code Store Manager Portal (admin.html) for o…",
+   "summary": "",
+   "date": "2026-11-18",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:2df41c8": {
+   "type": "event",
+   "label": "feat: link admin status updates to tracking cache with imme…",
+   "summary": "",
+   "date": "2026-11-18",
+   "status": "n/a",
+   "source": "git"
+  },
+  "file:api/admin.js": {
+   "type": "file",
+   "label": "admin.js",
+   "summary": "api/admin.js",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:api/track.js": {
+   "type": "file",
+   "label": "track.js",
+   "summary": "api/track.js",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "event:5380ca4": {
+   "type": "event",
+   "label": "feat: implement multi-tier overload fail-safe system for ze…",
+   "summary": "",
+   "date": "2026-11-18",
+   "status": "n/a",
+   "source": "git"
+  },
+  "file:api/db.js": {
+   "type": "file",
+   "label": "db.js",
+   "summary": "api/db.js",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:api/orders.js": {
+   "type": "file",
+   "label": "orders.js",
+   "summary": "api/orders.js",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:api/overload-protection.js": {
+   "type": "file",
+   "label": "overload-protection.js",
+   "summary": "api/overload-protection.js",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:dev-server.js": {
+   "type": "file",
+   "label": "dev-server.js",
+   "summary": "dev-server.js",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "event:ab1299a": {
+   "type": "event",
+   "label": "test: add extreme system overload and concurrency stress su…",
+   "summary": "",
+   "date": "2026-11-18",
+   "status": "n/a",
+   "source": "git"
+  },
+  "file:package.json": {
+   "type": "file",
+   "label": "package.json",
+   "summary": "package.json",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:scripts/overload-test.js": {
+   "type": "file",
+   "label": "overload-test.js",
+   "summary": "scripts/overload-test.js",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "event:d3344af": {
+   "type": "event",
+   "label": "feat: integrate 5 core modern upgrades, order tracking, sec…",
+   "summary": "",
+   "date": "2026-11-18",
+   "status": "n/a",
+   "source": "git"
+  },
+  "file:890b.html": {
+   "type": "file",
+   "label": "890b.html",
+   "summary": "890b.html",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:ARCHITECTURE.md": {
+   "type": "file",
+   "label": "ARCHITECTURE.md",
+   "summary": "ARCHITECTURE.md",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:api/pin-manager.js": {
+   "type": "file",
+   "label": "pin-manager.js",
+   "summary": "api/pin-manager.js",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:index.html": {
+   "type": "file",
+   "label": "index.html",
+   "summary": "index.html",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:js/deals-interactive.js": {
+   "type": "file",
+   "label": "deals-interactive.js",
+   "summary": "js/deals-interactive.js",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:migrations/001_order_pin_and_tracking.sql": {
+   "type": "file",
+   "label": "001_order_pin_and_tracking.sql",
+   "summary": "migrations/001_order_pin_and_tracking.sql",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:pizzadeals.html": {
+   "type": "file",
+   "label": "pizzadeals.html",
+   "summary": "pizzadeals.html",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:prices.json": {
+   "type": "file",
+   "label": "prices.json",
+   "summary": "prices.json",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:scripts/stress-test.js": {
+   "type": "file",
+   "label": "stress-test.js",
+   "summary": "scripts/stress-test.js",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "event:a2f789e": {
+   "type": "event",
+   "label": "Add random 6-digit order verification PIN with 5-day non-re…",
+   "summary": "",
+   "date": "2026-11-18",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:4de98d8": {
+   "type": "event",
+   "label": "Add Half & Half pizza accordion with 5% surcharge and updat…",
+   "summary": "",
+   "date": "2026-11-18",
+   "status": "n/a",
+   "source": "git"
+  },
+  "file:images/schweppes-pet.png": {
+   "type": "file",
+   "label": "schweppes-pet.png",
+   "summary": "images/schweppes-pet.png",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "event:bd73355": {
+   "type": "event",
+   "label": "feat(drinks): update Schweppes drinks to authentic Nigerian…",
+   "summary": "",
+   "date": "2026-11-18",
+   "status": "n/a",
+   "source": "git"
+  },
+  "file:images/schweppes-can.png": {
+   "type": "file",
+   "label": "schweppes-can.png",
+   "summary": "images/schweppes-can.png",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "event:4a65579": {
+   "type": "event",
+   "label": "fix: make Bottled Water image background transparent and de…",
+   "summary": "",
+   "date": "2026-11-18",
+   "status": "n/a",
+   "source": "git"
+  },
+  "file:images/bottled-water.png": {
+   "type": "file",
+   "label": "bottled-water.png",
+   "summary": "images/bottled-water.png",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "event:107c9d6": {
+   "type": "event",
+   "label": "fix: make Coca-Cola drink image background transparent and …",
+   "summary": "",
+   "date": "2026-11-17",
+   "status": "n/a",
+   "source": "git"
+  },
+  "file:images/coca-cola.jpg": {
+   "type": "file",
+   "label": "coca-cola.jpg",
+   "summary": "images/coca-cola.jpg",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "event:5b2a230": {
+   "type": "event",
+   "label": "chore: remove unnecessary code and add architecture map fil…",
+   "summary": "",
+   "date": "2026-11-17",
+   "status": "n/a",
+   "source": "git"
+  },
+  "file:.DS_Store": {
+   "type": "file",
+   "label": ".DS_Store",
+   "summary": ".DS_Store",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:.gitignore": {
+   "type": "file",
+   "label": ".gitignore",
+   "summary": ".gitignore",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "event:9948955": {
+   "type": "event",
+   "label": "feat: update restaurant WhatsApp ordering number to 0803096…",
+   "summary": "",
+   "date": "2026-11-17",
+   "status": "n/a",
+   "source": "git"
+  },
+  "file:privacy.html": {
+   "type": "file",
+   "label": "privacy.html",
+   "summary": "privacy.html",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:terms.html": {
+   "type": "file",
+   "label": "terms.html",
+   "summary": "terms.html",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "event:5d1c215": {
+   "type": "event",
+   "label": "feat: reduce delivery fee rate from 17.5% to 15%",
+   "summary": "",
+   "date": "2026-11-17",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:74dea15": {
+   "type": "event",
+   "label": "feat: add delivery fee line to receipts while hiding 17.5% …",
+   "summary": "",
+   "date": "2026-11-17",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:173d965": {
+   "type": "event",
+   "label": "feat: legal compliance overhaul, deal eligibility refinemen…",
+   "summary": "",
+   "date": "2026-11-17",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:e5e8f02": {
+   "type": "event",
+   "label": "Update drink image to latest Nigerian 50cl bottle, set 17.5…",
+   "summary": "",
+   "date": "2026-11-17",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:1fe94af": {
+   "type": "event",
+   "label": "Reduce styling animations to essentials",
+   "summary": "",
+   "date": "2026-11-17",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:d87f250": {
+   "type": "event",
+   "label": "Remove homepage Pizza quantity adder, fix theme toggle, fla…",
+   "summary": "",
+   "date": "2026-11-17",
+   "status": "n/a",
+   "source": "git"
+  },
+  "file:js/site.js": {
+   "type": "file",
+   "label": "site.js",
+   "summary": "js/site.js",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "event:a88dd74": {
+   "type": "event",
+   "label": "Fix 404 pizza image URLs and verify all site images",
+   "summary": "",
+   "date": "2026-11-17",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:296438c": {
+   "type": "event",
+   "label": "Unify cross-tab theme and cart controller with real-time sy…",
+   "summary": "",
+   "date": "2026-11-17",
+   "status": "n/a",
+   "source": "git"
+  },
+  "file:js/cart.js": {
+   "type": "file",
+   "label": "cart.js",
+   "summary": "js/cart.js",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "event:b4d3acc": {
+   "type": "event",
+   "label": "Document theme switcher in README",
+   "summary": "",
+   "date": "2026-11-17",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:0844225": {
+   "type": "event",
+   "label": "Add interactive theme switcher",
+   "summary": "",
+   "date": "2026-11-17",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:1bf9d48": {
+   "type": "event",
+   "label": "Update README and VERIFICATION-LOG with Champion sizing, li…",
+   "summary": "",
+   "date": "2026-11-17",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:1dc0973": {
+   "type": "event",
+   "label": "Update pizza sizes to Champion, sync live romeospizza.ng pr…",
+   "summary": "",
+   "date": "2026-11-17",
+   "status": "n/a",
+   "source": "git"
+  },
+  "file:images/shawarma.jpg": {
+   "type": "file",
+   "label": "shawarma.jpg",
+   "summary": "images/shawarma.jpg",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "event:57ee246": {
+   "type": "event",
+   "label": "Add interactive pull-down pizza selectors and related pizza…",
+   "summary": "",
+   "date": "2026-11-17",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:9591ef1": {
+   "type": "event",
+   "label": "Host Chicken Wings image locally in repository to eliminate…",
+   "summary": "",
+   "date": "2026-11-15",
+   "status": "n/a",
+   "source": "git"
+  },
+  "file:images/chicken-wings.jpg": {
+   "type": "file",
+   "label": "chicken-wings.jpg",
+   "summary": "images/chicken-wings.jpg",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "event:fbd9437": {
+   "type": "event",
+   "label": "Fix broken chicken wings image on home page with reliable U…",
+   "summary": "",
+   "date": "2026-11-14",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:b2f03fe": {
+   "type": "event",
+   "label": "Fix pattern regex in phone input to avoid unicodeSets chara…",
+   "summary": "",
+   "date": "2026-11-14",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:fe1de2b": {
+   "type": "event",
+   "label": "Fix global scope collision in cart.js and order.js",
+   "summary": "",
+   "date": "2026-11-14",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:6607948": {
+   "type": "event",
+   "label": "Switch database to free Supabase hosting with Table Editor …",
+   "summary": "",
+   "date": "2026-11-14",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:9a96bda": {
+   "type": "event",
+   "label": "Replace Google Sheets with Neon order storage",
+   "summary": "",
+   "date": "2026-11-12",
+   "status": "n/a",
+   "source": "git"
+  },
+  "file:.agents/skills/neon-postgres/SKILL.md": {
+   "type": "file",
+   "label": "SKILL.md",
+   "summary": ".agents/skills/neon-postgres/SKILL.md",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:.agents/skills/neon-postgres/references/branching.md": {
+   "type": "file",
+   "label": "branching.md",
+   "summary": ".agents/skills/neon-postgres/references/branching.md",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:.agents/skills/neon-postgres/references/egress-optimization.md": {
+   "type": "file",
+   "label": "egress-optimization.md",
+   "summary": ".agents/skills/neon-postgres/references/egress-optimization.md",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:.agents/skills/neon-postgres/references/full-text-search.md": {
+   "type": "file",
+   "label": "full-text-search.md",
+   "summary": ".agents/skills/neon-postgres/references/full-text-search.md",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:.agents/skills/neon-postgres/references/hybrid-search.md": {
+   "type": "file",
+   "label": "hybrid-search.md",
+   "summary": ".agents/skills/neon-postgres/references/hybrid-search.md",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:.agents/skills/neon-postgres/references/lakebase-search-drizzle.md": {
+   "type": "file",
+   "label": "lakebase-search-drizzle.md",
+   "summary": ".agents/skills/neon-postgres/references/lakebase-search-drizzle.md",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:.agents/skills/neon-postgres/references/vector-search.md": {
+   "type": "file",
+   "label": "vector-search.md",
+   "summary": ".agents/skills/neon-postgres/references/vector-search.md",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:.agents/skills/neon/SKILL.md": {
+   "type": "file",
+   "label": "SKILL.md",
+   "summary": ".agents/skills/neon/SKILL.md",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:.agents/skills/neon/references/auth.md": {
+   "type": "file",
+   "label": "auth.md",
+   "summary": ".agents/skills/neon/references/auth.md",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:.agents/skills/neon/references/claimable-neon.md": {
+   "type": "file",
+   "label": "claimable-neon.md",
+   "summary": ".agents/skills/neon/references/claimable-neon.md",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:.agents/skills/neon/references/function-triggers.md": {
+   "type": "file",
+   "label": "function-triggers.md",
+   "summary": ".agents/skills/neon/references/function-triggers.md",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:.agents/skills/neon/references/logs-loki.md": {
+   "type": "file",
+   "label": "logs-loki.md",
+   "summary": ".agents/skills/neon/references/logs-loki.md",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:.agents/skills/neon/references/parse-env.md": {
+   "type": "file",
+   "label": "parse-env.md",
+   "summary": ".agents/skills/neon/references/parse-env.md",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:.agents/skills/neon/references/sdk.md": {
+   "type": "file",
+   "label": "sdk.md",
+   "summary": ".agents/skills/neon/references/sdk.md",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:.vscode/mcp.json": {
+   "type": "file",
+   "label": "mcp.json",
+   "summary": ".vscode/mcp.json",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:api/sheets.js": {
+   "type": "file",
+   "label": "sheets.js",
+   "summary": "api/sheets.js",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:neon.ts": {
+   "type": "file",
+   "label": "neon.ts",
+   "summary": "neon.ts",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:package-lock.json": {
+   "type": "file",
+   "label": "package-lock.json",
+   "summary": "package-lock.json",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:skills-lock.json": {
+   "type": "file",
+   "label": "skills-lock.json",
+   "summary": "skills-lock.json",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "event:f4b47d6": {
+   "type": "event",
+   "label": "Full upgrade: order system, Google Sheets + Neon Postgres i…",
+   "summary": "",
+   "date": "2026-11-12",
+   "status": "n/a",
+   "source": "git"
+  },
+  "file:vercel.json": {
+   "type": "file",
+   "label": "vercel.json",
+   "summary": "vercel.json",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "event:d6dfc05": {
+   "type": "event",
+   "label": "Add safe WhatsApp configuration diagnostics",
+   "summary": "",
+   "date": "2026-11-06",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:65baf04": {
+   "type": "event",
+   "label": "Add server-side WhatsApp order submission",
+   "summary": "",
+   "date": "2026-11-06",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:bca9a3d": {
+   "type": "event",
+   "label": "Improve order form validation",
+   "summary": "",
+   "date": "2026-11-06",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:9bc7c25": {
+   "type": "event",
+   "label": "Document menu search verification",
+   "summary": "",
+   "date": "2026-11-06",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:0672a25": {
+   "type": "event",
+   "label": "Add full menu search and deal previews",
+   "summary": "",
+   "date": "2026-11-06",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:d24e382": {
+   "type": "event",
+   "label": "Merge branch 'main' into testing",
+   "summary": "",
+   "date": "2026-11-06",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:83ad6ab": {
+   "type": "event",
+   "label": "Apply Romeo's palette to site theme",
+   "summary": "",
+   "date": "2026-11-06",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:197a2d0": {
+   "type": "event",
+   "label": "Document and verify cart quantity limit",
+   "summary": "",
+   "date": "2026-11-06",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:6632223": {
+   "type": "event",
+   "label": "Add menu quantity cart",
+   "summary": "",
+   "date": "2026-11-05",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:50ddc69": {
+   "type": "event",
+   "label": "Update site title tags",
+   "summary": "",
+   "date": "2026-11-05",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:2e68777": {
+   "type": "event",
+   "label": "Add working order flow and page search",
+   "summary": "",
+   "date": "2026-11-05",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:7af9164": {
+   "type": "event",
+   "label": "Revert \"Add order page and externalize JavaScript\"",
+   "summary": "",
+   "date": "2026-11-05",
+   "status": "n/a",
+   "source": "git"
+  },
+  "file:js/javascript.js": {
+   "type": "file",
+   "label": "javascript.js",
+   "summary": "js/javascript.js",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "event:78e59ce": {
+   "type": "event",
+   "label": "Add order page and externalize JavaScript",
+   "summary": "",
+   "date": "2026-11-05",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:022fc82": {
+   "type": "event",
+   "label": "Restore tracked metadata file",
+   "summary": "",
+   "date": "2026-11-02",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:6b7dc93": {
+   "type": "event",
+   "label": "Document responsive layout verification",
+   "summary": "",
+   "date": "2026-11-02",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:ef1f7f2": {
+   "type": "event",
+   "label": "Use dedicated pizza button class",
+   "summary": "",
+   "date": "2026-11-02",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:853b726": {
+   "type": "event",
+   "label": "Keep mobile order buttons compact",
+   "summary": "",
+   "date": "2026-11-02",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:2018df7": {
+   "type": "event",
+   "label": "Merge remote-tracking branch 'origin/main'",
+   "summary": "",
+   "date": "2026-11-02",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:64f5349": {
+   "type": "event",
+   "label": "Fix mobile menu button sizing",
+   "summary": "",
+   "date": "2026-11-02",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:9ad435c": {
+   "type": "event",
+   "label": "Update README to match the current project structure and pa…",
+   "summary": "",
+   "date": "2026-10-31",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:0a85049": {
+   "type": "event",
+   "label": "Merge latest origin/main into main",
+   "summary": "",
+   "date": "2026-10-31",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:842c57b": {
+   "type": "event",
+   "label": "Unify styling across pizza pages",
+   "summary": "",
+   "date": "2026-10-31",
+   "status": "n/a",
+   "source": "git"
+  },
+  "file:890b.css": {
+   "type": "file",
+   "label": "890b.css",
+   "summary": "890b.css",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "event:d2cfcde": {
+   "type": "event",
+   "label": "commit on main",
+   "summary": "",
+   "date": "2026-10-31",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:8b96369": {
+   "type": "event",
+   "label": "Remove Gwarinpa store section from index.html",
+   "summary": "",
+   "date": "2026-10-30",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:d8cf5cc": {
+   "type": "event",
+   "label": "Update LinkedIn share link to company page",
+   "summary": "",
+   "date": "2026-10-30",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:05146db": {
+   "type": "event",
+   "label": "Fix line break in footer section of 890b.html",
+   "summary": "",
+   "date": "2026-10-30",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:6cb8ec9": {
+   "type": "event",
+   "label": "Update logo link in 890b.html",
+   "summary": "",
+   "date": "2026-10-30",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:5e97254": {
+   "type": "event",
+   "label": "Update Home link to point to index.html",
+   "summary": "",
+   "date": "2026-10-30",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:528e18e": {
+   "type": "event",
+   "label": "renamed to index html",
+   "summary": "",
+   "date": "2026-10-30",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:ae6441f": {
+   "type": "event",
+   "label": "resolved folder misconfigurations",
+   "summary": "",
+   "date": "2026-10-30",
+   "status": "n/a",
+   "source": "git"
+  },
+  "file:peter hustle/.DS_Store": {
+   "type": "file",
+   "label": ".DS_Store",
+   "summary": "peter hustle/.DS_Store",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:peter hustle/.vscode/launch.json": {
+   "type": "file",
+   "label": "launch.json",
+   "summary": "peter hustle/.vscode/launch.json",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:peter890.html": {
+   "type": "file",
+   "label": "peter890.html",
+   "summary": "peter890.html",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "event:19308aa": {
+   "type": "event",
+   "label": "Update .DS_Store",
+   "summary": "",
+   "date": "2026-10-30",
+   "status": "n/a",
+   "source": "git"
+  },
+  "event:3be43fb": {
+   "type": "event",
+   "label": "I",
+   "summary": "",
+   "date": "2026-10-30",
+   "status": "n/a",
+   "source": "git"
+  },
+  "file:.gitattributes": {
+   "type": "file",
+   "label": ".gitattributes",
+   "summary": ".gitattributes",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:peter hustle/890b.css": {
+   "type": "file",
+   "label": "890b.css",
+   "summary": "peter hustle/890b.css",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:peter hustle/890b.html": {
+   "type": "file",
+   "label": "890b.html",
+   "summary": "peter hustle/890b.html",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:peter hustle/peter890.css": {
+   "type": "file",
+   "label": "peter890.css",
+   "summary": "peter hustle/peter890.css",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:peter hustle/peter890.html": {
+   "type": "file",
+   "label": "peter890.html",
+   "summary": "peter hustle/peter890.html",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "event:0d6ccfe": {
+   "type": "event",
+   "label": "feat(admin-console): configure standalone Vercel deployment…",
+   "summary": "",
+   "date": "2026-11-18",
+   "status": "n/a",
+   "source": "git"
+  },
+  "file:admin-console/.gitignore": {
+   "type": "file",
+   "label": ".gitignore",
+   "summary": "admin-console/.gitignore",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:admin-console/package.json": {
+   "type": "file",
+   "label": "package.json",
+   "summary": "admin-console/package.json",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:admin-console/server.js": {
+   "type": "file",
+   "label": "server.js",
+   "summary": "admin-console/server.js",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:admin-console/vercel.json": {
+   "type": "file",
+   "label": "vercel.json",
+   "summary": "admin-console/vercel.json",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "event:567704a": {
+   "type": "event",
+   "label": "feat: add navbar cart icon, separately hosted 14-char RBAC …",
+   "summary": "",
+   "date": "2026-11-18",
+   "status": "n/a",
+   "source": "git"
+  },
+  "file:.recap/RECAP.md": {
+   "type": "file",
+   "label": "RECAP.md",
+   "summary": ".recap/RECAP.md",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:.recap/graph.json": {
+   "type": "file",
+   "label": "graph.json",
+   "summary": ".recap/graph.json",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:.recap/graph.mmd": {
+   "type": "file",
+   "label": "graph.mmd",
+   "summary": ".recap/graph.mmd",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  },
+  "file:admin-console/index.html": {
+   "type": "file",
+   "label": "index.html",
+   "summary": "admin-console/index.html",
+   "date": "",
+   "status": "n/a",
+   "source": ""
+  }
+ },
+ "edges": [
+  {
+   "src": "event:85e9dfd",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:85e9dfd",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:85e9dfd",
+   "dst": "file:admin.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:85e9dfd",
+   "dst": "file:js/order.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:85e9dfd",
+   "dst": "file:order.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:85e9dfd",
+   "dst": "file:peter890.css",
+   "rel": "touches"
+  },
+  {
+   "src": "event:85e9dfd",
+   "dst": "file:scripts/verify-all.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:85e9dfd",
+   "dst": "file:track.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:c553acd",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:c553acd",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:c553acd",
+   "dst": "file:admin.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:2df41c8",
+   "dst": "file:api/admin.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:2df41c8",
+   "dst": "file:api/track.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:5380ca4",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:5380ca4",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:5380ca4",
+   "dst": "file:api/db.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:5380ca4",
+   "dst": "file:api/orders.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:5380ca4",
+   "dst": "file:api/overload-protection.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:5380ca4",
+   "dst": "file:api/track.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:5380ca4",
+   "dst": "file:dev-server.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:5380ca4",
+   "dst": "file:js/order.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:5380ca4",
+   "dst": "file:track.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:ab1299a",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:ab1299a",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:ab1299a",
+   "dst": "file:package.json",
+   "rel": "touches"
+  },
+  {
+   "src": "event:ab1299a",
+   "dst": "file:scripts/overload-test.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d3344af",
+   "dst": "file:890b.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d3344af",
+   "dst": "file:ARCHITECTURE.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d3344af",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d3344af",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d3344af",
+   "dst": "file:api/admin.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d3344af",
+   "dst": "file:api/db.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d3344af",
+   "dst": "file:api/orders.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d3344af",
+   "dst": "file:api/pin-manager.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d3344af",
+   "dst": "file:api/track.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d3344af",
+   "dst": "file:dev-server.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d3344af",
+   "dst": "file:index.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d3344af",
+   "dst": "file:js/deals-interactive.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d3344af",
+   "dst": "file:js/order.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d3344af",
+   "dst": "file:migrations/001_order_pin_and_tracking.sql",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d3344af",
+   "dst": "file:order.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d3344af",
+   "dst": "file:peter890.css",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d3344af",
+   "dst": "file:pizzadeals.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d3344af",
+   "dst": "file:prices.json",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d3344af",
+   "dst": "file:scripts/stress-test.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d3344af",
+   "dst": "file:scripts/verify-all.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d3344af",
+   "dst": "file:track.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:a2f789e",
+   "dst": "file:ARCHITECTURE.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:a2f789e",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:a2f789e",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:a2f789e",
+   "dst": "file:api/db.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:a2f789e",
+   "dst": "file:api/orders.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:a2f789e",
+   "dst": "file:api/pin-manager.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:a2f789e",
+   "dst": "file:js/order.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:a2f789e",
+   "dst": "file:order.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:a2f789e",
+   "dst": "file:peter890.css",
+   "rel": "touches"
+  },
+  {
+   "src": "event:a2f789e",
+   "dst": "file:scripts/verify-all.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:4de98d8",
+   "dst": "file:890b.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:4de98d8",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:4de98d8",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:4de98d8",
+   "dst": "file:images/schweppes-pet.png",
+   "rel": "touches"
+  },
+  {
+   "src": "event:4de98d8",
+   "dst": "file:js/deals-interactive.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:4de98d8",
+   "dst": "file:js/order.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:4de98d8",
+   "dst": "file:peter890.css",
+   "rel": "touches"
+  },
+  {
+   "src": "event:4de98d8",
+   "dst": "file:scripts/verify-all.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:bd73355",
+   "dst": "file:890b.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:bd73355",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:bd73355",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:bd73355",
+   "dst": "file:images/schweppes-can.png",
+   "rel": "touches"
+  },
+  {
+   "src": "event:bd73355",
+   "dst": "file:images/schweppes-pet.png",
+   "rel": "touches"
+  },
+  {
+   "src": "event:4a65579",
+   "dst": "file:890b.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:4a65579",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:4a65579",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:4a65579",
+   "dst": "file:images/bottled-water.png",
+   "rel": "touches"
+  },
+  {
+   "src": "event:107c9d6",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:107c9d6",
+   "dst": "file:images/coca-cola.jpg",
+   "rel": "touches"
+  },
+  {
+   "src": "event:107c9d6",
+   "dst": "file:peter890.css",
+   "rel": "touches"
+  },
+  {
+   "src": "event:5b2a230",
+   "dst": "file:.DS_Store",
+   "rel": "touches"
+  },
+  {
+   "src": "event:5b2a230",
+   "dst": "file:.gitignore",
+   "rel": "touches"
+  },
+  {
+   "src": "event:5b2a230",
+   "dst": "file:ARCHITECTURE.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:5b2a230",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:5b2a230",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:5b2a230",
+   "dst": "file:order.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:5b2a230",
+   "dst": "file:package.json",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9948955",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9948955",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9948955",
+   "dst": "file:api/orders.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9948955",
+   "dst": "file:js/order.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9948955",
+   "dst": "file:privacy.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9948955",
+   "dst": "file:scripts/verify-all.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9948955",
+   "dst": "file:terms.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:5d1c215",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:5d1c215",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:5d1c215",
+   "dst": "file:js/order.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:5d1c215",
+   "dst": "file:scripts/verify-all.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:74dea15",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:74dea15",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:74dea15",
+   "dst": "file:api/orders.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:74dea15",
+   "dst": "file:js/order.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:74dea15",
+   "dst": "file:scripts/verify-all.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:74dea15",
+   "dst": "file:terms.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:173d965",
+   "dst": "file:890b.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:173d965",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:173d965",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:173d965",
+   "dst": "file:api/orders.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:173d965",
+   "dst": "file:index.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:173d965",
+   "dst": "file:js/deals-interactive.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:173d965",
+   "dst": "file:js/order.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:173d965",
+   "dst": "file:order.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:173d965",
+   "dst": "file:pizzadeals.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:173d965",
+   "dst": "file:privacy.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:173d965",
+   "dst": "file:scripts/verify-all.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:173d965",
+   "dst": "file:terms.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:e5e8f02",
+   "dst": "file:890b.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:e5e8f02",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:e5e8f02",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:e5e8f02",
+   "dst": "file:api/orders.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:e5e8f02",
+   "dst": "file:images/coca-cola.jpg",
+   "rel": "touches"
+  },
+  {
+   "src": "event:e5e8f02",
+   "dst": "file:js/order.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:e5e8f02",
+   "dst": "file:order.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:e5e8f02",
+   "dst": "file:peter890.css",
+   "rel": "touches"
+  },
+  {
+   "src": "event:e5e8f02",
+   "dst": "file:scripts/verify-all.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:1fe94af",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:1fe94af",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:1fe94af",
+   "dst": "file:peter890.css",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d87f250",
+   "dst": "file:890b.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d87f250",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d87f250",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d87f250",
+   "dst": "file:api/orders.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d87f250",
+   "dst": "file:index.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d87f250",
+   "dst": "file:js/order.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d87f250",
+   "dst": "file:js/site.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d87f250",
+   "dst": "file:order.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d87f250",
+   "dst": "file:peter890.css",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d87f250",
+   "dst": "file:pizzadeals.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d87f250",
+   "dst": "file:scripts/verify-all.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:a88dd74",
+   "dst": "file:890b.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:a88dd74",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:a88dd74",
+   "dst": "file:index.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:a88dd74",
+   "dst": "file:pizzadeals.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:296438c",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:296438c",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:296438c",
+   "dst": "file:js/cart.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:296438c",
+   "dst": "file:js/site.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:b4d3acc",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:0844225",
+   "dst": "file:890b.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:0844225",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:0844225",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:0844225",
+   "dst": "file:index.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:0844225",
+   "dst": "file:js/site.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:0844225",
+   "dst": "file:order.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:0844225",
+   "dst": "file:peter890.css",
+   "rel": "touches"
+  },
+  {
+   "src": "event:0844225",
+   "dst": "file:pizzadeals.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:1bf9d48",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:1bf9d48",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:1dc0973",
+   "dst": "file:890b.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:1dc0973",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:1dc0973",
+   "dst": "file:images/coca-cola.jpg",
+   "rel": "touches"
+  },
+  {
+   "src": "event:1dc0973",
+   "dst": "file:images/shawarma.jpg",
+   "rel": "touches"
+  },
+  {
+   "src": "event:1dc0973",
+   "dst": "file:js/cart.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:1dc0973",
+   "dst": "file:js/deals-interactive.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:1dc0973",
+   "dst": "file:js/order.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:1dc0973",
+   "dst": "file:order.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:1dc0973",
+   "dst": "file:peter890.css",
+   "rel": "touches"
+  },
+  {
+   "src": "event:1dc0973",
+   "dst": "file:pizzadeals.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:1dc0973",
+   "dst": "file:scripts/verify-all.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:57ee246",
+   "dst": "file:890b.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:57ee246",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:57ee246",
+   "dst": "file:index.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:57ee246",
+   "dst": "file:js/deals-interactive.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:57ee246",
+   "dst": "file:peter890.css",
+   "rel": "touches"
+  },
+  {
+   "src": "event:57ee246",
+   "dst": "file:pizzadeals.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9591ef1",
+   "dst": "file:890b.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9591ef1",
+   "dst": "file:dev-server.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9591ef1",
+   "dst": "file:images/chicken-wings.jpg",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9591ef1",
+   "dst": "file:index.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:fbd9437",
+   "dst": "file:index.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:b2f03fe",
+   "dst": "file:order.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:fe1de2b",
+   "dst": "file:js/cart.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:fe1de2b",
+   "dst": "file:js/order.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:6607948",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:6607948",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:6607948",
+   "dst": "file:api/db.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9a96bda",
+   "dst": "file:.agents/skills/neon-postgres/SKILL.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9a96bda",
+   "dst": "file:.agents/skills/neon-postgres/references/branching.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9a96bda",
+   "dst": "file:.agents/skills/neon-postgres/references/egress-optimization.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9a96bda",
+   "dst": "file:.agents/skills/neon-postgres/references/full-text-search.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9a96bda",
+   "dst": "file:.agents/skills/neon-postgres/references/hybrid-search.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9a96bda",
+   "dst": "file:.agents/skills/neon-postgres/references/lakebase-search-drizzle.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9a96bda",
+   "dst": "file:.agents/skills/neon-postgres/references/vector-search.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9a96bda",
+   "dst": "file:.agents/skills/neon/SKILL.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9a96bda",
+   "dst": "file:.agents/skills/neon/references/auth.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9a96bda",
+   "dst": "file:.agents/skills/neon/references/claimable-neon.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9a96bda",
+   "dst": "file:.agents/skills/neon/references/function-triggers.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9a96bda",
+   "dst": "file:.agents/skills/neon/references/logs-loki.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9a96bda",
+   "dst": "file:.agents/skills/neon/references/parse-env.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9a96bda",
+   "dst": "file:.agents/skills/neon/references/sdk.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9a96bda",
+   "dst": "file:.gitignore",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9a96bda",
+   "dst": "file:.vscode/mcp.json",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9a96bda",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9a96bda",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9a96bda",
+   "dst": "file:api/orders.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9a96bda",
+   "dst": "file:api/sheets.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9a96bda",
+   "dst": "file:neon.ts",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9a96bda",
+   "dst": "file:package-lock.json",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9a96bda",
+   "dst": "file:package.json",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9a96bda",
+   "dst": "file:skills-lock.json",
+   "rel": "touches"
+  },
+  {
+   "src": "event:f4b47d6",
+   "dst": "file:890b.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:f4b47d6",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:f4b47d6",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:f4b47d6",
+   "dst": "file:api/admin.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:f4b47d6",
+   "dst": "file:api/db.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:f4b47d6",
+   "dst": "file:api/orders.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:f4b47d6",
+   "dst": "file:api/sheets.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:f4b47d6",
+   "dst": "file:index.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:f4b47d6",
+   "dst": "file:js/order.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:f4b47d6",
+   "dst": "file:order.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:f4b47d6",
+   "dst": "file:package.json",
+   "rel": "touches"
+  },
+  {
+   "src": "event:f4b47d6",
+   "dst": "file:peter890.css",
+   "rel": "touches"
+  },
+  {
+   "src": "event:f4b47d6",
+   "dst": "file:pizzadeals.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:f4b47d6",
+   "dst": "file:vercel.json",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d6dfc05",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d6dfc05",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d6dfc05",
+   "dst": "file:api/orders.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:65baf04",
+   "dst": "file:890b.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:65baf04",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:65baf04",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:65baf04",
+   "dst": "file:api/orders.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:65baf04",
+   "dst": "file:js/order.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:65baf04",
+   "dst": "file:order.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:bca9a3d",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:bca9a3d",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:bca9a3d",
+   "dst": "file:js/order.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:bca9a3d",
+   "dst": "file:order.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9bc7c25",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9bc7c25",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:0672a25",
+   "dst": "file:890b.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:0672a25",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:0672a25",
+   "dst": "file:js/site.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:0672a25",
+   "dst": "file:peter890.css",
+   "rel": "touches"
+  },
+  {
+   "src": "event:83ad6ab",
+   "dst": "file:890b.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:83ad6ab",
+   "dst": "file:index.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:83ad6ab",
+   "dst": "file:order.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:83ad6ab",
+   "dst": "file:peter890.css",
+   "rel": "touches"
+  },
+  {
+   "src": "event:83ad6ab",
+   "dst": "file:pizzadeals.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:197a2d0",
+   "dst": "file:890b.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:197a2d0",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:197a2d0",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:197a2d0",
+   "dst": "file:js/cart.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:197a2d0",
+   "dst": "file:order.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:6632223",
+   "dst": "file:890b.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:6632223",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:6632223",
+   "dst": "file:index.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:6632223",
+   "dst": "file:js/cart.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:6632223",
+   "dst": "file:js/order.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:6632223",
+   "dst": "file:order.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:6632223",
+   "dst": "file:peter890.css",
+   "rel": "touches"
+  },
+  {
+   "src": "event:6632223",
+   "dst": "file:pizzadeals.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:50ddc69",
+   "dst": "file:890b.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:50ddc69",
+   "dst": "file:order.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:50ddc69",
+   "dst": "file:pizzadeals.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:2e68777",
+   "dst": "file:890b.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:2e68777",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:2e68777",
+   "dst": "file:index.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:2e68777",
+   "dst": "file:js/order.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:2e68777",
+   "dst": "file:js/site.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:2e68777",
+   "dst": "file:order.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:2e68777",
+   "dst": "file:peter890.css",
+   "rel": "touches"
+  },
+  {
+   "src": "event:2e68777",
+   "dst": "file:pizzadeals.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:7af9164",
+   "dst": "file:890b.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:7af9164",
+   "dst": "file:index.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:7af9164",
+   "dst": "file:js/javascript.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:7af9164",
+   "dst": "file:js/order.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:7af9164",
+   "dst": "file:order.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:7af9164",
+   "dst": "file:peter890.css",
+   "rel": "touches"
+  },
+  {
+   "src": "event:7af9164",
+   "dst": "file:pizzadeals.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:78e59ce",
+   "dst": "file:890b.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:78e59ce",
+   "dst": "file:index.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:78e59ce",
+   "dst": "file:js/javascript.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:78e59ce",
+   "dst": "file:js/order.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:78e59ce",
+   "dst": "file:order.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:78e59ce",
+   "dst": "file:peter890.css",
+   "rel": "touches"
+  },
+  {
+   "src": "event:78e59ce",
+   "dst": "file:pizzadeals.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:022fc82",
+   "dst": "file:.DS_Store",
+   "rel": "touches"
+  },
+  {
+   "src": "event:6b7dc93",
+   "dst": "file:.DS_Store",
+   "rel": "touches"
+  },
+  {
+   "src": "event:6b7dc93",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:6b7dc93",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:6b7dc93",
+   "dst": "file:peter890.css",
+   "rel": "touches"
+  },
+  {
+   "src": "event:ef1f7f2",
+   "dst": "file:890b.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:ef1f7f2",
+   "dst": "file:peter890.css",
+   "rel": "touches"
+  },
+  {
+   "src": "event:853b726",
+   "dst": "file:peter890.css",
+   "rel": "touches"
+  },
+  {
+   "src": "event:64f5349",
+   "dst": "file:peter890.css",
+   "rel": "touches"
+  },
+  {
+   "src": "event:9ad435c",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:842c57b",
+   "dst": "file:890b.css",
+   "rel": "touches"
+  },
+  {
+   "src": "event:842c57b",
+   "dst": "file:890b.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:842c57b",
+   "dst": "file:index.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:842c57b",
+   "dst": "file:peter890.css",
+   "rel": "touches"
+  },
+  {
+   "src": "event:842c57b",
+   "dst": "file:pizzadeals.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d2cfcde",
+   "dst": "file:index.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:8b96369",
+   "dst": "file:index.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:d8cf5cc",
+   "dst": "file:index.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:05146db",
+   "dst": "file:890b.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:6cb8ec9",
+   "dst": "file:890b.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:5e97254",
+   "dst": "file:890b.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:528e18e",
+   "dst": "file:index.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:ae6441f",
+   "dst": "file:.DS_Store",
+   "rel": "touches"
+  },
+  {
+   "src": "event:ae6441f",
+   "dst": "file:890b.css",
+   "rel": "touches"
+  },
+  {
+   "src": "event:ae6441f",
+   "dst": "file:890b.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:ae6441f",
+   "dst": "file:peter hustle/.DS_Store",
+   "rel": "touches"
+  },
+  {
+   "src": "event:ae6441f",
+   "dst": "file:peter hustle/.vscode/launch.json",
+   "rel": "touches"
+  },
+  {
+   "src": "event:ae6441f",
+   "dst": "file:peter890.css",
+   "rel": "touches"
+  },
+  {
+   "src": "event:ae6441f",
+   "dst": "file:peter890.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:19308aa",
+   "dst": "file:peter hustle/.DS_Store",
+   "rel": "touches"
+  },
+  {
+   "src": "event:3be43fb",
+   "dst": "file:.DS_Store",
+   "rel": "touches"
+  },
+  {
+   "src": "event:3be43fb",
+   "dst": "file:.gitattributes",
+   "rel": "touches"
+  },
+  {
+   "src": "event:3be43fb",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:3be43fb",
+   "dst": "file:peter hustle/.DS_Store",
+   "rel": "touches"
+  },
+  {
+   "src": "event:3be43fb",
+   "dst": "file:peter hustle/.vscode/launch.json",
+   "rel": "touches"
+  },
+  {
+   "src": "event:3be43fb",
+   "dst": "file:peter hustle/890b.css",
+   "rel": "touches"
+  },
+  {
+   "src": "event:3be43fb",
+   "dst": "file:peter hustle/890b.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:3be43fb",
+   "dst": "file:peter hustle/peter890.css",
+   "rel": "touches"
+  },
+  {
+   "src": "event:3be43fb",
+   "dst": "file:peter hustle/peter890.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:0d6ccfe",
+   "dst": "file:admin-console/.gitignore",
+   "rel": "touches"
+  },
+  {
+   "src": "event:0d6ccfe",
+   "dst": "file:admin-console/package.json",
+   "rel": "touches"
+  },
+  {
+   "src": "event:0d6ccfe",
+   "dst": "file:admin-console/server.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:0d6ccfe",
+   "dst": "file:admin-console/vercel.json",
+   "rel": "touches"
+  },
+  {
+   "src": "event:567704a",
+   "dst": "file:.recap/RECAP.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:567704a",
+   "dst": "file:.recap/graph.json",
+   "rel": "touches"
+  },
+  {
+   "src": "event:567704a",
+   "dst": "file:.recap/graph.mmd",
+   "rel": "touches"
+  },
+  {
+   "src": "event:567704a",
+   "dst": "file:890b.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:567704a",
+   "dst": "file:ARCHITECTURE.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:567704a",
+   "dst": "file:README.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:567704a",
+   "dst": "file:VERIFICATION-LOG.md",
+   "rel": "touches"
+  },
+  {
+   "src": "event:567704a",
+   "dst": "file:admin-console/index.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:567704a",
+   "dst": "file:admin-console/package.json",
+   "rel": "touches"
+  },
+  {
+   "src": "event:567704a",
+   "dst": "file:admin-console/server.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:567704a",
+   "dst": "file:admin-console/vercel.json",
+   "rel": "touches"
+  },
+  {
+   "src": "event:567704a",
+   "dst": "file:admin.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:567704a",
+   "dst": "file:api/admin.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:567704a",
+   "dst": "file:api/db.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:567704a",
+   "dst": "file:api/track.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:567704a",
+   "dst": "file:index.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:567704a",
+   "dst": "file:js/cart.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:567704a",
+   "dst": "file:js/order.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:567704a",
+   "dst": "file:order.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:567704a",
+   "dst": "file:package.json",
+   "rel": "touches"
+  },
+  {
+   "src": "event:567704a",
+   "dst": "file:peter890.css",
+   "rel": "touches"
+  },
+  {
+   "src": "event:567704a",
+   "dst": "file:pizzadeals.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:567704a",
+   "dst": "file:privacy.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:567704a",
+   "dst": "file:scripts/stress-test.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:567704a",
+   "dst": "file:scripts/verify-all.js",
+   "rel": "touches"
+  },
+  {
+   "src": "event:567704a",
+   "dst": "file:terms.html",
+   "rel": "touches"
+  },
+  {
+   "src": "event:567704a",
+   "dst": "file:track.html",
+   "rel": "touches"
+  }
+ ]
+}

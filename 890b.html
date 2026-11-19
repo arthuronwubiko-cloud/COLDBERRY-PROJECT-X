@@ -1,0 +1,1484 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#5C1A2B" />
+    <meta
+      name="description"
+      content="Order from Coldberry Ice Cream Nigeria (coldberry.ng) — Coldberry Vanilla Bean, Strawberry Bliss Swirl, Coldberry Delight, Oreo & Strawberry Roll, Chocolate Romance Supreme, Nineoverloaded Tub and more. Delivery in Abuja & Lagos."
+    />
+    <link
+      rel="icon"
+      href="images/coldberry-favicon.png"
+    />
+
+    <title>Our Ice Cream Menu | Coldberry Ice Cream Nigeria</title>
+
+    <link rel="stylesheet" href="peter890.css" />
+    <!-- Font Awesome icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+    <script src="js/cart.js" defer></script>
+    <script src="js/deals-interactive.js" defer></script>
+    <script src="js/site.js" defer></script>
+    <script src="js/auth-ui.js" defer></script>
+    <script src="js/feedback-bubble.js" defer></script>
+  </head>
+
+  <body>
+    <!-- Site header: the navigation links jump to sections on this page or return home. -->
+    <header class="nav-bar">
+        <a href="index.html" class="logo-link">
+          <img
+            src="images/coldberry-logo.png"
+            alt="Coldberry Ice Cream Logo"
+            class="logo"
+          />
+        </a>
+
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="index.html#home">Home</a>
+          <a href="890b.html#pizza-menu" class="active" aria-current="page">Menu</a>
+          <a href="index.html#locations">Locations</a>
+          <a href="pizzadeals.html#deals">Deals</a>
+          <a href="order.html#order-heading">Order</a>
+          <a href="track.html">Track</a>
+        </nav>
+        <div class="search-bar" role="search">
+          <input
+            id="full-menu-search"
+            type="search"
+            placeholder="Search Coldberry menu..."
+            aria-label="Search the full menu"
+            aria-controls="full-menu-search-results"
+          />
+          <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+        </div>
+        <a href="order.html#cart-heading" class="nav-cart-link" id="nav-cart-link" aria-label="Shopping cart (0 items)" title="View your shopping cart">
+          <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
+          <span class="nav-cart-badge" id="cart-count" data-nav-cart-count aria-live="polite">0</span>
+        </a>
+        <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme" aria-pressed="false" title="Switch to dark theme"><i class="fa-solid fa-moon" aria-hidden="true"></i></button>
+    </header>
+
+    <!-- Main content begins with the menu hero and its jump-to-menu call to action. -->
+    <main>
+      <section class="menu-hero" id="pizza-menu">
+        <div class="hero-copy">
+          <p class="breadcrumb">
+            <a href="index.html">Home</a> / Coldberry Creamery Menu
+          </p>
+
+          <p class="section-label">CREAMY, DREAMY &amp; FRESHLY ROLLED</p>
+
+          <h1>Coldberry Ice Cream Menu</h1>
+          <p class="hero-motto">Scoops of Pure Happiness</p>
+
+          <p class="hero-description">
+            Welcome to Coldberry Ice Cream Nigeria. From classic creamy scoops
+            to signature hand-rolled berry sundaes and waffle bowls, discover
+            your next favourite treat freshly crafted with premium dairy and fruits.
+          </p>
+
+          <a href="#traditional" class="menu-button"> EXPLORE OUR FLAVOURS </a>
+        </div>
+
+        <div class="hero-image">
+          <img
+            src="images/coldberry-hero.jpg"
+            alt="Coldberry artisanal rolled ice cream in crispy waffle bowls"
+          />
+        </div>
+      </section>
+
+      <p
+        class="search-results full-menu-search-results"
+        id="full-menu-search-results"
+        role="status"
+        aria-live="polite"
+        hidden
+      ></p>
+
+      <!-- Classic Creamery Flavours; the section ID is the hero button's destination. -->
+      <section class="menu-section" id="traditional">
+        <div class="section-heading">
+          <p class="section-label">TIMELESS CREAMERY FAVOURITES</p>
+          <h2>Classic Creamery Tubs</h2>
+          <p>Rich, velvety ice cream flavours crafted the Coldberry way.</p>
+        </div>
+
+        <!-- Half & Half 2-in-1 Custom Split Tub Builder Accordion -->
+        <details class="related-pizzas-details half-and-half-accordion" open>
+          <summary class="related-pizzas-summary">
+            <span class="summary-title">
+              <i class="fa-solid fa-ice-cream" aria-hidden="true"></i>
+              <span>Half &amp; Half Tub (Custom 2-in-1 Flavour Split)</span>
+            </span>
+            <span class="half-accordion-badge">2-in-1 Split</span>
+            <i class="fa-solid fa-chevron-down summary-icon" aria-hidden="true"></i>
+          </summary>
+          <div class="half-and-half-card">
+            <div class="half-card-header">
+              <p class="half-card-subtitle">Can't decide on one flavour? Split any two Coldberry flavours across Medium, Large, or Champion tub sizes.</p>
+            </div>
+
+            <!-- Half & Half Split Circle Visual Preview -->
+            <div class="half-visual-preview" aria-hidden="true">
+              <div class="half-split-circle">
+                <div class="split-side split-left" id="half-preview-left" title="Left Half"></div>
+                <div class="split-divider"></div>
+                <div class="split-side split-right" id="half-preview-right" title="Right Half"></div>
+              </div>
+              <div class="half-preview-labels">
+                <span id="half-label-left">Coldberry Vanilla Bean</span>
+                <i class="fa-solid fa-arrows-left-right" aria-hidden="true"></i>
+                <span id="half-label-right">Coldberry Nineoverloaded Tub</span>
+              </div>
+            </div>
+
+            <div class="half-selectors-grid">
+              <div class="half-selector-group">
+                <label class="half-select-label" for="half-pizza-size">
+                  <i class="fa-solid fa-arrows-up-down-left-right" aria-hidden="true"></i> Tub Size:
+                </label>
+                <div class="select-wrapper">
+                  <select id="half-pizza-size" class="half-select" aria-label="Select Tub Size">
+                    <option value="Medium">Medium (500ml)</option>
+                    <option value="Large" selected>Large (1 Litre)</option>
+                    <option value="Champion">Champion (2 Litre Party Tub)</option>
+                  </select>
+                  <i class="fa-solid fa-chevron-down select-arrow" aria-hidden="true"></i>
+                </div>
+              </div>
+
+              <div class="half-selector-group">
+                <label class="half-select-label" for="half-pizza-side1">
+                  <i class="fa-solid fa-ice-cream" aria-hidden="true"></i> Left Scoop Half:
+                </label>
+                <div class="select-wrapper">
+                  <select id="half-pizza-side1" class="half-select" aria-label="Select Left Half Flavour">
+                    <optgroup label="Classic Creamery">
+                      <option value="Coldberry Vanilla Bean" selected>Coldberry Vanilla Bean</option>
+                      <option value="Strawberry Bliss Swirl">Strawberry Bliss Swirl</option>
+                      <option value="Belgian Chocolate Fudge">Belgian Chocolate Fudge</option>
+                      <option value="BlueMoon Berry Cream">BlueMoon Berry Cream</option>
+                      <option value="Caramel Popcorn Crunch">Caramel Popcorn Crunch</option>
+                    </optgroup>
+                    <optgroup label="Signature Rolled &amp; Swirl">
+                      <option value="Coldberry Delight">Coldberry Delight</option>
+                      <option value="Oreo &amp; Strawberry Roll">Oreo &amp; Strawberry Roll</option>
+                      <option value="Rainbow Berry Rolls">Rainbow Berry Rolls</option>
+                      <option value="Caramel Swirl Sundae">Caramel Swirl Sundae</option>
+                    </optgroup>
+                    <optgroup label="Supreme Indulgence">
+                      <option value="Chocolate Romance Supreme">Chocolate Romance Supreme</option>
+                      <option value="Cheesecake Fantasy Crunch">Cheesecake Fantasy Crunch</option>
+                      <option value="Fresh Cream &amp; Berry Classic">Fresh Cream &amp; Berry Classic</option>
+                    </optgroup>
+                    <optgroup label="Overloaded Tubs">
+                      <option value="Coldberry Nineoverloaded Tub">Coldberry Nineoverloaded Tub</option>
+                    </optgroup>
+                  </select>
+                  <i class="fa-solid fa-chevron-down select-arrow" aria-hidden="true"></i>
+                </div>
+              </div>
+
+              <div class="half-selector-group">
+                <label class="half-select-label" for="half-pizza-side2">
+                  <i class="fa-solid fa-ice-cream" aria-hidden="true"></i> Right Scoop Half:
+                </label>
+                <div class="select-wrapper">
+                  <select id="half-pizza-side2" class="half-select" aria-label="Select Right Half Flavour">
+                    <optgroup label="Classic Creamery">
+                      <option value="Coldberry Vanilla Bean">Coldberry Vanilla Bean</option>
+                      <option value="Strawberry Bliss Swirl">Strawberry Bliss Swirl</option>
+                      <option value="Belgian Chocolate Fudge">Belgian Chocolate Fudge</option>
+                      <option value="BlueMoon Berry Cream">BlueMoon Berry Cream</option>
+                      <option value="Caramel Popcorn Crunch">Caramel Popcorn Crunch</option>
+                    </optgroup>
+                    <optgroup label="Signature Rolled &amp; Swirl">
+                      <option value="Coldberry Delight">Coldberry Delight</option>
+                      <option value="Oreo &amp; Strawberry Roll">Oreo &amp; Strawberry Roll</option>
+                      <option value="Rainbow Berry Rolls">Rainbow Berry Rolls</option>
+                      <option value="Caramel Swirl Sundae">Caramel Swirl Sundae</option>
+                    </optgroup>
+                    <optgroup label="Supreme Indulgence">
+                      <option value="Chocolate Romance Supreme">Chocolate Romance Supreme</option>
+                      <option value="Cheesecake Fantasy Crunch">Cheesecake Fantasy Crunch</option>
+                      <option value="Fresh Cream &amp; Berry Classic">Fresh Cream &amp; Berry Classic</option>
+                    </optgroup>
+                    <optgroup label="Overloaded Tubs">
+                      <option value="Coldberry Nineoverloaded Tub" selected>Coldberry Nineoverloaded Tub</option>
+                    </optgroup>
+                  </select>
+                  <i class="fa-solid fa-chevron-down select-arrow" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="half-pricing-breakdown" id="half-pricing-breakdown" aria-live="polite">
+              <div class="half-breakdown-row base-price-row">
+                <span class="breakdown-label">Base Price (More Expensive Side):</span>
+                <strong class="breakdown-value" id="half-base-price">₦16,500</strong>
+              </div>
+              <div class="half-breakdown-row surcharge-row">
+                <span class="breakdown-label">5% Split Surcharge:</span>
+                <strong class="breakdown-value" id="half-surcharge-price">+₦825</strong>
+              </div>
+              <div class="half-breakdown-row total-price-row">
+                <span class="breakdown-label">Total Price:</span>
+                <strong class="breakdown-value half-total-val" id="half-total-price">₦17,325</strong>
+              </div>
+            </div>
+
+            <div class="half-action-row">
+              <div class="quantity-control half-quantity-control" data-cart-item="Half &amp; Half Pizza (Coldberry Vanilla Bean + Coldberry Nineoverloaded Tub, Large)">
+                <button type="button" data-cart-action="decrement" aria-label="Remove one Half &amp; Half Tub">−</button>
+                <span data-cart-quantity aria-live="polite">0</span>
+                <button type="button" data-cart-action="increment" aria-label="Add one Half &amp; Half Tub">+</button>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <div class="pizza-grid">
+          <!-- 1. Coldberry Vanilla Bean -->
+          <article class="pizza-card" id="vanilla-bean">
+            <img
+              src="images/coldberry-scoop.jpg"
+              alt="Coldberry Vanilla Bean Ice Cream"
+              class="pizza-image"
+            />
+            <div class="pizza-info">
+              <h3>Coldberry Vanilla Bean</h3>
+              <p>
+                Our signature silky Madagascar vanilla bean creamery scoop,
+                slow-churned with rich sweet cream and golden waffle crumble.
+              </p>
+
+              <div class="pizza-size-picker">
+                <label class="pizza-size-label" for="size-vanilla-bean"><i class="fa-solid fa-ice-cream"></i> Select Size:</label>
+                <div class="select-wrapper">
+                  <select class="pizza-size-select" id="size-vanilla-bean" data-base-name="Coldberry Vanilla Bean" aria-label="Select size for Coldberry Vanilla Bean">
+                    <option value="Medium" data-price="₦11,200">Medium (500ml) — ₦11,200</option>
+                    <option value="Large" data-price="₦14,150" selected>Large (1L) — ₦14,150</option>
+                    <option value="Champion" data-price="₦21,200">Champion (2L Tub) — ₦21,200</option>
+                  </select>
+                  <i class="fa-solid fa-chevron-down select-arrow" aria-hidden="true"></i>
+                </div>
+              </div>
+
+              <div class="pizza-bottom">
+                <span class="price">₦14,150</span>
+                <div class="quantity-control" data-cart-item="Coldberry Vanilla Bean (Large)">
+                  <button type="button" data-cart-action="decrement" aria-label="Remove one Coldberry Vanilla Bean">−</button>
+                  <span data-cart-quantity aria-live="polite">0</span>
+                  <button type="button" data-cart-action="increment" aria-label="Add one Coldberry Vanilla Bean">+</button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- 2. Strawberry Bliss Swirl -->
+          <article class="pizza-card" id="strawberry-bliss">
+            <img
+              src="images/coldberry-scoop.jpg"
+              alt="Strawberry Bliss Swirl Ice Cream"
+              class="pizza-image"
+            />
+            <div class="pizza-info">
+              <h3>Strawberry Bliss Swirl</h3>
+              <p>
+                Sun-ripened strawberries blended into luscious pink cream and
+                ribboned with real berry compote for a refreshing fruity finish.
+              </p>
+
+              <div class="pizza-size-picker">
+                <label class="pizza-size-label" for="size-strawberry-bliss"><i class="fa-solid fa-ice-cream"></i> Select Size:</label>
+                <div class="select-wrapper">
+                  <select class="pizza-size-select" id="size-strawberry-bliss" data-base-name="Strawberry Bliss Swirl" aria-label="Select size for Strawberry Bliss Swirl">
+                    <option value="Medium" data-price="₦11,200">Medium (500ml) — ₦11,200</option>
+                    <option value="Large" data-price="₦14,150" selected>Large (1L) — ₦14,150</option>
+                    <option value="Champion" data-price="₦21,200">Champion (2L Tub) — ₦21,200</option>
+                  </select>
+                  <i class="fa-solid fa-chevron-down select-arrow" aria-hidden="true"></i>
+                </div>
+              </div>
+
+              <div class="pizza-bottom">
+                <span class="price">₦14,150</span>
+                <div class="quantity-control" data-cart-item="Strawberry Bliss Swirl (Large)">
+                  <button type="button" data-cart-action="decrement" aria-label="Remove one Strawberry Bliss Swirl">−</button>
+                  <span data-cart-quantity aria-live="polite">0</span>
+                  <button type="button" data-cart-action="increment" aria-label="Add one Strawberry Bliss Swirl">+</button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- 3. Belgian Chocolate Fudge -->
+          <article class="pizza-card" id="chocolate-fudge">
+            <img
+              src="images/coldberry-scoop.jpg"
+              alt="Belgian Chocolate Fudge Ice Cream"
+              class="pizza-image"
+            />
+            <div class="pizza-info">
+              <h3>Belgian Chocolate Fudge</h3>
+              <p>
+                Decadent dark cocoa ice cream folded with velvety chocolate
+                ganache ribbons and shaved Belgian chocolate curls.
+              </p>
+
+              <div class="pizza-size-picker">
+                <label class="pizza-size-label" for="size-chocolate-fudge"><i class="fa-solid fa-ice-cream"></i> Select Size:</label>
+                <div class="select-wrapper">
+                  <select class="pizza-size-select" id="size-chocolate-fudge" data-base-name="Belgian Chocolate Fudge" aria-label="Select size for Belgian Chocolate Fudge">
+                    <option value="Medium" data-price="₦11,200">Medium (500ml) — ₦11,200</option>
+                    <option value="Large" data-price="₦14,150" selected>Large (1L) — ₦14,150</option>
+                    <option value="Champion" data-price="₦21,200">Champion (2L Tub) — ₦21,200</option>
+                  </select>
+                  <i class="fa-solid fa-chevron-down select-arrow" aria-hidden="true"></i>
+                </div>
+              </div>
+
+              <div class="pizza-bottom">
+                <span class="price">₦14,150</span>
+                <div class="quantity-control" data-cart-item="Belgian Chocolate Fudge (Large)">
+                  <button type="button" data-cart-action="decrement" aria-label="Remove one Belgian Chocolate Fudge">−</button>
+                  <span data-cart-quantity aria-live="polite">0</span>
+                  <button type="button" data-cart-action="increment" aria-label="Add one Belgian Chocolate Fudge">+</button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- 4. BlueMoon Berry Cream -->
+          <article class="pizza-card" id="bluemoon-berry">
+            <img
+              src="images/coldberry-scoop.jpg"
+              alt="BlueMoon Berry Cream Ice Cream"
+              class="pizza-image"
+            />
+            <div class="pizza-info">
+              <h3>BlueMoon Berry Cream</h3>
+              <p>
+                A colourful Coldberry favourite combining sweet raspberry citrus
+                notes, wild blueberry swirl, and marshmallow cream.
+              </p>
+
+              <div class="pizza-size-picker">
+                <label class="pizza-size-label" for="size-bluemoon-berry"><i class="fa-solid fa-ice-cream"></i> Select Size:</label>
+                <div class="select-wrapper">
+                  <select class="pizza-size-select" id="size-bluemoon-berry" data-base-name="BlueMoon Berry Cream" aria-label="Select size for BlueMoon Berry Cream">
+                    <option value="Medium" data-price="₦11,200">Medium (500ml) — ₦11,200</option>
+                    <option value="Large" data-price="₦14,150" selected>Large (1L) — ₦14,150</option>
+                    <option value="Champion" data-price="₦21,200">Champion (2L Tub) — ₦21,200</option>
+                  </select>
+                  <i class="fa-solid fa-chevron-down select-arrow" aria-hidden="true"></i>
+                </div>
+              </div>
+
+              <div class="pizza-bottom">
+                <span class="price">₦14,150</span>
+                <div class="quantity-control" data-cart-item="BlueMoon Berry Cream (Large)">
+                  <button type="button" data-cart-action="decrement" aria-label="Remove one BlueMoon Berry Cream">−</button>
+                  <span data-cart-quantity aria-live="polite">0</span>
+                  <button type="button" data-cart-action="increment" aria-label="Add one BlueMoon Berry Cream">+</button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- 5. Caramel Popcorn Crunch -->
+          <article class="pizza-card" id="caramel-popcorn">
+            <img
+              src="images/coldberry-scoop.jpg"
+              alt="Caramel Popcorn Crunch Ice Cream"
+              class="pizza-image"
+            />
+            <div class="pizza-info">
+              <h3>Caramel Popcorn Crunch</h3>
+              <p>
+                Sweet buttery cream infused with golden caramelised popcorn
+                clusters and a warm salted-toffee drizzle.
+              </p>
+
+              <div class="pizza-size-picker">
+                <label class="pizza-size-label" for="size-caramel-popcorn"><i class="fa-solid fa-ice-cream"></i> Select Size:</label>
+                <div class="select-wrapper">
+                  <select class="pizza-size-select" id="size-caramel-popcorn" data-base-name="Caramel Popcorn Crunch" aria-label="Select size for Caramel Popcorn Crunch">
+                    <option value="Medium" data-price="₦11,200">Medium (500ml) — ₦11,200</option>
+                    <option value="Large" data-price="₦14,150" selected>Large (1L) — ₦14,150</option>
+                    <option value="Champion" data-price="₦21,200">Champion (2L Tub) — ₦21,200</option>
+                  </select>
+                  <i class="fa-solid fa-chevron-down select-arrow" aria-hidden="true"></i>
+                </div>
+              </div>
+
+              <div class="pizza-bottom">
+                <span class="price">₦14,150</span>
+                <div class="quantity-control" data-cart-item="Caramel Popcorn Crunch (Large)">
+                  <button type="button" data-cart-action="decrement" aria-label="Remove one Caramel Popcorn Crunch">−</button>
+                  <span data-cart-quantity aria-live="polite">0</span>
+                  <button type="button" data-cart-action="increment" aria-label="Add one Caramel Popcorn Crunch">+</button>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Signature Rolled & Swirl Creations -->
+      <section class="menu-section special-section" id="special">
+        <div class="section-heading">
+          <p class="section-label">ARTISANAL ROLLED &amp; SWIRL CREATIONS</p>
+          <h2>Signature Coldberry Creations</h2>
+          <p>Hand-rolled and loaded flavours for dessert lovers who crave extra flair.</p>
+        </div>
+
+        <div class="pizza-grid">
+          <!-- 6. Coldberry Delight -->
+          <article class="pizza-card" id="coldberry-delight">
+            <img
+              src="images/coldberry-hero.jpg"
+              alt="Coldberry Delight Ice Cream"
+              class="pizza-image"
+            />
+            <div class="pizza-info">
+              <h3>Coldberry Delight</h3>
+              <p>
+                Our house signature blend of toasted coconut cream, roasted
+                crunchy peanuts, and wild berry compote swirl.
+              </p>
+
+              <div class="pizza-size-picker">
+                <label class="pizza-size-label" for="size-coldberry-delight"><i class="fa-solid fa-ice-cream"></i> Select Size:</label>
+                <div class="select-wrapper">
+                  <select class="pizza-size-select" id="size-coldberry-delight" data-base-name="Coldberry Delight" aria-label="Select size for Coldberry Delight">
+                    <option value="Medium" data-price="₦12,200">Medium (500ml) — ₦12,200</option>
+                    <option value="Large" data-price="₦14,800" selected>Large (1L) — ₦14,800</option>
+                    <option value="Champion" data-price="₦22,000">Champion (2L Tub) — ₦22,000</option>
+                  </select>
+                  <i class="fa-solid fa-chevron-down select-arrow" aria-hidden="true"></i>
+                </div>
+              </div>
+
+              <div class="pizza-bottom">
+                <span class="price">₦14,800</span>
+                <div class="quantity-control" data-cart-item="Coldberry Delight (Large)">
+                  <button type="button" data-cart-action="decrement" aria-label="Remove one Coldberry Delight">−</button>
+                  <span data-cart-quantity aria-live="polite">0</span>
+                  <button type="button" data-cart-action="increment" aria-label="Add one Coldberry Delight">+</button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- 7. Oreo & Strawberry Roll -->
+          <article class="pizza-card" id="oreo-strawberry-roll">
+            <img
+              src="images/coldberry-hero.jpg"
+              alt="Oreo & Strawberry Roll Ice Cream"
+              class="pizza-image"
+            />
+            <div class="pizza-info">
+              <h3>Oreo &amp; Strawberry Roll</h3>
+              <p>
+                Freshly hand-rolled sweet cream smashed with crunchy Oreo cookies
+                and ripe strawberries, finished with chocolate fudge drizzle.
+              </p>
+
+              <div class="pizza-size-picker">
+                <label class="pizza-size-label" for="size-oreo-strawberry"><i class="fa-solid fa-ice-cream"></i> Select Size:</label>
+                <div class="select-wrapper">
+                  <select class="pizza-size-select" id="size-oreo-strawberry" data-base-name="Oreo &amp; Strawberry Roll" aria-label="Select size for Oreo &amp; Strawberry Roll">
+                    <option value="Medium" data-price="₦12,200">Medium (500ml) — ₦12,200</option>
+                    <option value="Large" data-price="₦14,800" selected>Large (1L) — ₦14,800</option>
+                    <option value="Champion" data-price="₦22,000">Champion (2L Tub) — ₦22,000</option>
+                  </select>
+                  <i class="fa-solid fa-chevron-down select-arrow" aria-hidden="true"></i>
+                </div>
+              </div>
+
+              <div class="pizza-bottom">
+                <span class="price">₦14,800</span>
+                <div class="quantity-control" data-cart-item="Oreo &amp; Strawberry Roll (Large)">
+                  <button type="button" data-cart-action="decrement" aria-label="Remove one Oreo &amp; Strawberry Roll">−</button>
+                  <span data-cart-quantity aria-live="polite">0</span>
+                  <button type="button" data-cart-action="increment" aria-label="Add one Oreo &amp; Strawberry Roll">+</button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- 8. Rainbow Berry Rolls -->
+          <article class="pizza-card" id="rainbow-rolls">
+            <img
+              src="images/coldberry-hero.jpg"
+              alt="Rainbow Berry Rolls Ice Cream"
+              class="pizza-image"
+            />
+            <div class="pizza-info">
+              <h3>Rainbow Berry Rolls</h3>
+              <p>
+                Vibrant hand-crafted berry and vanilla ice cream rolls topped
+                with rainbow confetti sprinkles, berries, and whipped cream.
+              </p>
+
+              <div class="pizza-size-picker">
+                <label class="pizza-size-label" for="size-rainbow-rolls"><i class="fa-solid fa-ice-cream"></i> Select Size:</label>
+                <div class="select-wrapper">
+                  <select class="pizza-size-select" id="size-rainbow-rolls" data-base-name="Rainbow Berry Rolls" aria-label="Select size for Rainbow Berry Rolls">
+                    <option value="Medium" data-price="₦12,200">Medium (500ml) — ₦12,200</option>
+                    <option value="Large" data-price="₦14,800" selected>Large (1L) — ₦14,800</option>
+                    <option value="Champion" data-price="₦22,000">Champion (2L Tub) — ₦22,000</option>
+                  </select>
+                  <i class="fa-solid fa-chevron-down select-arrow" aria-hidden="true"></i>
+                </div>
+              </div>
+
+              <div class="pizza-bottom">
+                <span class="price">₦14,800</span>
+                <div class="quantity-control" data-cart-item="Rainbow Berry Rolls (Large)">
+                  <button type="button" data-cart-action="decrement" aria-label="Remove one Rainbow Berry Rolls">−</button>
+                  <span data-cart-quantity aria-live="polite">0</span>
+                  <button type="button" data-cart-action="increment" aria-label="Add one Rainbow Berry Rolls">+</button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- 9. Caramel Swirl Sundae -->
+          <article class="pizza-card" id="caramel-swirl">
+            <img
+              src="images/coldberry-hero.jpg"
+              alt="Caramel Swirl Sundae Ice Cream"
+              class="pizza-image"
+            />
+            <div class="pizza-info">
+              <h3>Caramel Swirl Sundae</h3>
+              <p>
+                Creamy butterscotch and vanilla ice cream layered with warm
+                golden caramel ribbons and roasted almond praline crunch.
+              </p>
+
+              <div class="pizza-size-picker">
+                <label class="pizza-size-label" for="size-caramel-swirl"><i class="fa-solid fa-ice-cream"></i> Select Size:</label>
+                <div class="select-wrapper">
+                  <select class="pizza-size-select" id="size-caramel-swirl" data-base-name="Caramel Swirl Sundae" aria-label="Select size for Caramel Swirl Sundae">
+                    <option value="Medium" data-price="₦12,200">Medium (500ml) — ₦12,200</option>
+                    <option value="Large" data-price="₦14,800" selected>Large (1L) — ₦14,800</option>
+                    <option value="Champion" data-price="₦22,000">Champion (2L Tub) — ₦22,000</option>
+                  </select>
+                  <i class="fa-solid fa-chevron-down select-arrow" aria-hidden="true"></i>
+                </div>
+              </div>
+
+              <div class="pizza-bottom">
+                <span class="price">₦14,800</span>
+                <div class="quantity-control" data-cart-item="Caramel Swirl Sundae (Large)">
+                  <button type="button" data-cart-action="decrement" aria-label="Remove one Caramel Swirl Sundae">−</button>
+                  <span data-cart-quantity aria-live="polite">0</span>
+                  <button type="button" data-cart-action="increment" aria-label="Add one Caramel Swirl Sundae">+</button>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Supreme Indulgence & Overloaded Tubs -->
+      <section class="menu-section" id="exclusive">
+        <div class="section-heading">
+          <p class="section-label">MADE FOR ULTIMATE SWEET CRAVINGS</p>
+          <h2>Exclusive &amp; Overloaded Tubs</h2>
+          <p>Discover the extra-indulgent side of Coldberry Ice Cream Nigeria.</p>
+        </div>
+
+        <div class="pizza-grid">
+          <!-- 10. Chocolate Romance Supreme -->
+          <article class="pizza-card" id="chocolate-romance">
+            <img
+              src="images/coldberry-scoop.jpg"
+              alt="Chocolate Romance Supreme Ice Cream"
+              class="pizza-image"
+            />
+            <div class="pizza-info">
+              <h3>Chocolate Romance Supreme</h3>
+              <p>
+                A chocolate lover's dream loaded with triple fudge brownie bites,
+                dark chocolate chunks, and silky cocoa truffle cream.
+              </p>
+
+              <div class="pizza-size-picker">
+                <label class="pizza-size-label" for="size-chocolate-romance"><i class="fa-solid fa-ice-cream"></i> Select Size:</label>
+                <div class="select-wrapper">
+                  <select class="pizza-size-select" id="size-chocolate-romance" data-base-name="Chocolate Romance Supreme" aria-label="Select size for Chocolate Romance Supreme">
+                    <option value="Medium" data-price="₦13,500">Medium (500ml) — ₦13,500</option>
+                    <option value="Large" data-price="₦15,000" selected>Large (1L) — ₦15,000</option>
+                    <option value="Champion" data-price="₦23,500">Champion (2L Tub) — ₦23,500</option>
+                  </select>
+                  <i class="fa-solid fa-chevron-down select-arrow" aria-hidden="true"></i>
+                </div>
+              </div>
+
+              <div class="pizza-bottom">
+                <span class="price">₦15,000</span>
+                <div class="quantity-control" data-cart-item="Chocolate Romance Supreme (Large)">
+                  <button type="button" data-cart-action="decrement" aria-label="Remove one Chocolate Romance Supreme">−</button>
+                  <span data-cart-quantity aria-live="polite">0</span>
+                  <button type="button" data-cart-action="increment" aria-label="Add one Chocolate Romance Supreme">+</button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- 11. Coldberry Nineoverloaded Tub -->
+          <article class="pizza-card" id="nineoverloaded">
+            <img
+              src="images/coldberry-hero.jpg"
+              alt="Coldberry Nineoverloaded Tub"
+              class="pizza-image"
+            />
+            <div class="pizza-info">
+              <h3>Coldberry Nineoverloaded Tub</h3>
+              <p>
+                Our ultimate 9-topping creamery feast packed with berries, Oreo
+                crumbs, brownie chunks, waffle crisps, roasted nuts, and fudge.
+              </p>
+
+              <div class="pizza-size-picker">
+                <label class="pizza-size-label" for="size-nineoverloaded"><i class="fa-solid fa-ice-cream"></i> Select Size:</label>
+                <div class="select-wrapper">
+                  <select class="pizza-size-select" id="size-nineoverloaded" data-base-name="Coldberry Nineoverloaded Tub" aria-label="Select size for Coldberry Nineoverloaded Tub">
+                    <option value="Medium" data-price="₦15,100">Medium (500ml) — ₦15,100</option>
+                    <option value="Large" data-price="₦16,500" selected>Large (1L) — ₦16,500</option>
+                    <option value="Champion" data-price="₦25,000">Champion (2L Tub) — ₦25,000</option>
+                  </select>
+                  <i class="fa-solid fa-chevron-down select-arrow" aria-hidden="true"></i>
+                </div>
+              </div>
+
+              <div class="pizza-bottom">
+                <span class="price">₦16,500</span>
+                <div class="quantity-control" data-cart-item="Coldberry Nineoverloaded Tub (Large)">
+                  <button type="button" data-cart-action="decrement" aria-label="Remove one Coldberry Nineoverloaded Tub">−</button>
+                  <span data-cart-quantity aria-live="polite">0</span>
+                  <button type="button" data-cart-action="increment" aria-label="Add one Coldberry Nineoverloaded Tub">+</button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- 12. Cheesecake Fantasy Crunch -->
+          <article class="pizza-card" id="cheesecake-fantasy">
+            <img
+              src="images/coldberry-scoop.jpg"
+              alt="Cheesecake Fantasy Crunch Ice Cream"
+              class="pizza-image"
+            />
+            <div class="pizza-info">
+              <h3>Cheesecake Fantasy Crunch</h3>
+              <p>
+                Velvety New York cheesecake ice cream folded with buttery graham
+                crust pieces and tangy strawberry-raspberry glaze.
+              </p>
+
+              <div class="pizza-size-picker">
+                <label class="pizza-size-label" for="size-cheesecake-fantasy"><i class="fa-solid fa-ice-cream"></i> Select Size:</label>
+                <div class="select-wrapper">
+                  <select class="pizza-size-select" id="size-cheesecake-fantasy" data-base-name="Cheesecake Fantasy Crunch" aria-label="Select size for Cheesecake Fantasy Crunch">
+                    <option value="Medium" data-price="₦13,500">Medium (500ml) — ₦13,500</option>
+                    <option value="Large" data-price="₦15,000" selected>Large (1L) — ₦15,000</option>
+                    <option value="Champion" data-price="₦23,500">Champion (2L Tub) — ₦23,500</option>
+                  </select>
+                  <i class="fa-solid fa-chevron-down select-arrow" aria-hidden="true"></i>
+                </div>
+              </div>
+
+              <div class="pizza-bottom">
+                <span class="price">₦15,000</span>
+                <div class="quantity-control" data-cart-item="Cheesecake Fantasy Crunch (Large)">
+                  <button type="button" data-cart-action="decrement" aria-label="Remove one Cheesecake Fantasy Crunch">−</button>
+                  <span data-cart-quantity aria-live="polite">0</span>
+                  <button type="button" data-cart-action="increment" aria-label="Add one Cheesecake Fantasy Crunch">+</button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- 13. Fresh Cream & Berry Classic -->
+          <article class="pizza-card" id="fresh-cream-berry">
+            <img
+              src="images/coldberry-scoop.jpg"
+              alt="Fresh Cream & Berry Classic Ice Cream"
+              class="pizza-image"
+            />
+            <div class="pizza-info">
+              <h3>Fresh Cream &amp; Berry Classic</h3>
+              <p>
+                Pure whipped sweet dairy cream swirled with blackberries,
+                strawberries, and blueberries for a clean, decadent finish.
+              </p>
+
+              <div class="pizza-size-picker">
+                <label class="pizza-size-label" for="size-fresh-cream-berry"><i class="fa-solid fa-ice-cream"></i> Select Size:</label>
+                <div class="select-wrapper">
+                  <select class="pizza-size-select" id="size-fresh-cream-berry" data-base-name="Fresh Cream &amp; Berry Classic" aria-label="Select size for Fresh Cream &amp; Berry Classic">
+                    <option value="Medium" data-price="₦13,500">Medium (500ml) — ₦13,500</option>
+                    <option value="Large" data-price="₦15,000" selected>Large (1L) — ₦15,000</option>
+                    <option value="Champion" data-price="₦23,500">Champion (2L Tub) — ₦23,500</option>
+                  </select>
+                  <i class="fa-solid fa-chevron-down select-arrow" aria-hidden="true"></i>
+                </div>
+              </div>
+
+              <div class="pizza-bottom">
+                <span class="price">₦15,000</span>
+                <div class="quantity-control" data-cart-item="Fresh Cream &amp; Berry Classic (Large)">
+                  <button type="button" data-cart-action="decrement" aria-label="Remove one Fresh Cream &amp; Berry Classic">−</button>
+                  <span data-cart-quantity aria-live="polite">0</span>
+                  <button type="button" data-cart-action="increment" aria-label="Add one Fresh Cream &amp; Berry Classic">+</button>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Waffles, Sides & Chilled Drinks -->
+      <section class="menu-section sides-section" id="sides">
+        <div class="section-heading">
+          <p class="section-label">THE PERFECT PARLOR ADD-ON</p>
+          <h2>Waffles, Sides &amp; Drinks</h2>
+          <p>Add warm crispy treats, savoury bites, or a chilled drink to your Coldberry order.</p>
+        </div>
+        <div class="pizza-grid">
+          <!-- Savoury Wings / Waffle Bites -->
+          <article class="pizza-card">
+            <img
+              src="images/chicken-wings.jpg"
+              alt="Chicken Wings"
+              class="pizza-image"
+            />
+            <div class="pizza-info">
+              <h3>Chicken Wings</h3>
+              <p>
+                Six pieces of crispy, golden savory wings — the favourite hot
+                parlor side pairing with your chilled Coldberry scoops.
+              </p>
+              <div class="pizza-bottom">
+                <span class="price">From ₦4,700</span>
+                <div class="quantity-control" data-cart-item="Chicken Wings">
+                  <button type="button" data-cart-action="decrement" aria-label="Remove one Chicken Wings">−</button>
+                  <span data-cart-quantity aria-live="polite">0</span>
+                  <button type="button" data-cart-action="increment" aria-label="Add one Chicken Wings">+</button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Shawarma Roll -->
+          <article class="pizza-card">
+            <img
+              src="images/shawarma.jpg"
+              alt="Shawarma Roll"
+              class="pizza-image"
+            />
+
+            <div class="pizza-info">
+              <h3>Shawarma Roll</h3>
+
+              <p>
+                Warm, freshly toasted wrap packed with tender filling and
+                creamy parlor sauce — a delicious sweet-and-savoury companion.
+              </p>
+
+              <div class="pizza-bottom">
+                <span class="price">From ₦4,400</span>
+                <div class="quantity-control" data-cart-item="Shawarma Roll">
+                  <button type="button" data-cart-action="decrement" aria-label="Remove one Shawarma Roll">−</button>
+                  <span data-cart-quantity aria-live="polite">0</span>
+                  <button type="button" data-cart-action="increment" aria-label="Add one Shawarma Roll">+</button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="pizza-card">
+            <img
+              src="images/bottled-water.png"
+              alt="Eva bottled water"
+              class="pizza-image drink-image"
+              loading="lazy"
+            />
+            <div class="pizza-info">
+              <h3>Bottled Water</h3>
+              <p>75 cl chilled bottled water.</p>
+              <div class="pizza-bottom">
+                <span class="price">₦850</span>
+                <div class="quantity-control" data-cart-item="Bottled Water">
+                  <button type="button" data-cart-action="decrement" aria-label="Remove one Bottled Water">−</button>
+                  <span data-cart-quantity aria-live="polite">0</span>
+                  <button type="button" data-cart-action="increment" aria-label="Add one Bottled Water">+</button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="pizza-card">
+            <img
+              src="images/coca-cola.jpg"
+              alt="Coca-Cola soft drink"
+              class="pizza-image drink-image"
+              loading="lazy"
+            />
+            <div class="pizza-info">
+              <h3>Coca-Cola</h3>
+              <p>50 cl chilled Coca-Cola.</p>
+              <div class="pizza-bottom">
+                <span class="price">₦900</span>
+                <div class="quantity-control" data-cart-item="Coca-Cola">
+                  <button type="button" data-cart-action="decrement" aria-label="Remove one Coca-Cola">−</button>
+                  <span data-cart-quantity aria-live="polite">0</span>
+                  <button type="button" data-cart-action="increment" aria-label="Add one Coca-Cola">+</button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="pizza-card">
+            <img
+              src="images/coca-cola.jpg"
+              alt="Fanta soft drink"
+              class="pizza-image drink-image"
+              loading="lazy"
+            />
+            <div class="pizza-info">
+              <h3>Fanta</h3>
+              <p>50 cl chilled Fanta Orange.</p>
+              <div class="pizza-bottom">
+                <span class="price">₦900</span>
+                <div class="quantity-control" data-cart-item="Fanta">
+                  <button type="button" data-cart-action="decrement" aria-label="Remove one Fanta">−</button>
+                  <span data-cart-quantity aria-live="polite">0</span>
+                  <button type="button" data-cart-action="increment" aria-label="Add one Fanta">+</button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="pizza-card">
+            <img
+              src="images/schweppes-can.png"
+              alt="Monster Green energy drink"
+              class="pizza-image drink-image"
+              loading="lazy"
+            />
+            <div class="pizza-info">
+              <h3>Monster Green</h3>
+              <p>40 cl Monster energy drink.</p>
+              <div class="pizza-bottom">
+                <span class="price">₦1,500</span>
+                <div class="quantity-control" data-cart-item="Monster Green">
+                  <button type="button" data-cart-action="decrement" aria-label="Remove one Monster Green">−</button>
+                  <span data-cart-quantity aria-live="polite">0</span>
+                  <button type="button" data-cart-action="increment" aria-label="Add one Monster Green">+</button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="pizza-card">
+            <img
+              src="images/schweppes-can.png"
+              alt="Schweppes Chapman can"
+              class="pizza-image drink-image"
+              loading="lazy"
+            />
+            <div class="pizza-info">
+              <h3>Schweppes (Can)</h3>
+              <p>33 cl Schweppes can.</p>
+              <div class="pizza-bottom">
+                <span class="price">₦1,000</span>
+                <div class="quantity-control" data-cart-item="Schweppes (Can)">
+                  <button type="button" data-cart-action="decrement" aria-label="Remove one Schweppes can">−</button>
+                  <span data-cart-quantity aria-live="polite">0</span>
+                  <button type="button" data-cart-action="increment" aria-label="Add one Schweppes can">+</button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="pizza-card">
+            <img
+              src="images/schweppes-pet.png"
+              alt="Schweppes Chapman PET bottle"
+              class="pizza-image drink-image"
+              loading="lazy"
+            />
+            <div class="pizza-info">
+              <h3>Schweppes (PET)</h3>
+              <p>40 cl Schweppes Chapman PET bottle.</p>
+              <div class="pizza-bottom">
+                <span class="price">₦1,050</span>
+                <div class="quantity-control" data-cart-item="Schweppes (PET)">
+                  <button type="button" data-cart-action="decrement" aria-label="Remove one Schweppes PET">−</button>
+                  <span data-cart-quantity aria-live="polite">0</span>
+                  <button type="button" data-cart-action="increment" aria-label="Add one Schweppes PET">+</button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="pizza-card">
+            <img
+              src="images/coca-cola.jpg"
+              alt="Sprite soft drink"
+              class="pizza-image drink-image"
+              loading="lazy"
+            />
+            <div class="pizza-info">
+              <h3>Sprite</h3>
+              <p>50 cl chilled Sprite.</p>
+              <div class="pizza-bottom">
+                <span class="price">₦900</span>
+                <div class="quantity-control" data-cart-item="Sprite">
+                  <button type="button" data-cart-action="decrement" aria-label="Remove one Sprite">−</button>
+                  <span data-cart-quantity aria-live="polite">0</span>
+                  <button type="button" data-cart-action="increment" aria-label="Add one Sprite">+</button>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="menu-section deals-preview" id="pizza-deals">
+        <div class="section-heading">
+          <p class="section-label">SWEET COMBOS, GREAT VALUE</p>
+          <h2>Current Coldberry Deals</h2>
+          <p>Enjoy these popular ice cream combos, freshly crafted by Coldberry Ice Cream Nigeria.</p>
+        </div>
+
+        <div class="deals-container">
+          <!-- DEAL 1: The Festive Box -->
+          <article class="deal-card">
+            <div class="deal-image">
+              <img
+                src="images/coldberry-hero.jpg"
+                alt="Coldberry Ice Cream Festive Box Combo"
+                loading="lazy"
+              />
+            </div>
+            <div class="deal-details">
+              <p class="deal-category">FESTIVE SPECIAL</p>
+              <h3>The Festive Box</h3>
+              <p class="deal-description">
+                Any 2 Large Tubs (Classic or Signature), 6 pieces of sides
+                and 4 chilled Coca-Cola drinks.
+              </p>
+
+              <div class="deal-selector-group">
+                <label class="deal-select-label" for="menu-festive-pizza-1"><i class="fa-solid fa-ice-cream"></i> Choose Flavour 1:</label>
+                <div class="select-wrapper">
+                  <select class="deal-pizza-select" id="menu-festive-pizza-1" aria-label="Select Flavour 1 for The Festive Box">
+                    <optgroup label="Classic Creamery">
+                      <option value="Coldberry Vanilla Bean" selected>Coldberry Vanilla Bean (Classic)</option>
+                      <option value="Strawberry Bliss Swirl">Strawberry Bliss Swirl (Classic)</option>
+                      <option value="Belgian Chocolate Fudge">Belgian Chocolate Fudge (Classic)</option>
+                      <option value="BlueMoon Berry Cream">BlueMoon Berry Cream (Classic)</option>
+                      <option value="Caramel Popcorn Crunch">Caramel Popcorn Crunch (Classic)</option>
+                    </optgroup>
+                    <optgroup label="Signature Creations">
+                      <option value="Coldberry Delight">Coldberry Delight (Signature)</option>
+                      <option value="Oreo &amp; Strawberry Roll">Oreo &amp; Strawberry Roll (Signature)</option>
+                      <option value="Rainbow Berry Rolls">Rainbow Berry Rolls (Signature)</option>
+                      <option value="Caramel Swirl Sundae">Caramel Swirl Sundae (Signature)</option>
+                    </optgroup>
+                  </select>
+                  <i class="fa-solid fa-chevron-down select-arrow" aria-hidden="true"></i>
+                </div>
+              </div>
+
+              <div class="deal-selector-group">
+                <label class="deal-select-label" for="menu-festive-pizza-2"><i class="fa-solid fa-ice-cream"></i> Choose Flavour 2:</label>
+                <div class="select-wrapper">
+                  <select class="deal-pizza-select" id="menu-festive-pizza-2" aria-label="Select Flavour 2 for The Festive Box">
+                    <optgroup label="Classic Creamery">
+                      <option value="Coldberry Vanilla Bean">Coldberry Vanilla Bean (Classic)</option>
+                      <option value="Strawberry Bliss Swirl" selected>Strawberry Bliss Swirl (Classic)</option>
+                      <option value="Belgian Chocolate Fudge">Belgian Chocolate Fudge (Classic)</option>
+                      <option value="BlueMoon Berry Cream">BlueMoon Berry Cream (Classic)</option>
+                      <option value="Caramel Popcorn Crunch">Caramel Popcorn Crunch (Classic)</option>
+                    </optgroup>
+                    <optgroup label="Signature Creations">
+                      <option value="Coldberry Delight">Coldberry Delight (Signature)</option>
+                      <option value="Oreo &amp; Strawberry Roll">Oreo &amp; Strawberry Roll (Signature)</option>
+                      <option value="Rainbow Berry Rolls">Rainbow Berry Rolls (Signature)</option>
+                      <option value="Caramel Swirl Sundae">Caramel Swirl Sundae (Signature)</option>
+                    </optgroup>
+                  </select>
+                  <i class="fa-solid fa-chevron-down select-arrow" aria-hidden="true"></i>
+                </div>
+              </div>
+
+              <div class="deal-combo-badge">Selected: Coldberry Vanilla Bean + Strawberry Bliss Swirl</div>
+
+              <p class="deal-price">₦28,000</p>
+              <div class="quantity-control" data-cart-item="The Festive Box (Coldberry Vanilla Bean + Strawberry Bliss Swirl)">
+                <button type="button" data-cart-action="decrement" aria-label="Remove one The Festive Box">−</button>
+                <span data-cart-quantity aria-live="polite">0</span>
+                <button type="button" data-cart-action="increment" aria-label="Add one The Festive Box">+</button>
+              </div>
+
+              <details class="related-pizzas-details">
+                <summary class="related-pizzas-summary">
+                  <span class="summary-title"><i class="fa-solid fa-layer-group"></i> View Eligible Flavours</span>
+                  <i class="fa-solid fa-chevron-down summary-icon" aria-hidden="true"></i>
+                </summary>
+                <div class="related-pizzas-panel">
+                  <p class="related-category-intro">Eligible Large tubs from Classic &amp; Signature categories:</p>
+                  <ul class="related-pizzas-list">
+                    <li class="related-pizza-row">
+                      <img src="images/coldberry-scoop.jpg" alt="Coldberry Vanilla Bean" class="related-pizza-thumb" loading="lazy" />
+                      <div class="related-pizza-meta">
+                        <strong>Coldberry Vanilla Bean</strong>
+                        <span class="related-category-pill pill-traditional">Classic</span>
+                        <div class="related-size-pricing">
+                          <span class="size-price-tag">Lrg: ₦14,150</span>
+                        </div>
+                      </div>
+                      <button type="button" class="related-select-btn" data-target-select="0" data-pizza="Coldberry Vanilla Bean" aria-label="Select Coldberry Vanilla Bean as Pizza 1">Pizza 1</button>
+                      <button type="button" class="related-select-btn" data-target-select="1" data-pizza="Coldberry Vanilla Bean" aria-label="Select Coldberry Vanilla Bean as Pizza 2">Pizza 2</button>
+                    </li>
+                    <li class="related-pizza-row">
+                      <img src="images/coldberry-scoop.jpg" alt="Strawberry Bliss Swirl" class="related-pizza-thumb" loading="lazy" />
+                      <div class="related-pizza-meta">
+                        <strong>Strawberry Bliss Swirl</strong>
+                        <span class="related-category-pill pill-traditional">Classic</span>
+                        <div class="related-size-pricing">
+                          <span class="size-price-tag">Lrg: ₦14,150</span>
+                        </div>
+                      </div>
+                      <button type="button" class="related-select-btn" data-target-select="0" data-pizza="Strawberry Bliss Swirl" aria-label="Select Strawberry Bliss Swirl as Pizza 1">Pizza 1</button>
+                      <button type="button" class="related-select-btn" data-target-select="1" data-pizza="Strawberry Bliss Swirl" aria-label="Select Strawberry Bliss Swirl as Pizza 2">Pizza 2</button>
+                    </li>
+                    <li class="related-pizza-row">
+                      <img src="images/coldberry-hero.jpg" alt="Coldberry Delight" class="related-pizza-thumb" loading="lazy" />
+                      <div class="related-pizza-meta">
+                        <strong>Coldberry Delight</strong>
+                        <span class="related-category-pill pill-special">Signature</span>
+                        <div class="related-size-pricing">
+                          <span class="size-price-tag">Lrg: ₦14,800</span>
+                        </div>
+                      </div>
+                      <button type="button" class="related-select-btn" data-target-select="0" data-pizza="Coldberry Delight" aria-label="Select Coldberry Delight as Pizza 1">Pizza 1</button>
+                      <button type="button" class="related-select-btn" data-target-select="1" data-pizza="Coldberry Delight" aria-label="Select Coldberry Delight as Pizza 2">Pizza 2</button>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+          </article>
+
+          <!-- DEAL 2: Champion Feast -->
+          <article class="deal-card">
+            <div class="deal-image">
+              <img
+                src="images/coldberry-scoop.jpg"
+                alt="Coldberry Ice Cream Champion Feast Combo"
+                loading="lazy"
+              />
+            </div>
+            <div class="deal-details">
+              <p class="deal-category">CHAMPION SPECIAL</p>
+              <h3>Champion Feast</h3>
+              <p class="deal-description">
+                1 Champion 2L Party Tub, 6 pieces of sides and 4 chilled Coca-Cola drinks.
+              </p>
+
+              <div class="deal-selector-group">
+                <label class="deal-select-label" for="menu-champion-pizza-select"><i class="fa-solid fa-crown"></i> Choose Champion Tub:</label>
+                <div class="select-wrapper">
+                  <select class="deal-pizza-select" id="menu-champion-pizza-select" aria-label="Select Champion Tub">
+                    <optgroup label="Exclusive &amp; Champion Category">
+                      <option value="Chocolate Romance Supreme" selected>Chocolate Romance Supreme (Exclusive)</option>
+                      <option value="Coldberry Nineoverloaded Tub">Coldberry Nineoverloaded Tub (Overloaded)</option>
+                      <option value="Cheesecake Fantasy Crunch">Cheesecake Fantasy Crunch (Exclusive)</option>
+                      <option value="Fresh Cream &amp; Berry Classic">Fresh Cream &amp; Berry Classic (Exclusive)</option>
+                    </optgroup>
+                    <optgroup label="Signature Category">
+                      <option value="Coldberry Delight">Coldberry Delight (Signature)</option>
+                      <option value="Oreo &amp; Strawberry Roll">Oreo &amp; Strawberry Roll (Signature)</option>
+                      <option value="Rainbow Berry Rolls">Rainbow Berry Rolls (Signature)</option>
+                    </optgroup>
+                  </select>
+                  <i class="fa-solid fa-chevron-down select-arrow" aria-hidden="true"></i>
+                </div>
+              </div>
+
+              <div class="deal-combo-badge">Selected: Chocolate Romance Supreme</div>
+
+              <p class="deal-price">₦26,500</p>
+              <div class="quantity-control" data-cart-item="Champion Feast (Chocolate Romance Supreme)">
+                <button type="button" data-cart-action="decrement" aria-label="Remove one Champion Feast">−</button>
+                <span data-cart-quantity aria-live="polite">0</span>
+                <button type="button" data-cart-action="increment" aria-label="Add one Champion Feast">+</button>
+              </div>
+
+              <details class="related-pizzas-details">
+                <summary class="related-pizzas-summary">
+                  <span class="summary-title"><i class="fa-solid fa-crown"></i> View Eligible Flavours</span>
+                  <i class="fa-solid fa-chevron-down summary-icon" aria-hidden="true"></i>
+                </summary>
+                <div class="related-pizzas-panel">
+                  <p class="related-category-intro">Eligible Champion category tubs:</p>
+                  <ul class="related-pizzas-list">
+                    <li class="related-pizza-row">
+                      <img src="images/coldberry-scoop.jpg" alt="Chocolate Romance Supreme" class="related-pizza-thumb" loading="lazy" />
+                      <div class="related-pizza-meta">
+                        <strong>Chocolate Romance Supreme</strong>
+                        <span class="related-category-pill pill-exclusive">Exclusive</span>
+                        <div class="related-size-pricing">
+                          <span class="size-price-tag champion">Champion: ₦23,500</span>
+                        </div>
+                      </div>
+                      <button type="button" class="related-select-btn" data-target-select="0" data-pizza="Chocolate Romance Supreme">Select</button>
+                    </li>
+                    <li class="related-pizza-row">
+                      <img src="images/coldberry-hero.jpg" alt="Coldberry Nineoverloaded Tub" class="related-pizza-thumb" loading="lazy" />
+                      <div class="related-pizza-meta">
+                        <strong>Coldberry Nineoverloaded Tub</strong>
+                        <span class="related-category-pill pill-exclusive">Overloaded</span>
+                        <div class="related-size-pricing">
+                          <span class="size-price-tag champion">Champion: ₦25,000</span>
+                        </div>
+                      </div>
+                      <button type="button" class="related-select-btn" data-target-select="0" data-pizza="Coldberry Nineoverloaded Tub">Select</button>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+          </article>
+
+          <!-- DEAL 3: Mid Lover Deal -->
+          <article class="deal-card">
+            <div class="deal-image">
+              <img
+                src="images/coldberry-scoop.jpg"
+                alt="Coldberry Ice Cream Mid Lover Deal"
+                loading="lazy"
+              />
+            </div>
+            <div class="deal-details">
+              <p class="deal-category">PERFECT FOR SHARING</p>
+              <h3>Mid Lover Deal</h3>
+              <p class="deal-description">
+                Any Medium Classic Creamery Tub, 6 pieces of sides and 1 chilled Coca-Cola
+                drink.
+              </p>
+
+              <div class="deal-selector-group">
+                <label class="deal-select-label" for="menu-midlover-pizza-select"><i class="fa-solid fa-heart"></i> Choose Classic Flavour:</label>
+                <div class="select-wrapper">
+                  <select class="deal-pizza-select" id="menu-midlover-pizza-select" aria-label="Select Flavour for Mid Lover Deal">
+                    <optgroup label="Classic Creamery">
+                      <option value="Coldberry Vanilla Bean" selected>Coldberry Vanilla Bean (Classic)</option>
+                      <option value="Strawberry Bliss Swirl">Strawberry Bliss Swirl (Classic)</option>
+                      <option value="Belgian Chocolate Fudge">Belgian Chocolate Fudge (Classic)</option>
+                      <option value="BlueMoon Berry Cream">BlueMoon Berry Cream (Classic)</option>
+                      <option value="Caramel Popcorn Crunch">Caramel Popcorn Crunch (Classic)</option>
+                    </optgroup>
+                  </select>
+                  <i class="fa-solid fa-chevron-down select-arrow" aria-hidden="true"></i>
+                </div>
+              </div>
+
+              <div class="deal-combo-badge">Selected: Coldberry Vanilla Bean</div>
+
+              <p class="deal-price">₦14,500</p>
+              <div class="quantity-control" data-cart-item="Mid Lover Deal (Coldberry Vanilla Bean)">
+                <button type="button" data-cart-action="decrement" aria-label="Remove one Mid Lover Deal">−</button>
+                <span data-cart-quantity aria-live="polite">0</span>
+                <button type="button" data-cart-action="increment" aria-label="Add one Mid Lover Deal">+</button>
+              </div>
+
+              <details class="related-pizzas-details">
+                <summary class="related-pizzas-summary">
+                  <span class="summary-title"><i class="fa-solid fa-list-check"></i> View Eligible Flavours</span>
+                  <i class="fa-solid fa-chevron-down summary-icon" aria-hidden="true"></i>
+                </summary>
+                <div class="related-pizzas-panel">
+                  <p class="related-category-intro">Available Medium tubs for this deal:</p>
+                  <ul class="related-pizzas-list">
+                    <li class="related-pizza-row">
+                      <img src="images/coldberry-scoop.jpg" alt="Coldberry Vanilla Bean" class="related-pizza-thumb" loading="lazy" />
+                      <div class="related-pizza-meta">
+                        <strong>Coldberry Vanilla Bean</strong>
+                        <span class="related-category-pill pill-traditional">Classic</span>
+                        <div class="related-size-pricing">
+                          <span class="size-price-tag">Med: ₦11,200</span>
+                        </div>
+                      </div>
+                      <button type="button" class="related-select-btn" data-target-select="0" data-pizza="Coldberry Vanilla Bean">Select</button>
+                    </li>
+                    <li class="related-pizza-row">
+                      <img src="images/coldberry-scoop.jpg" alt="Strawberry Bliss Swirl" class="related-pizza-thumb" loading="lazy" />
+                      <div class="related-pizza-meta">
+                        <strong>Strawberry Bliss Swirl</strong>
+                        <span class="related-category-pill pill-traditional">Classic</span>
+                        <div class="related-size-pricing">
+                          <span class="size-price-tag">Med: ₦11,200</span>
+                        </div>
+                      </div>
+                      <button type="button" class="related-select-btn" data-target-select="0" data-pizza="Strawberry Bliss Swirl">Select</button>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+          </article>
+
+          <!-- DEAL 4: Mega Family Combo -->
+          <article class="deal-card">
+            <div class="deal-image">
+              <img
+                src="images/coldberry-hero.jpg"
+                alt="Coldberry Ice Cream Mega Family Combo"
+                loading="lazy"
+              />
+            </div>
+            <div class="deal-details">
+              <p class="deal-category">FAMILY SPECIAL</p>
+              <h3>Mega Family Combo</h3>
+              <p class="deal-description">
+                Any 2 Large Tubs (Classic or Exclusive), 1 Warm Roll and 2 Chilled Drinks.
+              </p>
+
+              <div class="deal-selector-group">
+                <label class="deal-select-label" for="menu-family-pizza-1"><i class="fa-solid fa-people-roof"></i> Choose Flavour 1:</label>
+                <div class="select-wrapper">
+                  <select class="deal-pizza-select" id="menu-family-pizza-1" aria-label="Select Flavour 1 for Mega Family Combo">
+                    <optgroup label="Classic Creamery">
+                      <option value="Coldberry Vanilla Bean" selected>Coldberry Vanilla Bean (Classic)</option>
+                      <option value="Strawberry Bliss Swirl">Strawberry Bliss Swirl (Classic)</option>
+                      <option value="Belgian Chocolate Fudge">Belgian Chocolate Fudge (Classic)</option>
+                    </optgroup>
+                    <optgroup label="Exclusive Tubs">
+                      <option value="Chocolate Romance Supreme">Chocolate Romance Supreme (Exclusive)</option>
+                      <option value="Coldberry Nineoverloaded Tub">Coldberry Nineoverloaded Tub (Overloaded)</option>
+                      <option value="Cheesecake Fantasy Crunch">Cheesecake Fantasy Crunch (Exclusive)</option>
+                    </optgroup>
+                  </select>
+                  <i class="fa-solid fa-chevron-down select-arrow" aria-hidden="true"></i>
+                </div>
+              </div>
+
+              <div class="deal-selector-group">
+                <label class="deal-select-label" for="menu-family-pizza-2"><i class="fa-solid fa-people-roof"></i> Choose Flavour 2:</label>
+                <div class="select-wrapper">
+                  <select class="deal-pizza-select" id="menu-family-pizza-2" aria-label="Select Flavour 2 for Mega Family Combo">
+                    <optgroup label="Classic Creamery">
+                      <option value="Coldberry Vanilla Bean">Coldberry Vanilla Bean (Classic)</option>
+                      <option value="Strawberry Bliss Swirl">Strawberry Bliss Swirl (Classic)</option>
+                      <option value="Belgian Chocolate Fudge">Belgian Chocolate Fudge (Classic)</option>
+                    </optgroup>
+                    <optgroup label="Exclusive Tubs">
+                      <option value="Chocolate Romance Supreme" selected>Chocolate Romance Supreme (Exclusive)</option>
+                      <option value="Coldberry Nineoverloaded Tub">Coldberry Nineoverloaded Tub (Overloaded)</option>
+                      <option value="Cheesecake Fantasy Crunch">Cheesecake Fantasy Crunch (Exclusive)</option>
+                    </optgroup>
+                  </select>
+                  <i class="fa-solid fa-chevron-down select-arrow" aria-hidden="true"></i>
+                </div>
+              </div>
+
+              <div class="deal-combo-badge">Selected: Coldberry Vanilla Bean + Chocolate Romance Supreme</div>
+
+              <p class="deal-price">₦32,000</p>
+              <div class="quantity-control" data-cart-item="Mega Family Combo (Coldberry Vanilla Bean + Chocolate Romance Supreme)">
+                <button type="button" data-cart-action="decrement" aria-label="Remove one Mega Family Combo">−</button>
+                <span data-cart-quantity aria-live="polite">0</span>
+                <button type="button" data-cart-action="increment" aria-label="Add one Mega Family Combo">+</button>
+              </div>
+
+              <details class="related-pizzas-details">
+                <summary class="related-pizzas-summary">
+                  <span class="summary-title"><i class="fa-solid fa-layer-group"></i> View Eligible Flavours</span>
+                  <i class="fa-solid fa-chevron-down summary-icon" aria-hidden="true"></i>
+                </summary>
+                <div class="related-pizzas-panel">
+                  <p class="related-category-intro">Available Large tubs for the Family Combo:</p>
+                  <ul class="related-pizzas-list">
+                    <li class="related-pizza-row">
+                      <img src="images/coldberry-scoop.jpg" alt="Coldberry Vanilla Bean" class="related-pizza-thumb" loading="lazy" />
+                      <div class="related-pizza-meta">
+                        <strong>Coldberry Vanilla Bean</strong>
+                        <span class="related-category-pill pill-traditional">Classic</span>
+                        <div class="related-size-pricing">
+                          <span class="size-price-tag">Lrg: ₦14,150</span>
+                        </div>
+                      </div>
+                      <button type="button" class="related-select-btn" data-target-select="0" data-pizza="Coldberry Vanilla Bean" aria-label="Select Coldberry Vanilla Bean as Pizza 1">Pizza 1</button>
+                      <button type="button" class="related-select-btn" data-target-select="1" data-pizza="Coldberry Vanilla Bean" aria-label="Select Coldberry Vanilla Bean as Pizza 2">Pizza 2</button>
+                    </li>
+                    <li class="related-pizza-row">
+                      <img src="images/coldberry-scoop.jpg" alt="Chocolate Romance Supreme" class="related-pizza-thumb" loading="lazy" />
+                      <div class="related-pizza-meta">
+                        <strong>Chocolate Romance Supreme</strong>
+                        <span class="related-category-pill pill-exclusive">Exclusive</span>
+                        <div class="related-size-pricing">
+                          <span class="size-price-tag">Lrg: ₦15,000</span>
+                        </div>
+                      </div>
+                      <button type="button" class="related-select-btn" data-target-select="0" data-pizza="Chocolate Romance Supreme" aria-label="Select Chocolate Romance Supreme as Pizza 1">Pizza 1</button>
+                      <button type="button" class="related-select-btn" data-target-select="1" data-pizza="Chocolate Romance Supreme" aria-label="Select Chocolate Romance Supreme as Pizza 2">Pizza 2</button>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+          </article>
+
+          <!-- DEAL 5: Double Delight Treat -->
+          <article class="deal-card">
+            <div class="deal-image">
+              <img
+                src="images/coldberry-scoop.jpg"
+                alt="Coldberry Ice Cream Double Delight Treat"
+                loading="lazy"
+              />
+            </div>
+            <div class="deal-details">
+              <p class="deal-category">DUO SPECIAL</p>
+              <h3>Double Delight Treat</h3>
+              <p class="deal-description">
+                Any 2 Medium Tubs (Classic or Signature) with 2 Chilled Coca-Cola drinks.
+              </p>
+
+              <div class="deal-selector-group">
+                <label class="deal-select-label" for="menu-duo-pizza-1"><i class="fa-solid fa-user-group"></i> Choose Flavour 1:</label>
+                <div class="select-wrapper">
+                  <select class="deal-pizza-select" id="menu-duo-pizza-1" aria-label="Select Flavour 1 for Double Delight Treat">
+                    <optgroup label="Classic Creamery">
+                      <option value="Strawberry Bliss Swirl" selected>Strawberry Bliss Swirl (Classic)</option>
+                      <option value="Coldberry Vanilla Bean">Coldberry Vanilla Bean (Classic)</option>
+                      <option value="Belgian Chocolate Fudge">Belgian Chocolate Fudge (Classic)</option>
+                    </optgroup>
+                    <optgroup label="Signature Creations">
+                      <option value="Coldberry Delight">Coldberry Delight (Signature)</option>
+                      <option value="Oreo &amp; Strawberry Roll">Oreo &amp; Strawberry Roll (Signature)</option>
+                    </optgroup>
+                  </select>
+                  <i class="fa-solid fa-chevron-down select-arrow" aria-hidden="true"></i>
+                </div>
+              </div>
+
+              <div class="deal-selector-group">
+                <label class="deal-select-label" for="menu-duo-pizza-2"><i class="fa-solid fa-user-group"></i> Choose Flavour 2:</label>
+                <div class="select-wrapper">
+                  <select class="deal-pizza-select" id="menu-duo-pizza-2" aria-label="Select Flavour 2 for Double Delight Treat">
+                    <optgroup label="Classic Creamery">
+                      <option value="Strawberry Bliss Swirl">Strawberry Bliss Swirl (Classic)</option>
+                      <option value="Coldberry Vanilla Bean">Coldberry Vanilla Bean (Classic)</option>
+                      <option value="Belgian Chocolate Fudge">Belgian Chocolate Fudge (Classic)</option>
+                    </optgroup>
+                    <optgroup label="Signature Creations">
+                      <option value="Coldberry Delight" selected>Coldberry Delight (Signature)</option>
+                      <option value="Oreo &amp; Strawberry Roll">Oreo &amp; Strawberry Roll (Signature)</option>
+                    </optgroup>
+                  </select>
+                  <i class="fa-solid fa-chevron-down select-arrow" aria-hidden="true"></i>
+                </div>
+              </div>
+
+              <div class="deal-combo-badge">Selected: Strawberry Bliss Swirl + Coldberry Delight</div>
+
+              <p class="deal-price">₦21,000</p>
+              <div class="quantity-control" data-cart-item="Double Delight Treat (Strawberry Bliss Swirl + Coldberry Delight)">
+                <button type="button" data-cart-action="decrement" aria-label="Remove one Double Delight Treat">−</button>
+                <span data-cart-quantity aria-live="polite">0</span>
+                <button type="button" data-cart-action="increment" aria-label="Add one Double Delight Treat">+</button>
+              </div>
+
+              <details class="related-pizzas-details">
+                <summary class="related-pizzas-summary">
+                  <span class="summary-title"><i class="fa-solid fa-layer-group"></i> View Eligible Flavours</span>
+                  <i class="fa-solid fa-chevron-down summary-icon" aria-hidden="true"></i>
+                </summary>
+                <div class="related-pizzas-panel">
+                  <p class="related-category-intro">Available Medium tubs for the Duo Deal:</p>
+                  <ul class="related-pizzas-list">
+                    <li class="related-pizza-row">
+                      <img src="images/coldberry-scoop.jpg" alt="Strawberry Bliss Swirl" class="related-pizza-thumb" loading="lazy" />
+                      <div class="related-pizza-meta">
+                        <strong>Strawberry Bliss Swirl</strong>
+                        <span class="related-category-pill pill-traditional">Classic</span>
+                        <div class="related-size-pricing">
+                          <span class="size-price-tag">Med: ₦11,200</span>
+                        </div>
+                      </div>
+                      <button type="button" class="related-select-btn" data-target-select="0" data-pizza="Strawberry Bliss Swirl" aria-label="Select Strawberry Bliss Swirl as Pizza 1">Pizza 1</button>
+                      <button type="button" class="related-select-btn" data-target-select="1" data-pizza="Strawberry Bliss Swirl" aria-label="Select Strawberry Bliss Swirl as Pizza 2">Pizza 2</button>
+                    </li>
+                    <li class="related-pizza-row">
+                      <img src="images/coldberry-hero.jpg" alt="Coldberry Delight" class="related-pizza-thumb" loading="lazy" />
+                      <div class="related-pizza-meta">
+                        <strong>Coldberry Delight</strong>
+                        <span class="related-category-pill pill-special">Signature</span>
+                        <div class="related-size-pricing">
+                          <span class="size-price-tag">Med: ₦12,200</span>
+                        </div>
+                      </div>
+                      <button type="button" class="related-select-btn" data-target-select="0" data-pizza="Coldberry Delight" aria-label="Select Coldberry Delight as Pizza 1">Pizza 1</button>
+                      <button type="button" class="related-select-btn" data-target-select="1" data-pizza="Coldberry Delight" aria-label="Select Coldberry Delight as Pizza 2">Pizza 2</button>
+                    </li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+          </article>
+        </div>
+
+        <div class="deals-preview-link">
+          <a href="pizzadeals.html" class="menu-button">VIEW ALL DEALS</a>
+        </div>
+      </section>
+    </main>
+
+    <aside class="menu-cart" aria-label="Shopping cart">
+      <span><strong id="cart-count">0</strong> <span id="cart-count-label">items in your cart</span></span>
+      <a href="order.html#cart-heading">View cart and order</a>
+    </aside>
+
+    <!-- Footer navigation provides another route home and to menu sections. -->
+    <footer class="footer">
+      <div class="footer-content">
+        <img
+          src="images/coldberry-logo.png"
+          alt="Coldberry Ice Cream Logo"
+          class="footer-logo"
+        />
+
+        <p class="footer-motto">Scoops of Pure Happiness</p>
+
+        <nav class="footer-nav">
+          <a href="index.html">Home</a>
+          <a href="#pizza-menu">Ice Cream Menu</a>
+          <a href="pizzadeals.html">Coldberry Deals</a>
+          <a href="order.html">Order</a>
+          <a href="track.html">Track</a>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms &amp; Conditions</a>
+        </nav>
+        <p class="footer-text">&copy; 2026 Coldberry Ice Cream Nigeria. All rights reserved.</p>
+      </div>
+    </footer>
+  </body>
+</html>

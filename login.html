@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#5C1A2B" />
+    <title>Sign In or Create Account | Coldberry Ice Cream Nigeria</title>
+    <link rel="icon" href="images/coldberry-favicon.png" />
+    <link rel="stylesheet" href="peter890.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    <script src="js/cart.js" defer></script>
+    <script src="js/site.js" defer></script>
+    <script src="js/phone-region-accordion.js" defer></script>
+    <script src="js/auth-ui.js" defer></script>
+    <script src="js/feedback-bubble.js" defer></script>
+    <style>
+      .login-shell {
+        max-width: 500px;
+        margin: 2.5rem auto 4rem;
+        padding: 1.75rem;
+        border-radius: 18px;
+        border: 1px solid rgba(92, 26, 43, 0.16);
+        background: var(--surface, #ffffff);
+        box-shadow: 0 14px 36px rgba(0, 0, 0, 0.08);
+      }
+      :root[data-theme="dark"] .login-shell {
+        background: #20171d;
+        border-color: rgba(255, 255, 255, 0.12);
+      }
+      .auth-tabs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+        margin-bottom: 1.25rem;
+        background: rgba(128, 128, 128, 0.1);
+        padding: 0.3rem;
+        border-radius: 12px;
+      }
+      .auth-tab-btn {
+        border: 0;
+        background: transparent;
+        color: inherit;
+        padding: 0.65rem;
+        border-radius: 9px;
+        font-weight: 800;
+        cursor: pointer;
+      }
+      .auth-tab-btn[aria-selected="true"] {
+        background: #db2777;
+        color: #fff;
+      }
+      .form-row { margin-bottom: 0.95rem; }
+      .form-row label { display: block; font-weight: 700; font-size: 0.88rem; margin-bottom: 0.35rem; }
+      .form-row input, .form-row select {
+        width: 100%;
+        padding: 0.72rem 0.85rem;
+        border-radius: 10px;
+        border: 1px solid rgba(128, 128, 128, 0.32);
+        background: transparent;
+        color: inherit;
+        font-size: 16px;
+        box-sizing: border-box;
+      }
+      .icon-picker-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.5rem;
+        margin-top: 0.35rem;
+      }
+      .icon-pick-btn {
+        border: 1px solid rgba(128, 128, 128, 0.3);
+        border-radius: 10px;
+        background: transparent;
+        color: inherit;
+        padding: 0.55rem 0.25rem;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.2rem;
+        font-size: 0.72rem;
+        font-weight: 600;
+      }
+      .icon-pick-btn[aria-pressed="true"] {
+        border-color: #ff5733;
+        background: rgba(255, 87, 51, 0.15);
+      }
+      .auth-submit-btn {
+        width: 100%;
+        padding: 0.85rem;
+        border-radius: 12px;
+        border: 0;
+        background: #db2777;
+        color: #fff;
+        font-weight: 800;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.15s ease;
+      }
+      .auth-submit-btn:hover { background: #be185d; }
+      .auth-msg { font-size: 0.88rem; margin: 0.65rem 0; font-weight: 700; color: #dc3545; }
+      .auth-msg.ok { color: #198754; }
+      .region-acc-group {
+        border: 1px solid rgba(128, 128, 128, 0.22);
+        border-radius: 9px;
+        margin-bottom: 0.35rem;
+        overflow: hidden;
+      }
+      .region-acc-summary {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.5rem 0.7rem;
+        font-weight: 800;
+        font-size: 0.85rem;
+        cursor: pointer;
+        background: rgba(128, 128, 128, 0.08);
+      }
+      .region-acc-summary::-webkit-details-marker { display: none; }
+      .region-acc-group[open] .region-acc-arrow { transform: rotate(180deg); }
+      .region-acc-arrow { transition: transform 0.2s ease; }
+      .region-acc-body { padding: 0.3rem; display: grid; gap: 0.15rem; }
+      .country-acc-item {
+        width: 100%;
+        text-align: left;
+        padding: 0.5rem 0.65rem;
+        border: 0;
+        border-radius: 8px;
+        background: transparent;
+        color: inherit;
+        font-size: 0.88rem;
+        cursor: pointer;
+      }
+      .country-acc-item:hover, .country-acc-item[aria-selected="true"] {
+        background: rgba(219, 39, 119, 0.14);
+        font-weight: 700;
+      }
+      :root[data-theme="dark"] #reg-country-accordion { background: #181116; }
+      [hidden] { display: none !important; }
+    </style>
+  </head>
+  <body>
+    <header class="nav-bar" id="home">
+      <div>
+        <a href="index.html" aria-label="Coldberry Ice Cream home">
+          <img
+            src="images/coldberry-logo.png"
+            alt="Coldberry Ice Cream Logo"
+            class="logo"
+          />
+        </a>
+      </div>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="890b.html">Menu</a>
+        <a href="pizzadeals.html">Deals</a>
+        <a href="order.html">Order</a>
+        <a href="track.html">Track</a>
+      </nav>
+      <a href="order.html#cart-heading" class="nav-cart-link" id="nav-cart-link" aria-label="Shopping cart (0 items)" title="View your shopping cart">
+        <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
+        <span class="nav-cart-badge" id="cart-count" data-nav-cart-count aria-live="polite">0</span>
+      </a>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme" aria-pressed="false"><i class="fa-solid fa-moon" aria-hidden="true"></i></button>
+    </header>
+
+    <main style="padding: 0 1rem;">
+      <section class="login-shell" aria-labelledby="account-heading">
+        <h1 id="account-heading" style="margin: 0 0 0.35rem; font-size: 1.5rem; text-align: center;">Coldberry Ice Cream Account</h1>
+        <p style="margin: 0 0 1.25rem; text-align: center; font-size: 0.9rem; opacity: 0.8;">
+          Pick your profile icon, save delivery details, track orders, and see refund notifications.
+        </p>
+
+        <div class="auth-tabs" role="tablist">
+          <button type="button" class="auth-tab-btn" id="tab-signin" role="tab" aria-selected="true">Sign In</button>
+          <button type="button" class="auth-tab-btn" id="tab-register" role="tab" aria-selected="false">Create Account</button>
+        </div>
+
+        <!-- Sign In Form -->
+        <form id="signin-form" novalidate>
+          <div class="form-row">
+            <label for="signin-username">Username</label>
+            <input id="signin-username" name="username" type="text" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="e.g. coldberry_lover" required />
+          </div>
+          <div class="form-row">
+            <label for="signin-password">Password</label>
+            <input id="signin-password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required />
+          </div>
+          <p id="signin-msg" class="auth-msg" role="alert" hidden></p>
+          <p style="font-size:0.8rem;opacity:0.78;margin:0 0 0.85rem;">
+            By signing in, you agree to our <a href="terms.html" style="color:#ff5733;">Terms &amp; Conditions</a> and <a href="privacy.html" style="color:#ff5733;">Privacy Policy</a>.
+          </p>
+          <button type="submit" class="auth-submit-btn">Sign In</button>
+        </form>
+
+        <!-- Register Form -->
+        <form id="register-form" novalidate hidden>
+          <div class="form-row">
+            <label>Choose Your Profile Icon</label>
+            <div class="icon-picker-grid" id="reg-icon-picker">
+              <button type="button" class="icon-pick-btn" data-icon="pizza" aria-pressed="true"><span style="font-size:1.4rem;">🍦</span><span>Scoop</span></button>
+              <button type="button" class="icon-pick-btn" data-icon="crown" aria-pressed="false"><span style="font-size:1.4rem;">👑</span><span>VIP</span></button>
+              <button type="button" class="icon-pick-btn" data-icon="fire" aria-pressed="false"><span style="font-size:1.4rem;">🍓</span><span>Berry</span></button>
+              <button type="button" class="icon-pick-btn" data-icon="rocket" aria-pressed="false"><span style="font-size:1.4rem;">🚀</span><span>Express</span></button>
+              <button type="button" class="icon-pick-btn" data-icon="cool" aria-pressed="false"><span style="font-size:1.4rem;">😎</span><span>Chill</span></button>
+              <button type="button" class="icon-pick-btn" data-icon="star" aria-pressed="false"><span style="font-size:1.4rem;">🌟</span><span>Star</span></button>
+              <button type="button" class="icon-pick-btn" data-icon="rider" aria-pressed="false"><span style="font-size:1.4rem;">🛵</span><span>Rider</span></button>
+              <button type="button" class="icon-pick-btn" data-icon="heart" aria-pressed="false"><span style="font-size:1.4rem;">❤️</span><span>Swirl</span></button>
+            </div>
+          </div>
+          <div class="form-row">
+            <label for="reg-username">Username (3–24 letters, numbers, _ or .)</label>
+            <input id="reg-username" type="text" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="e.g. john_abuja" required />
+          </div>
+          <div class="form-row">
+            <label for="reg-password">Password (minimum 8 characters)</label>
+            <input id="reg-password" type="password" autocomplete="new-password" minlength="8" placeholder="At least 8 characters" required />
+          </div>
+          <div class="form-row">
+            <label for="reg-fullname">Full Name</label>
+            <input id="reg-fullname" type="text" autocomplete="name" placeholder="Your full name" required />
+          </div>
+          <div class="form-row">
+            <label for="reg-email">Email Address</label>
+            <input id="reg-email" type="email" autocomplete="email" placeholder="you@example.com" required />
+          </div>
+          <div class="form-row">
+            <label for="reg-phone">Phone Number (Pick Your Region &amp; Code)</label>
+            <input id="reg-phone" type="tel" autocomplete="tel-national" placeholder="8012345678" required />
+          </div>
+<div class="form-row">
+            <label for="reg-location">Default Branch (Optional)</label>
+            <select id="reg-location">
+              <option value="">Select preferred branch (optional)</option>
+              <option value="Garki, Abuja">Garki, Abuja</option>
+              <option value="Lugbe, Abuja">Lugbe, Abuja</option>
+              <option value="Yaba, Lagos">Yaba, Lagos</option>
+              <option value="Surulere, Lagos">Surulere, Lagos</option>
+              <option value="Okota, Lagos">Okota, Lagos</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="reg-address">Default Delivery Address (Optional)</label>
+            <input id="reg-address" type="text" autocomplete="street-address" placeholder="Street &amp; landmark" />
+          </div>
+          <div class="form-row" style="display:flex;align-items:flex-start;gap:0.55rem;">
+            <input id="reg-consent" type="checkbox" style="width:auto;margin-top:0.2rem;" required />
+            <label for="reg-consent" style="margin:0;font-weight:500;font-size:0.84rem;">
+              I agree to the <a href="terms.html" style="color:#ff5733;">Terms &amp; Conditions</a> and <a href="privacy.html" style="color:#ff5733;">Privacy Policy</a>.
+            </label>
+          </div>
+          <p id="reg-msg" class="auth-msg" role="alert" hidden></p>
+          <button type="submit" class="auth-submit-btn">Create Account</button>
+        </form>
+      </section>
+    </main>
+
+    <script>
+      (function () {
+        const tabSignIn = document.getElementById("tab-signin");
+        const tabRegister = document.getElementById("tab-register");
+        const signInForm = document.getElementById("signin-form");
+        const regForm = document.getElementById("register-form");
+        let selectedIcon = "pizza";
+
+        function setTab(mode) {
+          const isSignIn = mode === "signin";
+          tabSignIn.setAttribute("aria-selected", isSignIn ? "true" : "false");
+          tabRegister.setAttribute("aria-selected", isSignIn ? "false" : "true");
+          signInForm.hidden = !isSignIn;
+          regForm.hidden = isSignIn;
+        }
+        tabSignIn.addEventListener("click", () => setTab("signin"));
+        tabRegister.addEventListener("click", () => setTab("register"));
+
+        document.querySelectorAll("#reg-icon-picker .icon-pick-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            selectedIcon = btn.dataset.icon;
+            document.querySelectorAll("#reg-icon-picker .icon-pick-btn").forEach((b) => {
+              b.setAttribute("aria-pressed", b.dataset.icon === selectedIcon ? "true" : "false");
+            });
+          });
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+          if (window.RomeosPhoneAccordion) {
+            window.RomeosPhoneAccordion.mount({
+              phoneInputId: "reg-phone",
+              hiddenCodeId: "reg-country-code",
+              defaultIso: "NGA",
+            });
+          }
+        });
+
+        function redirectAfterAuth() {
+          const params = new URLSearchParams(window.location.search);
+          const next = params.get("next");
+          const safeNext = next && next.startsWith("/") && !next.startsWith("//") ? next : "order.html";
+          window.location.href = safeNext;
+        }
+
+        signInForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const msg = document.getElementById("signin-msg");
+          msg.hidden = true;
+          const username = document.getElementById("signin-username").value.trim();
+          const password = document.getElementById("signin-password").value;
+          try {
+            const res = await fetch("/api/auth", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              credentials: "same-origin",
+              body: JSON.stringify({ action: "login", username, password }),
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) {
+              msg.textContent = data.error || "Sign in failed.";
+              msg.hidden = false;
+              return;
+            }
+            redirectAfterAuth();
+          } catch (_) {
+            msg.textContent = "Network error. Please try again.";
+            msg.hidden = false;
+          }
+        });
+
+        regForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const msg = document.getElementById("reg-msg");
+          msg.hidden = true;
+          try {
+            const res = await fetch("/api/auth", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              credentials: "same-origin",
+              body: JSON.stringify({
+                action: "register",
+                username: document.getElementById("reg-username").value.trim(),
+                password: document.getElementById("reg-password").value,
+                fullName: document.getElementById("reg-fullname").value.trim(),
+                email: document.getElementById("reg-email").value.trim(),
+                countryCode: document.getElementById("reg-country-code").value,
+                phone: document.getElementById("reg-phone").value.trim(),
+                avatarIcon: selectedIcon,
+                defaultLocation: document.getElementById("reg-location").value,
+                defaultAddress: document.getElementById("reg-address").value.trim(),
+                consent: document.getElementById("reg-consent").checked,
+              }),
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) {
+              msg.textContent = data.error || "Registration failed.";
+              msg.hidden = false;
+              return;
+            }
+            redirectAfterAuth();
+          } catch (_) {
+            msg.textContent = "Network error. Please try again.";
+            msg.hidden = false;
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

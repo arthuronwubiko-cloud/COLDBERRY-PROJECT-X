@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#5C1A2B" />
+    <title>Coldberry Ice Cream Nigeria | Scoops of Pure Happiness</title>
+    <link
+      rel="icon"
+      href="images/coldberry-favicon.png"
+    />
+    <!-- Page styles are kept in a separate file beside this HTML document. -->
+    <link rel="stylesheet" href="peter890.css" />
+    <!-- Font Awesome supplies the search and social-media icons below. -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+    <script src="js/cart.js" defer></script>
+    <script src="js/deals-interactive.js" defer></script>
+    <script src="js/site.js" defer></script>
+    <script src="js/auth-ui.js" defer></script>
+    <script src="js/feedback-bubble.js" defer></script>
+  </head>
+  <body>
+    <!-- Sticky site header: in-page links use section IDs; Menu opens 890b.html. -->
+    <header class="nav-bar" id="home">
+      <div>
+        <a href="index.html" aria-label="Coldberry Ice Cream home">
+          <img
+            src="images/coldberry-logo.png"
+            alt="Coldberry Ice Cream Logo"
+            class="logo"
+          />
+        </a>
+      </div>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="index.html" class="active" aria-current="page">Home</a>
+        <a href="890b.html">Menu</a>
+        <a href="#locations">Locations</a>
+        <a href="pizzadeals.html">Deals</a>
+        <a href="order.html">Order</a>
+        <a href="track.html">Track</a>
+      </nav>
+      <div class="search-bar" role="search">
+        <input
+          type="search"
+          placeholder="Search flavours..."
+          aria-label="Search menu"
+          aria-controls="menu-grid"
+        />
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
+      <a href="order.html#cart-heading" class="nav-cart-link" id="nav-cart-link" aria-label="Shopping cart (0 items)" title="View your shopping cart">
+        <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
+        <span class="nav-cart-badge" id="cart-count" data-nav-cart-count aria-live="polite">0</span>
+      </a>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme" aria-pressed="false" title="Switch to dark theme"><i class="fa-solid fa-moon" aria-hidden="true"></i></button>
+    </header>
+
+    <!-- Home-page hero: introduction and order link beside the featured image. -->
+    <main class="main-text">
+      <section class="section-text">
+        <span class="span-text">Coldberry</span>
+        <h1 class="h1-text">Artisanal Ice Cream</h1>
+        <p class="motto">Scoops of Pure Happiness</p>
+        <p class="p-text">
+          Discover the taste of authentically crafted ice cream, rolled sundaes,
+          and crispy waffle bowls made with rich dairy and fresh berries. Every
+          scoop is a celebration of creamy indulgence across Abuja and Lagos.
+        </p>
+        <a href="order.html" class="order-button">ORDER NOW</a>
+      </section>
+
+      <section class="pizza-frame" aria-label="Featured Coldberry Ice Cream">
+        <img
+          src="images/coldberry-hero.jpg"
+          alt="Coldberry artisanal rolled ice cream in golden waffle bowls"
+          class="pizza-img"
+        />
+      </section>
+    </main>
+
+    <!-- Short menu preview; the full-menu link opens the separate menu page. -->
+    <section class="menu-section" id="menu" aria-labelledby="menu-heading">
+      <div class="menu-heading">
+        <div>
+          <p class="eyebrow">Sweet treats, made to share</p>
+          <h2 id="menu-heading">Our Creamery Menu</h2>
+        </div>
+        <a
+          href="890b.html"
+          class="menu-link"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View full menu
+          <i
+            class="fa-solid fa-arrow-up-right-from-square"
+            aria-hidden="true"
+          ></i>
+        </a>
+      </div>
+
+      <div class="menu-grid" id="menu-grid">
+        <article class="menu-card">
+          <img
+            src="images/coldberry-scoop.jpg"
+            alt="Coldberry signature ice cream scoops in a waffle bowl"
+            loading="lazy"
+          />
+          <div class="menu-card-content">
+            <span class="menu-label">13 Signature Varieties</span>
+            <h3>Coldberry Ice Cream Tubs</h3>
+            <p>Freshly churned, generously loaded, and available in Medium, Large &amp; Champion tubs.</p>
+
+            <details class="related-pizzas-details homepage-pizzas-details">
+              <summary class="related-pizzas-summary">
+                <span class="summary-title"><i class="fa-solid fa-ice-cream"></i> View All Flavours, Sizes &amp; Prices</span>
+                <i class="fa-solid fa-chevron-down summary-icon" aria-hidden="true"></i>
+              </summary>
+              <div class="related-pizzas-panel">
+                <div class="homepage-pizza-group">
+                  <div class="homepage-group-header">
+                    <span class="related-category-pill pill-traditional">Classic Creamery</span>
+                    <span class="group-price-hint">From ₦11,200</span>
+                  </div>
+                  <ul class="related-pizzas-list">
+                    <li class="related-pizza-row">
+                      <img src="images/coldberry-scoop.jpg" alt="Coldberry Vanilla Bean" class="related-pizza-thumb" loading="lazy" />
+                      <div class="related-pizza-meta">
+                        <strong>Coldberry Vanilla Bean</strong>
+                        <div class="related-size-pricing">
+                          <span class="size-price-tag">Med: ₦11,200</span>
+                          <span class="size-price-tag">Lrg: ₦14,150</span>
+                          <span class="size-price-tag champion">Champion: ₦21,200</span>
+                        </div>
+                      </div>
+                      <a href="890b.html#vanilla-bean" class="related-view-btn" aria-label="Order Coldberry Vanilla Bean on menu">Order <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                    </li>
+                    <li class="related-pizza-row">
+                      <img src="images/coldberry-scoop.jpg" alt="Strawberry Bliss Swirl" class="related-pizza-thumb" loading="lazy" />
+                      <div class="related-pizza-meta">
+                        <strong>Strawberry Bliss Swirl</strong>
+                        <div class="related-size-pricing">
+                          <span class="size-price-tag">Med: ₦11,200</span>
+                          <span class="size-price-tag">Lrg: ₦14,150</span>
+                          <span class="size-price-tag champion">Champion: ₦21,200</span>
+                        </div>
+                      </div>
+                      <a href="890b.html#strawberry-bliss" class="related-view-btn" aria-label="Order Strawberry Bliss Swirl on menu">Order <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                    </li>
+                    <li class="related-pizza-row">
+                      <img src="images/coldberry-scoop.jpg" alt="Belgian Chocolate Fudge" class="related-pizza-thumb" loading="lazy" />
+                      <div class="related-pizza-meta">
+                        <strong>Belgian Chocolate Fudge</strong>
+                        <div class="related-size-pricing">
+                          <span class="size-price-tag">Med: ₦11,200</span>
+                          <span class="size-price-tag">Lrg: ₦14,150</span>
+                          <span class="size-price-tag champion">Champion: ₦21,200</span>
+                        </div>
+                      </div>
+                      <a href="890b.html#chocolate-fudge" class="related-view-btn" aria-label="Order Belgian Chocolate Fudge on menu">Order <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                    </li>
+                    <li class="related-pizza-row">
+                      <img src="images/coldberry-scoop.jpg" alt="BlueMoon Berry Cream" class="related-pizza-thumb" loading="lazy" />
+                      <div class="related-pizza-meta">
+                        <strong>BlueMoon Berry Cream</strong>
+                        <div class="related-size-pricing">
+                          <span class="size-price-tag">Med: ₦11,200</span>
+                          <span class="size-price-tag">Lrg: ₦14,150</span>
+                          <span class="size-price-tag champion">Champion: ₦21,200</span>
+                        </div>
+                      </div>
+                      <a href="890b.html#bluemoon-berry" class="related-view-btn" aria-label="Order BlueMoon Berry Cream on menu">Order <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                    </li>
+                    <li class="related-pizza-row">
+                      <img src="images/coldberry-scoop.jpg" alt="Caramel Popcorn Crunch" class="related-pizza-thumb" loading="lazy" />
+                      <div class="related-pizza-meta">
+                        <strong>Caramel Popcorn Crunch</strong>
+                        <div class="related-size-pricing">
+                          <span class="size-price-tag">Med: ₦11,200</span>
+                          <span class="size-price-tag">Lrg: ₦14,150</span>
+                          <span class="size-price-tag champion">Champion: ₦21,200</span>
+                        </div>
+                      </div>
+                      <a href="890b.html#caramel-popcorn" class="related-view-btn" aria-label="Order Caramel Popcorn Crunch on menu">Order <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="homepage-pizza-group">
+                  <div class="homepage-group-header">
+                    <span class="related-category-pill pill-special">Signature Creations</span>
+                    <span class="group-price-hint">From ₦12,200</span>
+                  </div>
+                  <ul class="related-pizzas-list">
+                    <li class="related-pizza-row">
+                      <img src="images/coldberry-hero.jpg" alt="Coldberry Delight" class="related-pizza-thumb" loading="lazy" />
+                      <div class="related-pizza-meta">
+                        <strong>Coldberry Delight</strong>
+                        <div class="related-size-pricing">
+                          <span class="size-price-tag">Med: ₦12,200</span>
+                          <span class="size-price-tag">Lrg: ₦14,800</span>
+                          <span class="size-price-tag champion">Champion: ₦22,000</span>
+                        </div>
+                      </div>
+                      <a href="890b.html#coldberry-delight" class="related-view-btn" aria-label="Order Coldberry Delight on menu">Order <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                    </li>
+                    <li class="related-pizza-row">
+                      <img src="images/coldberry-hero.jpg" alt="Oreo &amp; Strawberry Roll" class="related-pizza-thumb" loading="lazy" />
+                      <div class="related-pizza-meta">
+                        <strong>Oreo &amp; Strawberry Roll</strong>
+                        <div class="related-size-pricing">
+                          <span class="size-price-tag">Med: ₦12,200</span>
+                          <span class="size-price-tag">Lrg: ₦14,800</span>
+                          <span class="size-price-tag champion">Champion: ₦22,000</span>
+                        </div>
+                      </div>
+                      <a href="890b.html#oreo-strawberry-roll" class="related-view-btn" aria-label="Order Oreo &amp; Strawberry Roll on menu">Order <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                    </li>
+                    <li class="related-pizza-row">
+                      <img src="images/coldberry-hero.jpg" alt="Rainbow Berry Rolls" class="related-pizza-thumb" loading="lazy" />
+                      <div class="related-pizza-meta">
+                        <strong>Rainbow Berry Rolls</strong>
+                        <div class="related-size-pricing">
+                          <span class="size-price-tag">Med: ₦12,200</span>
+                          <span class="size-price-tag">Lrg: ₦14,800</span>
+                          <span class="size-price-tag champion">Champion: ₦22,000</span>
+                        </div>
+                      </div>
+                      <a href="890b.html#rainbow-rolls" class="related-view-btn" aria-label="Order Rainbow Berry Rolls on menu">Order <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                    </li>
+                    <li class="related-pizza-row">
+                      <img src="images/coldberry-hero.jpg" alt="Caramel Swirl Sundae" class="related-pizza-thumb" loading="lazy" />
+                      <div class="related-pizza-meta">
+                        <strong>Caramel Swirl Sundae</strong>
+                        <div class="related-size-pricing">
+                          <span class="size-price-tag">Med: ₦12,200</span>
+                          <span class="size-price-tag">Lrg: ₦14,800</span>
+                          <span class="size-price-tag champion">Champion: ₦22,000</span>
+                        </div>
+                      </div>
+                      <a href="890b.html#caramel-swirl" class="related-view-btn" aria-label="Order Caramel Swirl Sundae on menu">Order <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="homepage-pizza-group">
+                  <div class="homepage-group-header">
+                    <span class="related-category-pill pill-exclusive">Exclusive &amp; Overloaded</span>
+                    <span class="group-price-hint">From ₦13,500</span>
+                  </div>
+                  <ul class="related-pizzas-list">
+                    <li class="related-pizza-row">
+                      <img src="images/coldberry-scoop.jpg" alt="Chocolate Romance Supreme" class="related-pizza-thumb" loading="lazy" />
+                      <div class="related-pizza-meta">
+                        <strong>Chocolate Romance Supreme</strong>
+                        <div class="related-size-pricing">
+                          <span class="size-price-tag">Med: ₦13,500</span>
+                          <span class="size-price-tag">Lrg: ₦15,000</span>
+                          <span class="size-price-tag champion">Champion: ₦23,500</span>
+                        </div>
+                      </div>
+                      <a href="890b.html#chocolate-romance" class="related-view-btn" aria-label="Order Chocolate Romance Supreme on menu">Order <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                    </li>
+                    <li class="related-pizza-row">
+                      <img src="images/coldberry-hero.jpg" alt="Coldberry Nineoverloaded Tub" class="related-pizza-thumb" loading="lazy" />
+                      <div class="related-pizza-meta">
+                        <strong>Coldberry Nineoverloaded Tub</strong>
+                        <div class="related-size-pricing">
+                          <span class="size-price-tag">Med: ₦15,100</span>
+                          <span class="size-price-tag">Lrg: ₦16,500</span>
+                          <span class="size-price-tag champion">Champion: ₦25,000</span>
+                        </div>
+                      </div>
+                      <a href="890b.html#nineoverloaded" class="related-view-btn" aria-label="Order Coldberry Nineoverloaded Tub on menu">Order <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                    </li>
+                    <li class="related-pizza-row">
+                      <img src="images/coldberry-scoop.jpg" alt="Cheesecake Fantasy Crunch" class="related-pizza-thumb" loading="lazy" />
+                      <div class="related-pizza-meta">
+                        <strong>Cheesecake Fantasy Crunch</strong>
+                        <div class="related-size-pricing">
+                          <span class="size-price-tag">Med: ₦13,500</span>
+                          <span class="size-price-tag">Lrg: ₦15,000</span>
+                          <span class="size-price-tag champion">Champion: ₦23,500</span>
+                        </div>
+                      </div>
+                      <a href="890b.html#cheesecake-fantasy" class="related-view-btn" aria-label="Order Cheesecake Fantasy Crunch on menu">Order <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                    </li>
+                    <li class="related-pizza-row">
+                      <img src="images/coldberry-scoop.jpg" alt="Fresh Cream &amp; Berry Classic" class="related-pizza-thumb" loading="lazy" />
+                      <div class="related-pizza-meta">
+                        <strong>Fresh Cream &amp; Berry Classic</strong>
+                        <div class="related-size-pricing">
+                          <span class="size-price-tag">Med: ₦13,500</span>
+                          <span class="size-price-tag">Lrg: ₦15,000</span>
+                          <span class="size-price-tag champion">Champion: ₦23,500</span>
+                        </div>
+                      </div>
+                      <a href="890b.html#fresh-cream-berry" class="related-view-btn" aria-label="Order Fresh Cream &amp; Berry Classic on menu">Order <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </details>
+          </div>
+        </article>
+        <article class="menu-card">
+          <img
+            src="images/shawarma.jpg"
+            alt="Coldberry warm parlor shawarma roll"
+            class="shawarma-image"
+            loading="lazy"
+          />
+          <div class="menu-card-content">
+            <span class="menu-label">Parlor Side</span>
+            <h3>Shawarma</h3>
+            <p>A warm, savoury wrap to balance your chilled Coldberry scoops.</p>
+            <div class="quantity-control" data-cart-item="Shawarma">
+              <button type="button" data-cart-action="decrement" aria-label="Remove one Shawarma">−</button>
+              <span data-cart-quantity aria-live="polite">0</span>
+              <button type="button" data-cart-action="increment" aria-label="Add one Shawarma">+</button>
+            </div>
+          </div>
+        </article>
+        <article class="menu-card">
+          <img
+            src="images/chicken-wings.jpg"
+            alt="Crispy golden parlor chicken wings"
+            loading="lazy"
+          />
+          <div class="menu-card-content">
+            <span class="menu-label">Parlor Side</span>
+            <h3>Chicken Wings</h3>
+            <p>
+              Crispy, golden hot wings — the ultimate sweet-and-savoury pairing.
+            </p>
+            <div class="quantity-control" data-cart-item="Chicken Wings">
+              <button type="button" data-cart-action="decrement" aria-label="Remove one Chicken Wings">−</button>
+              <span data-cart-quantity aria-live="polite">0</span>
+              <button type="button" data-cart-action="increment" aria-label="Add one Chicken Wings">+</button>
+            </div>
+          </div>
+        </article>
+      </div>
+      <p
+        class="search-results"
+        id="menu-search-results"
+        role="status"
+        aria-live="polite"
+        hidden
+      ></p>
+    </section>
+
+    <aside class="menu-cart" aria-label="Shopping cart">
+      <span><strong id="cart-count">0</strong> <span id="cart-count-label">items in your cart</span></span>
+      <a href="order.html#cart-heading">View cart and order</a>
+    </aside>
+
+    <!-- Store cards are grouped by city so visitors can find a nearby location. -->
+    <section
+      class="location-section"
+      id="locations"
+      aria-labelledby="locations-heading"
+    >
+      <div class="location-heading">
+        <p class="eyebrow">Find your nearest creamery parlor</p>
+        <h2 id="locations-heading">Our Coldberry Locations</h2>
+      </div>
+
+      <section class="location-city" aria-labelledby="abuja-heading">
+        <h3 id="abuja-heading">Abuja</h3>
+        <div class="location-grid">
+          <article class="location-card">
+            <img
+              src="images/coldberry-hero.jpg"
+              alt="Coldberry Ice Cream Garki Abuja Parlor"
+              loading="lazy"
+            />
+            <h4>Garki</h4>
+          </article>
+          <article class="location-card">
+            <img
+              src="images/coldberry-scoop.jpg"
+              alt="Coldberry Ice Cream Lugbe Abuja Parlor"
+              loading="lazy"
+            />
+            <h4>Lugbe</h4>
+          </article>
+        </div>
+      </section>
+
+      <section class="location-city" aria-labelledby="lagos-heading">
+        <h3 id="lagos-heading">Lagos</h3>
+        <div class="location-grid">
+          <article class="location-card">
+            <img
+              src="images/coldberry-hero.jpg"
+              alt="Coldberry Ice Cream Yaba Lagos Parlor"
+              loading="lazy"
+            />
+            <h4>Yaba</h4>
+          </article>
+          <article class="location-card">
+            <img
+              src="images/coldberry-scoop.jpg"
+              alt="Coldberry Ice Cream Surulere Lagos Parlor"
+              loading="lazy"
+            />
+            <h4>Surulere</h4>
+          </article>
+          <article class="location-card">
+            <img
+              src="images/coldberry-hero.jpg"
+              alt="Coldberry Ice Cream Okota Lagos Parlor"
+              loading="lazy"
+            />
+            <h4>Okota</h4>
+          </article>
+          <article class="location-card">
+            <img
+              src="images/coldberry-scoop.jpg"
+              alt="Coldberry Ice Cream Festac Lagos Parlor"
+              loading="lazy"
+            />
+            <h4>Festac</h4>
+          </article>
+          <article class="location-card">
+            <img
+              src="images/coldberry-hero.jpg"
+              alt="Coldberry Ice Cream Ajao Lagos Parlor"
+              loading="lazy"
+            />
+            <h4>Ajao</h4>
+          </article>
+        </div>
+      </section>
+    </section>
+
+    <!-- Horizontal, scroll-snapping photo gallery; each image has descriptive alt text. -->
+    <section class="pizza-family" id="pizza-gallery" aria-label="Coldberry Ice Cream Gallery">
+      <div class="scroll">
+        <img
+          src="images/coldberry-hero.jpg"
+          alt="Coldberry rolled ice cream bowls topped with berries and chocolate"
+          class="pizza-scroll"
+        />
+      </div>
+      <div class="scroll">
+        <img
+          src="images/coldberry-scoop.jpg"
+          alt="Coldberry Delight triple scoop waffle bowl with toasted coconut and strawberry"
+          class="pizza-scroll"
+        />
+      </div>
+      <div class="scroll">
+        <img
+          src="images/coldberry-hero.jpg"
+          alt="Artisanal berry and cookies-and-cream rolled ice cream cups"
+          class="pizza-scroll"
+        />
+      </div>
+      <div class="scroll">
+        <img
+          src="images/coldberry-scoop.jpg"
+          alt="Vanilla bean, strawberry swirl, and dark chocolate fudge scoops"
+          class="pizza-scroll"
+        />
+      </div>
+      <div class="scroll">
+        <img
+          src="images/coldberry-hero.jpg"
+          alt="Freshly rolled Coldberry sundaes on a marble parlor counter"
+          class="pizza-scroll"
+        />
+      </div>
+      <div class="scroll">
+        <img
+          src="images/coldberry-scoop.jpg"
+          alt="Golden waffle bowl overflowing with Coldberry ice cream"
+          class="pizza-scroll"
+        />
+      </div>
+    </section>
+    <!-- Footer branding and external social-sharing links. -->
+    <footer class="site-footer">
+      <a href="index.html" aria-label="Coldberry Ice Cream home">
+        <img
+          src="images/coldberry-logo.png"
+          alt="Coldberry Ice Cream Logo"
+          class="footer-logo"
+          loading="lazy"
+        />
+      </a>
+      <p class="footer-motto">Scoops of Pure Happiness</p>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="index.html">Home</a>
+        <a href="890b.html">Menu</a>
+        <a href="pizzadeals.html">Deals</a>
+        <a href="order.html">Order</a>
+        <a href="track.html">Track</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms &amp; Conditions</a>
+      </nav>
+      <nav class="social-links" aria-label="Share Coldberry Ice Cream">
+        <a
+          href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fcoldberry.ng%2Forder%2F"
+          aria-label="Share on Facebook"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
+        </a>
+        <a
+          href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fcoldberry.ng%2Forder%2F"
+          aria-label="Share on X"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i class="fa-brands fa-x-twitter" aria-hidden="true"></i>
+        </a>
+        <a
+          href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fcoldberry.ng%2Forder%2F"
+          aria-label="Share on LinkedIn"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
+        </a>
+        <a
+          href="https://t.me/share/url?url=https%3A%2F%2Fcoldberry.ng%2Forder%2F"
+          aria-label="Share on Telegram"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i class="fa-brands fa-telegram" aria-hidden="true"></i>
+        </a>
+      </nav>
+      <p class="footer-text">
+        &copy; 2026 Coldberry Ice Cream Nigeria. All rights reserved.
+      </p>
+    </footer>
+  </body>
+</html>

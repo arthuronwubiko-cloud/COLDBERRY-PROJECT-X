@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="robots" content="noindex,nofollow"/>
+  <title>Locked Customer Feedback Console | Coldberry Ice Cream Nigeria</title>
+  <link rel="icon" href="images/coldberry-favicon.png"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
+  <style>
+    :root{--bg:#0f1115;--surface:#181b22;--surface-2:#20242d;--text:#f2f3f5;--muted:#9aa1ad;--border:#2c313c;--coral:#ff5a3c;--danger:#dc3545;--success:#198754}
+    [data-theme=light]{--bg:#f6f7f9;--surface:#fff;--surface-2:#eef0f3;--text:#14161a;--muted:#5d6572;--border:#dde1e7}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--text)}
+    header{display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;justify-content:space-between;padding:1rem 1.25rem;background:var(--surface);border-bottom:1px solid var(--border)}
+    nav{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center}
+    nav a{color:var(--muted);text-decoration:none;font-weight:700;font-size:.9rem;padding:.5rem .9rem;border-radius:8px}
+    nav a:hover{background:var(--surface-2);color:var(--text)}
+    nav a.on{background:var(--coral);color:#fff}
+    main{max-width:1100px;margin:1.25rem auto;padding:0 1rem}
+    .auth-card{max-width:440px;margin:3.5rem auto;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:2rem;box-shadow:0 12px 32px rgba(0,0,0,.35)}
+    .auth-field{margin-bottom:1rem}
+    .auth-field label{display:flex;justify-content:space-between;font-size:.85rem;font-weight:700;margin-bottom:.35rem}
+    .char-counter{font-size:.76rem;font-family:monospace;color:var(--muted)}
+    .char-counter.valid{color:var(--success);font-weight:700}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.25rem;margin-bottom:1rem}
+    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.8rem;margin-bottom:1rem}
+    .stat{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem}
+    .stat small{color:var(--muted);text-transform:uppercase;font-size:.72rem;font-weight:700}
+    .stat b{display:block;font-size:1.6rem;margin-top:.2rem}
+    input,button{font:inherit;font-size:16px}
+    input{width:100%;padding:.75rem .9rem;border-radius:8px;border:1px solid var(--border);background:var(--surface-2);color:var(--text);font-family:monospace}
+    input:focus{outline:2px solid var(--coral);border-color:transparent}
+    .btn{background:var(--coral);color:#fff;border:0;border-radius:8px;padding:.7rem 1.15rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:.45rem}
+    .btn.sec{background:var(--surface-2);color:var(--text);border:1px solid var(--border)}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem}
+    .muted{color:var(--muted)}
+    .err{color:var(--danger)}
+    [hidden]{display:none!important}
+  </style>
+</head>
+<body>
+  <header>
+    <div style="font-weight:800;font-size:1.1rem;display:flex;align-items:center;gap:.65rem;color:var(--coral)">
+      <img src="images/coldberry-logo.png" alt="Coldberry Ice Cream" style="height:40px;width:40px;border-radius:50%;object-fit:cover"/>
+      <span>Coldberry Ice Cream · Customer Feedback Console</span>
+    </div>
+    <nav id="top-nav" hidden>
+      <a href="/admin"><i class="fa-solid fa-list-check"></i> Orders Console</a>
+      <a href="/feedback" id="n-fb" class="on"><i class="fa-solid fa-comments"></i> Customer Feedback</a>
+      <a href="/refunds" id="n-rf"><i class="fa-solid fa-ticket"></i> Refund Tokens</a>
+      <button type="button" class="btn sec" id="lock-btn" style="padding:.45rem .85rem;font-size:.84rem"><i class="fa-solid fa-right-from-bracket"></i> Lock / Logout</button>
+    </nav>
+  </header>
+  <main>
+    <!-- Strict Password Gate: always required before accessing Customer Feedback -->
+    <section id="gate" class="auth-card" aria-labelledby="gate-heading">
+      <div style="text-align:center;margin-bottom:1.25rem">
+        <img src="images/coldberry-logo.png" alt="Coldberry Ice Cream" style="height:56px;width:56px;border-radius:50%;object-fit:cover;margin:0 auto .6rem;display:block"/>
+        <h1 id="gate-heading" style="margin:0 0 .35rem;font-size:1.35rem"><i class="fa-solid fa-lock" style="color:var(--coral)"></i> Locked Customer Feedback</h1>
+        <p class="muted" style="margin:0;font-size:.88rem">Enter your 14-character Username and Password to unlock Customer Feedback.</p>
+      </div>
+      <form id="login-form" novalidate>
+        <div class="auth-field">
+          <label for="login-user"><span>Username</span><span id="user-cnt" class="char-counter">0 / 14</span></label>
+          <input id="login-user" minlength="14" maxlength="14" pattern="[A-Za-z0-9]{14}" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="14-char alphanumeric username" required autofocus/>
+        </div>
+        <div class="auth-field">
+          <label for="login-pass"><span>Password</span><span id="pass-cnt" class="char-counter">0 / 14</span></label>
+          <input id="login-pass" type="password" minlength="14" maxlength="14" pattern="[A-Za-z0-9]{14}" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="14-char alphanumeric password" required/>
+        </div>
+        <p id="login-err" class="err" role="alert" style="margin:0 0 .85rem;font-size:.85rem" hidden></p>
+        <button type="submit" class="btn" style="width:100%"><i class="fa-solid fa-unlock-keyhole"></i> Unlock Customer Feedback</button>
+      </form>
+    </section>
+
+    <!-- Protected Feedback Dashboard (hidden until password is entered and verified) -->
+    <section id="app" hidden>
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.75rem;margin-bottom:1rem">
+        <div>
+          <h1 style="margin:0;font-size:1.5rem">Customer Feedback</h1>
+          <span class="muted">Verified ratings &amp; comments from the feedback bubble (Dual-DB: Neon Postgres + Supabase)</span>
+        </div>
+        <div style="display:flex;gap:.5rem">
+          <button class="btn sec" id="refresh" type="button"><i class="fa-solid fa-rotate"></i> Refresh</button>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><small>Average rating</small><b id="avg" style="color:#ffc107">–</b></div>
+        <div class="stat"><small>Total submissions</small><b id="total">0</b></div>
+        <div class="stat"><small>Complaints</small><b id="complaints" style="color:var(--danger)">0</b></div>
+        <div class="stat"><small>5-star reviews</small><b id="five">0</b></div>
+      </div>
+
+      <div id="msg" class="muted" style="padding:1rem">Loading customer feedback…</div>
+      <div id="list" class="grid"></div>
+    </section>
+  </main>
+  <script>
+  (function(){
+    var ORIGIN_KEY="romeos_console_api_origin";
+    var CRED_RE=/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9]{14}$/;
+    var activeToken="";
+    var pollTimer=null;
+
+    var gate=document.getElementById("gate");
+    var app=document.getElementById("app");
+    var topNav=document.getElementById("top-nav");
+    var userIn=document.getElementById("login-user");
+    var passIn=document.getElementById("login-pass");
+    var userCnt=document.getElementById("user-cnt");
+    var passCnt=document.getElementById("pass-cnt");
+    var errEl=document.getElementById("login-err");
+
+    function updCnt(inp,el){
+      var v=inp.value,ok=CRED_RE.test(v);
+      el.textContent=v.length+" / 14"+(ok?" ✓":"");
+      el.classList.toggle("valid",ok);
+    }
+    userIn.addEventListener("input",function(){updCnt(userIn,userCnt);});
+    passIn.addEventListener("input",function(){updCnt(passIn,passCnt);});
+
+    function getOrigin(){
+      try{
+        var o=(sessionStorage.getItem(ORIGIN_KEY)||localStorage.getItem(ORIGIN_KEY)||"").replace(/\/+$/,"");
+        return o||location.origin;
+      }catch(_){return location.origin;}
+    }
+    function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]});}
+    function date(t){var d=new Date(t);return isNaN(d)?"—":d.toLocaleString("en-NG",{month:"short",day:"numeric",year:"numeric",hour:"2-digit",minute:"2-digit"});}
+
+    function lockPage(msg){
+      activeToken="";
+      if(pollTimer){clearInterval(pollTimer);pollTimer=null;}
+      app.hidden=true;
+      topNav.hidden=true;
+      gate.hidden=false;
+      document.getElementById("list").innerHTML="";
+      passIn.value="";
+      updCnt(passIn,passCnt);
+      if(msg){errEl.textContent=msg;errEl.hidden=false;}else{errEl.hidden=true;}
+    }
+
+    async function load(){
+      if(!activeToken){lockPage();return;}
+      var m=document.getElementById("msg"),l=document.getElementById("list");
+      m.hidden=false;m.className="muted";m.textContent="Loading customer feedback…";
+      try{
+        var r=await fetch(getOrigin()+"/api/admin?view=feedback&_t="+Date.now(),{
+          cache:"no-store",
+          headers:{Authorization:"Bearer "+activeToken}
+        });
+        if(r.status===401||r.status===403){
+          lockPage("Session expired or unauthorized. Please enter your password again.");
+          return;
+        }
+        var d=await r.json().catch(function(){return{};});
+        if(!r.ok)throw new Error(d.error||"Unable to load customer feedback");
+        var a=d.feedback||[];
+        var avg=a.length?a.reduce(function(s,f){return s+Number(f.rating||0);},0)/a.length:0;
+        document.getElementById("avg").textContent=a.length?avg.toFixed(1)+" ★":"–";
+        document.getElementById("total").textContent=a.length;
+        document.getElementById("complaints").textContent=a.filter(function(f){return (f.feedback_type||"").toLowerCase()==="complaint";}).length;
+        document.getElementById("five").textContent=a.filter(function(f){return Number(f.rating)===5;}).length;
+        m.hidden=a.length>0;
+        if(!a.length)m.textContent="No customer feedback submitted yet.";
+        l.innerHTML=a.map(function(f){
+          var r=Math.max(0,Math.min(5,Number(f.rating)||0));
+          var isC=(f.feedback_type||"").toLowerCase()==="complaint";
+          return '<div class="card" style="margin:0;'+(isC?'border-left:4px solid var(--danger)':'')+'"><div style="display:flex;justify-content:space-between;gap:.5rem"><span><b>'+esc(f.customer_name||"Anonymous")+'</b>'+(isC?' <span style="background:rgba(220,53,69,.18);color:var(--danger);padding:2px 7px;border-radius:999px;font-size:.7rem;font-weight:800">⚠️ COMPLAINT</span>':'')+'</span><span style="color:#ffc107">'+"★".repeat(r)+"☆".repeat(5-r)+'</span></div>'+(f.tags?'<div class="muted" style="font-size:.8rem;margin:.3rem 0">'+esc(f.tags)+'</div>':'')+'<p style="margin:.5rem 0">'+esc(f.comments||f.comment||"(no comment)")+'</p><div class="muted" style="font-size:.75rem">'+date(f.created_at)+(f.order_pin?" · PIN "+esc(f.order_pin):"")+'</div></div>';
+        }).join("");
+      }catch(e){
+        m.hidden=false;m.className="err";m.textContent=e.message;
+      }
+    }
+
+    document.getElementById("login-form").addEventListener("submit",async function(e){
+      e.preventDefault();
+      errEl.hidden=true;
+      var u=userIn.value.trim(),p=passIn.value.trim();
+      if(!CRED_RE.test(u)||!CRED_RE.test(p)){
+        errEl.textContent="Username and password must each be exactly 14 alphanumeric characters.";
+        errEl.hidden=false;
+        return;
+      }
+      try{
+        var r=await fetch(getOrigin()+"/api/admin",{
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({action:"login",username:u,password:p})
+        });
+        var d=await r.json().catch(function(){return{};});
+        if(!r.ok||!d.token){
+          errEl.textContent=d.error||"Invalid username or password.";
+          errEl.hidden=false;
+          return;
+        }
+        activeToken=d.token;
+        gate.hidden=true;
+        topNav.hidden=false;
+        app.hidden=false;
+        load();
+        if(pollTimer)clearInterval(pollTimer);
+        pollTimer=setInterval(load,30000);
+      }catch(_){
+        errEl.textContent="Could not reach API server.";
+        errEl.hidden=false;
+      }
+    });
+
+    document.getElementById("lock-btn").addEventListener("click",function(){lockPage();});
+    document.getElementById("refresh").addEventListener("click",load);
+  })();
+  </script>
+</body>
+</html>

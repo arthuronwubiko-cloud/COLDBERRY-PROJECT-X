@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="robots" content="noindex,nofollow"/>
+  <title>Locked Refund Tokens Console | Coldberry Ice Cream Nigeria</title>
+  <link rel="icon" href="images/coldberry-favicon.png"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
+  <style>
+    :root{--bg:#0f1115;--surface:#181b22;--surface-2:#20242d;--text:#f2f3f5;--muted:#9aa1ad;--border:#2c313c;--coral:#ff5a3c;--danger:#dc3545;--success:#198754}
+    [data-theme=light]{--bg:#f6f7f9;--surface:#fff;--surface-2:#eef0f3;--text:#14161a;--muted:#5d6572;--border:#dde1e7}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--text)}
+    header{display:flex;flex-wrap:wrap;gap:.75rem;align-items:center;justify-content:space-between;padding:1rem 1.25rem;background:var(--surface);border-bottom:1px solid var(--border)}
+    nav{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center}
+    nav a{color:var(--muted);text-decoration:none;font-weight:700;font-size:.9rem;padding:.5rem .9rem;border-radius:8px}
+    nav a:hover{background:var(--surface-2);color:var(--text)}
+    nav a.on{background:var(--coral);color:#fff}
+    main{max-width:1100px;margin:1.25rem auto;padding:0 1rem}
+    .auth-card{max-width:440px;margin:3.5rem auto;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:2rem;box-shadow:0 12px 32px rgba(0,0,0,.35)}
+    .auth-field{margin-bottom:1rem}
+    .auth-field label{display:flex;justify-content:space-between;font-size:.85rem;font-weight:700;margin-bottom:.35rem}
+    .char-counter{font-size:.76rem;font-family:monospace;color:var(--muted)}
+    .char-counter.valid{color:var(--success);font-weight:700}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.25rem;margin-bottom:1rem}
+    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.8rem;margin-bottom:1rem}
+    .stat{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.9rem}
+    .stat small{color:var(--muted);text-transform:uppercase;font-size:.72rem;font-weight:700}
+    .stat b{display:block;font-size:1.6rem;margin-top:.2rem}
+    input,button{font:inherit;font-size:16px}
+    input{width:100%;padding:.75rem .9rem;border-radius:8px;border:1px solid var(--border);background:var(--surface-2);color:var(--text);font-family:monospace}
+    input:focus{outline:2px solid var(--coral);border-color:transparent}
+    .btn{background:var(--coral);color:#fff;border:0;border-radius:8px;padding:.7rem 1.15rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:.45rem}
+    .btn.sec{background:var(--surface-2);color:var(--text);border:1px solid var(--border)}
+    .btn.ok{background:var(--success)}
+    .btn.sm{padding:.35rem .7rem;font-size:.8rem}
+    table{width:100%;border-collapse:collapse}
+    th,td{text-align:left;padding:.75rem;border-bottom:1px solid var(--border);vertical-align:top;font-size:.9rem}
+    th{color:var(--muted);font-size:.75rem;text-transform:uppercase}
+    .pill{display:inline-block;padding:.2rem .6rem;border-radius:999px;font-size:.72rem;font-weight:800;text-transform:uppercase}
+    .p-ok{background:rgba(25,135,84,.18);color:#20c997}
+    .p-wait{background:rgba(255,193,7,.16);color:#ffc107}
+    .muted{color:var(--muted)}
+    .err{color:var(--danger)}
+    .tok{font-family:monospace;font-weight:800;color:var(--coral);letter-spacing:.06em}
+    [hidden]{display:none!important}
+    @media(max-width:700px){table,thead,tbody,tr,td{display:block;width:100%}thead{display:none}tr{border:1px solid var(--border);border-radius:10px;margin-bottom:.8rem;padding:.5rem}td{border:0;padding:.3rem .5rem}}
+  </style>
+</head>
+<body>
+  <header>
+    <div style="font-weight:800;font-size:1.1rem;display:flex;align-items:center;gap:.65rem;color:var(--coral)">
+      <img src="images/coldberry-logo.png" alt="Coldberry Ice Cream" style="height:40px;width:40px;border-radius:50%;object-fit:cover"/>
+      <span>Coldberry Ice Cream · Refund Tokens Console</span>
+    </div>
+    <nav id="top-nav" hidden>
+      <a href="/admin"><i class="fa-solid fa-list-check"></i> Orders Console</a>
+      <a href="/feedback" id="n-fb"><i class="fa-solid fa-comments"></i> Customer Feedback</a>
+      <a href="/refunds" id="n-rf" class="on"><i class="fa-solid fa-ticket"></i> Refund Tokens</a>
+      <button type="button" class="btn sec" id="lock-btn" style="padding:.45rem .85rem;font-size:.84rem"><i class="fa-solid fa-right-from-bracket"></i> Lock / Logout</button>
+    </nav>
+  </header>
+  <main>
+    <!-- Strict Password Gate: always required before accessing Refund Tokens -->
+    <section id="gate" class="auth-card" aria-labelledby="gate-heading">
+      <div style="text-align:center;margin-bottom:1.25rem">
+        <img src="images/coldberry-logo.png" alt="Coldberry Ice Cream" style="height:56px;width:56px;border-radius:50%;object-fit:cover;margin:0 auto .6rem;display:block"/>
+        <h1 id="gate-heading" style="margin:0 0 .35rem;font-size:1.35rem"><i class="fa-solid fa-lock" style="color:var(--coral)"></i> Locked Refund Token Console</h1>
+        <p class="muted" style="margin:0;font-size:.88rem">Enter your 14-character Username and Password to unlock the 15-Character Refund Token Console.</p>
+      </div>
+      <form id="login-form" novalidate>
+        <div class="auth-field">
+          <label for="login-user"><span>Username</span><span id="user-cnt" class="char-counter">0 / 14</span></label>
+          <input id="login-user" minlength="14" maxlength="14" pattern="[A-Za-z0-9]{14}" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="14-char alphanumeric username" required autofocus/>
+        </div>
+        <div class="auth-field">
+          <label for="login-pass"><span>Password</span><span id="pass-cnt" class="char-counter">0 / 14</span></label>
+          <input id="login-pass" type="password" minlength="14" maxlength="14" pattern="[A-Za-z0-9]{14}" autocomplete="current-password" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="14-char alphanumeric password" required/>
+        </div>
+        <p id="login-err" class="err" role="alert" style="margin:0 0 .85rem;font-size:.85rem" hidden></p>
+        <button type="submit" class="btn" style="width:100%"><i class="fa-solid fa-unlock-keyhole"></i> Unlock Refund Token Console</button>
+      </form>
+    </section>
+
+    <!-- Protected Refund Tokens Dashboard (hidden until password is entered and verified) -->
+    <section id="app" hidden>
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.75rem;margin-bottom:1rem">
+        <div>
+          <h1 style="margin:0;font-size:1.5rem">15-Character Refund Tokens</h1>
+          <span class="muted">Randomly selected 15-character tokens issued when an order is deleted (Dual-DB: Neon Postgres + Supabase)</span>
+        </div>
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+          <button class="btn" id="del-used" type="button" style="background:var(--danger)" hidden><i class="fa-solid fa-trash-can"></i> Delete Used Tokens</button>
+          <button class="btn sec" id="refresh" type="button"><i class="fa-solid fa-rotate"></i> Refresh</button>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><small>Total issued</small><b id="total">0</b></div>
+        <div class="stat"><small>Unclaimed</small><b id="open">0</b></div>
+        <div class="stat"><small>Checked in</small><b id="done">0</b></div>
+        <div class="stat"><small>Unclaimed value</small><b id="val">₦0</b></div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-top:0"><i class="fa-solid fa-magnifying-glass" style="color:var(--coral)"></i> Verify &amp; Check In a 15-Character Refund Token</h3>
+        <div style="display:flex;gap:.6rem;flex-wrap:wrap">
+          <label for="vin" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;">15-character refund token</label>
+          <input id="vin" aria-label="15-character refund token" maxlength="15" autocapitalize="characters" autocorrect="off" spellcheck="false" placeholder="Enter 15-character token (e.g. DWQJH0MIGC7VDBY)" style="flex:1;min-width:220px;font-family:monospace;font-weight:700;text-transform:uppercase"/>
+          <button class="btn" id="vbtn" type="button">Verify Token</button>
+        </div>
+        <div id="vout" style="margin-top:.8rem" hidden></div>
+      </div>
+
+      <div class="card" style="overflow-x:auto">
+        <table>
+          <thead>
+            <tr><th>15-Char Token</th><th>Order</th><th>Customer</th><th>Amount</th><th>Issued</th><th>Status</th><th>Action</th></tr>
+          </thead>
+          <tbody id="body"><tr><td colspan="7" class="muted">Loading refund token registry…</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <script>
+  (function(){
+    var ORIGIN_KEY="romeos_console_api_origin";
+    var CRED_RE=/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9]{14}$/;
+    var activeToken="";
+
+    var gate=document.getElementById("gate");
+    var app=document.getElementById("app");
+    var topNav=document.getElementById("top-nav");
+    var userIn=document.getElementById("login-user");
+    var passIn=document.getElementById("login-pass");
+    var userCnt=document.getElementById("user-cnt");
+    var passCnt=document.getElementById("pass-cnt");
+    var errEl=document.getElementById("login-err");
+
+    function updCnt(inp,el){
+      var v=inp.value,ok=CRED_RE.test(v);
+      el.textContent=v.length+" / 14"+(ok?" ✓":"");
+      el.classList.toggle("valid",ok);
+    }
+    userIn.addEventListener("input",function(){updCnt(userIn,userCnt);});
+    passIn.addEventListener("input",function(){updCnt(passIn,passCnt);});
+
+    function getOrigin(){
+      try{
+        var o=(sessionStorage.getItem(ORIGIN_KEY)||localStorage.getItem(ORIGIN_KEY)||"").replace(/\/+$/,"");
+        return o||location.origin;
+      }catch(_){return location.origin;}
+    }
+    function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c]});}
+    function money(n){return "₦"+Number(n||0).toLocaleString("en-NG");}
+    function date(t){var d=new Date(t);return isNaN(d)?"—":d.toLocaleString("en-NG",{month:"short",day:"numeric",year:"numeric",hour:"2-digit",minute:"2-digit"});}
+
+    function lockPage(msg){
+      activeToken="";
+      app.hidden=true;
+      topNav.hidden=true;
+      gate.hidden=false;
+      document.getElementById("body").innerHTML="";
+      document.getElementById("vout").hidden=true;
+      passIn.value="";
+      updCnt(passIn,passCnt);
+      if(msg){errEl.textContent=msg;errEl.hidden=false;}else{errEl.hidden=true;}
+    }
+
+    async function claim(t){
+      if(!activeToken){lockPage("Please enter your password to check in a refund token.");return false;}
+      var r=await fetch(getOrigin()+"/api/admin",{
+        method:"PATCH",
+        headers:{"Content-Type":"application/json",Authorization:"Bearer "+activeToken},
+        body:JSON.stringify({action:"claim_refund",token:t})
+      });
+      var d=await r.json().catch(function(){return{};});
+      if(!r.ok)alert(d.error||"Could not check in token");
+      return r.ok;
+    }
+
+    async function load(){
+      if(!activeToken){lockPage();return;}
+      var b=document.getElementById("body");
+      try{
+        var r=await fetch(getOrigin()+"/api/admin?view=refunds&_t="+Date.now(),{
+          cache:"no-store",
+          headers:{Authorization:"Bearer "+activeToken}
+        });
+        if(r.status===401||r.status===403){
+          lockPage("Session expired or unauthorized. Please enter your password again.");
+          return;
+        }
+        var d=await r.json().catch(function(){return{};});
+        if(!r.ok)throw new Error(d.error||"Request failed");
+        var a=d.tokens||[];
+        var open=a.filter(function(t){return t.status!=="claimed";});
+        document.getElementById("total").textContent=a.length;
+        document.getElementById("open").textContent=open.length;
+        document.getElementById("done").textContent=a.length-open.length;
+        document.getElementById("val").textContent=money(open.reduce(function(s,t){return s+Number(t.amount||0);},0));
+        var delBtn=document.getElementById("del-used");
+        if(delBtn)delBtn.hidden=(a.length-open.length)===0;
+        b.innerHTML=a.length?a.map(function(t){
+          var c=t.status==="claimed";
+          return '<tr><td class="tok">'+esc(t.token)+'</td><td>'+esc(t.order_id)+'</td><td>'+esc(t.customer_name)+'<br><small class="muted">'+esc(t.customer_phone||"")+'</small></td><td>'+money(t.amount)+'</td><td>'+date(t.issued_at)+'</td><td><span class="pill '+(c?"p-ok":"p-wait")+'">'+(c?"checked in":"unclaimed")+'</span></td><td>'+(c?'<button class="btn sm" style="background:var(--danger)" data-del="'+esc(t.token)+'">Delete</button>':'<button class="btn ok sm" data-t="'+esc(t.token)+'">Check in</button>')+'</td></tr>';
+        }).join(""):'<tr><td colspan="7" class="muted">No refund tokens issued yet.</td></tr>';
+      }catch(e){
+        b.innerHTML='<tr><td colspan="7" class="err">'+esc(e.message)+'</td></tr>';
+      }
+    }
+
+    document.getElementById("body").onclick=async function(e){
+      var t=e.target.closest("[data-t]");
+      if(t&&confirm("Check in token "+t.dataset.t+"? This marks it as redeemed.")){
+        if(await claim(t.dataset.t))load();
+        return;
+      }
+      var d=e.target.closest("[data-del]");
+      if(d&&confirm("Delete used refund token "+d.dataset.del+"?")){
+        var r=await fetch(getOrigin()+"/api/admin?refundToken="+encodeURIComponent(d.dataset.del),{method:"DELETE",headers:{Authorization:"Bearer "+activeToken}});
+        if(r.ok)load();else alert(((await r.json().catch(function(){return{};})).error)||"Only Admin can delete used tokens.");
+      }
+    };
+
+    var delUsedEl=document.getElementById("del-used");
+    if(delUsedEl){
+      delUsedEl.onclick=async function(){
+        if(!confirm("Delete all used (checked in) refund tokens?"))return;
+        var r=await fetch(getOrigin()+"/api/admin?deleteUsedTokens=true",{method:"DELETE",headers:{Authorization:"Bearer "+activeToken}});
+        if(r.ok)load();else alert(((await r.json().catch(function(){return{};})).error)||"Only Admin can delete used tokens.");
+      };
+    }
+
+    document.getElementById("vbtn").onclick=async function(){
+      if(!activeToken){lockPage();return;}
+      var v=document.getElementById("vin").value.trim().toUpperCase(),o=document.getElementById("vout");
+      o.hidden=false;
+      if(v.length!==15){o.innerHTML='<span class="err">Token must be exactly 15 characters.</span>';return;}
+      try{
+        var r=await fetch(getOrigin()+"/api/admin?verifyRefundToken="+encodeURIComponent(v),{cache:"no-store"}),d=await r.json().catch(function(){return{};});
+        if(!r.ok||!d.valid){o.innerHTML='<span class="err">✗ '+esc(d.error||"Invalid token")+'</span>';return;}
+        o.innerHTML='<b style="color:#20c997">✓ Valid — '+(d.checkedIn?"already checked in":"unclaimed")+'</b><div>Order '+esc(d.orderId)+' · '+esc(d.customerName)+' · <b>'+money(d.refundedAmount)+'</b></div>'+(d.checkedIn?'':'<button class="btn ok sm" id="vc" style="margin-top:.5rem">Check in</button>');
+        var c=document.getElementById("vc");
+        if(c)c.onclick=async function(){if(await claim(v)){load();document.getElementById("vbtn").click();}};
+      }catch(_){
+        o.innerHTML='<span class="err">Network error.</span>';
+      }
+    };
+
+    document.getElementById("login-form").addEventListener("submit",async function(e){
+      e.preventDefault();
+      errEl.hidden=true;
+      var u=userIn.value.trim(),p=passIn.value.trim();
+      if(!CRED_RE.test(u)||!CRED_RE.test(p)){
+        errEl.textContent="Username and password must each be exactly 14 alphanumeric characters.";
+        errEl.hidden=false;
+        return;
+      }
+      try{
+        var r=await fetch(getOrigin()+"/api/admin",{
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({action:"login",username:u,password:p})
+        });
+        var d=await r.json().catch(function(){return{};});
+        if(!r.ok||!d.token){
+          errEl.textContent=d.error||"Invalid username or password.";
+          errEl.hidden=false;
+          return;
+        }
+        activeToken=d.token;
+        gate.hidden=true;
+        topNav.hidden=false;
+        app.hidden=false;
+        load();
+      }catch(_){
+        errEl.textContent="Could not reach API server.";
+        errEl.hidden=false;
+      }
+    });
+
+    document.getElementById("lock-btn").addEventListener("click",function(){lockPage();});
+    document.getElementById("refresh").addEventListener("click",load);
+  })();
+  </script>
+</body>
+</html>

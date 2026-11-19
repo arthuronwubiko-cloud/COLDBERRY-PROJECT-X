@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#161114" />
+    <title>Delivery Driver Console | Coldberry Ice Cream Nigeria</title>
+    <meta name="description" content="Dedicated, mobile-first Rider & Delivery Driver Console for Coldberry Ice Cream Nigeria." />
+    <link rel="icon" href="images/coldberry-favicon.png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+    <style>
+      :root {
+        --bg: #fff8f3;
+        --surface: #ffffff;
+        --surface-2: #fdf2e9;
+        --surface-3: #fae7d9;
+        --text: #1c1216;
+        --muted: #6b5c62;
+        --border: rgba(92, 26, 43, 0.14);
+        --wine: #5c1a2b;
+        --coral: #ff5733;
+        --saffron: #f0a83b;
+        --danger: #dc3545;
+        --success: #198754;
+        --info: #0d6efd;
+        --wa-green: #25d366;
+        --rider-gold: #ffb703;
+      }
+      :root[data-theme="dark"] {
+        --bg: #140f12;
+        --surface: #1e161b;
+        --surface-2: #281d24;
+        --surface-3: #34252f;
+        --text: #faf6f2;
+        --muted: #b3a5ab;
+        --border: rgba(255, 255, 255, 0.1);
+      }
+      * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.5;
+        padding-bottom: 3rem;
+      }
+
+      /* Header */
+      .driver-header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+        padding: 0.75rem 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+      }
+      .driver-brand {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-weight: 800;
+        font-size: 1.05rem;
+        color: var(--coral);
+        text-decoration: none;
+      }
+      .driver-header-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .rider-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.25rem 0.6rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        background: rgba(255, 183, 3, 0.16);
+        color: var(--rider-gold);
+        border: 1px solid rgba(255, 183, 3, 0.35);
+      }
+      .theme-toggle-btn {
+        background: var(--surface-2);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 0.45rem 0.65rem;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 0.85rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Container */
+      .driver-container {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 1rem 0.85rem;
+      }
+
+      /* Auth Screen */
+      .driver-auth-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 1.75rem 1.25rem;
+        margin: 2rem auto;
+        max-width: 440px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.22);
+      }
+      .auth-field {
+        margin-bottom: 1rem;
+        text-align: left;
+      }
+      .auth-field label {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.85rem;
+        font-weight: 700;
+        margin-bottom: 0.35rem;
+      }
+      .char-counter {
+        font-family: monospace;
+        font-size: 0.8rem;
+        color: var(--muted);
+      }
+      .char-counter.valid { color: var(--success); font-weight: 700; }
+      .driver-input {
+        width: 100%;
+        padding: 0.8rem 0.9rem;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: var(--bg);
+        color: var(--text);
+        font-size: 16px; /* Prevents auto-zoom on iOS */
+      }
+      .driver-input:focus {
+        outline: 2px solid var(--coral);
+        outline-offset: 1px;
+      }
+
+      /* Buttons */
+      .driver-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.45rem;
+        padding: 0.75rem 1.1rem;
+        border-radius: 10px;
+        font-size: 0.92rem;
+        font-weight: 700;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        transition: opacity 0.15s ease, transform 0.12s ease;
+      }
+      .driver-btn:active { transform: scale(0.98); }
+      .driver-btn-primary {
+        background: var(--coral);
+        color: #ffffff;
+        width: 100%;
+      }
+      .driver-btn-secondary {
+        background: var(--surface-2);
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+      .driver-btn-map {
+        background: #1a73e8;
+        color: #ffffff;
+      }
+      .driver-btn-wa {
+        background: #25d366;
+        color: #ffffff;
+      }
+      .driver-btn-call {
+        background: var(--surface-3);
+        color: var(--text);
+        border: 1px solid var(--border);
+      }
+
+      /* Filter Bar & Tabs */
+      .tabs-scroll {
+        display: flex;
+        gap: 0.45rem;
+        overflow-x: auto;
+        padding: 0.25rem 0 0.75rem;
+        scrollbar-width: none;
+      }
+      .tabs-scroll::-webkit-scrollbar { display: none; }
+      .tab-chip {
+        padding: 0.45rem 0.85rem;
+        border-radius: 9999px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--muted);
+        font-size: 0.82rem;
+        font-weight: 700;
+        cursor: pointer;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+      }
+      .tab-chip.active {
+        background: var(--coral);
+        color: #ffffff;
+        border-color: var(--coral);
+      }
+      .tab-count {
+        background: rgba(0,0,0,0.18);
+        padding: 0.1rem 0.4rem;
+        border-radius: 9999px;
+        font-size: 0.72rem;
+      }
+      .tab-chip.active .tab-count {
+        background: rgba(255,255,255,0.25);
+      }
+
+      /* Delivery Order Card */
+      .delivery-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 1.15rem;
+        margin-bottom: 1.1rem;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+        position: relative;
+        overflow: hidden;
+      }
+      .delivery-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 5px;
+      }
+      .delivery-card.status-preparing::before { background: #0dcaf0; }
+      .delivery-card.status-ready::before { background: var(--saffron); }
+      .delivery-card.status-out_for_delivery::before { background: var(--coral); }
+      .delivery-card.status-completed::before { background: var(--success); }
+
+      .card-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 0.5rem;
+        margin-bottom: 0.65rem;
+      }
+      .card-order-id {
+        font-family: monospace;
+        font-size: 0.95rem;
+        font-weight: 800;
+        color: var(--coral);
+      }
+      .card-pin {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        background: var(--surface-2);
+        padding: 0.2rem 0.5rem;
+        border-radius: 6px;
+        font-size: 0.76rem;
+        font-family: monospace;
+        font-weight: 700;
+        color: var(--muted);
+      }
+      .card-time {
+        font-size: 0.78rem;
+        color: var(--muted);
+      }
+
+      /* Status Pill */
+      .status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.25rem 0.65rem;
+        border-radius: 9999px;
+        font-size: 0.76rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+      .pill-preparing { background: rgba(13, 202, 240, 0.15); color: #0dcaf0; }
+      .pill-ready { background: rgba(240, 168, 59, 0.18); color: var(--saffron); }
+      .pill-out { background: rgba(255, 87, 51, 0.18); color: var(--coral); }
+      .pill-completed { background: rgba(25, 135, 84, 0.18); color: var(--success); }
+
+      /* Address Box */
+      .address-section {
+        background: var(--surface-2);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 0.85rem;
+        margin: 0.75rem 0;
+      }
+      .address-title {
+        font-size: 0.74rem;
+        text-transform: uppercase;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+        color: var(--muted);
+        margin-bottom: 0.25rem;
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+      }
+      .address-text {
+        font-size: 0.96rem;
+        font-weight: 700;
+        color: var(--text);
+        margin-bottom: 0.55rem;
+        word-break: break-word;
+      }
+      .address-sub {
+        font-size: 0.82rem;
+        color: var(--muted);
+        margin-bottom: 0.6rem;
+      }
+
+      /* Contact Buttons Grid */
+      .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+        margin: 0.75rem 0;
+      }
+
+      /* Item Package Summary */
+      .packages-summary {
+        background: var(--surface-3);
+        border-radius: 8px;
+        padding: 0.65rem 0.75rem;
+        margin: 0.75rem 0;
+        font-size: 0.85rem;
+      }
+      .packages-header {
+        font-size: 0.74rem;
+        text-transform: uppercase;
+        font-weight: 800;
+        color: var(--muted);
+        margin-bottom: 0.35rem;
+        display: flex;
+        justify-content: space-between;
+      }
+      .package-badges {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+      }
+      .pkg-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.25rem 0.55rem;
+        border-radius: 6px;
+        background: var(--surface);
+        font-size: 0.8rem;
+        font-weight: 700;
+      }
+
+      /* Payment Banner */
+      .payment-banner {
+        border-radius: 8px;
+        padding: 0.7rem 0.85rem;
+        margin: 0.8rem 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.5rem;
+      }
+      .payment-banner.paid {
+        background: rgba(25, 135, 84, 0.15);
+        border: 1px solid rgba(25, 135, 84, 0.35);
+        color: var(--success);
+      }
+      .payment-banner.collect {
+        background: rgba(220, 53, 69, 0.16);
+        border: 1px solid rgba(220, 53, 69, 0.45);
+        color: var(--danger);
+      }
+      .payment-badge-text {
+        font-weight: 800;
+        font-size: 0.88rem;
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+      }
+      .payment-amount {
+        font-size: 1.1rem;
+        font-weight: 900;
+      }
+
+      /* Action Buttons */
+      .driver-action-btn {
+        width: 100%;
+        padding: 0.95rem 1rem;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 800;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        transition: opacity 0.15s ease, transform 0.1s ease;
+      }
+      .driver-action-btn:active { transform: scale(0.98); }
+      .action-pickup {
+        background: var(--coral);
+        color: #ffffff;
+        box-shadow: 0 4px 12px rgba(255, 87, 51, 0.35);
+      }
+      .action-complete {
+        background: var(--success);
+        color: #ffffff;
+        box-shadow: 0 4px 12px rgba(25, 135, 84, 0.35);
+      }
+      .delivered-badge-done {
+        text-align: center;
+        padding: 0.65rem;
+        color: var(--success);
+        font-weight: 700;
+        font-size: 0.9rem;
+        background: rgba(25, 135, 84, 0.1);
+        border-radius: 8px;
+      }
+
+      /* Toast */
+      .toast {
+        position: fixed;
+        bottom: 1.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #20171d;
+        color: #fff;
+        padding: 0.65rem 1.25rem;
+        border-radius: 9999px;
+        font-size: 0.88rem;
+        font-weight: 600;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        animation: fadeIn 0.2s ease;
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translate(-50%, 10px); }
+        to { opacity: 1; transform: translate(-50%, 0); }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Top Header -->
+    <header class="driver-header">
+      <a href="#" class="driver-brand" aria-label="Coldberry Delivery Driver Console">
+        <img src="images/coldberry-logo.png" alt="Coldberry Ice Cream" style="height: 36px; width: 36px; border-radius: 50%; object-fit: cover;" />
+        <span>Coldberry Rider</span>
+      </a>
+      <div class="driver-header-actions">
+        <span id="rider-status-badge" class="rider-badge" hidden>
+          <i class="fa-solid fa-id-badge" aria-hidden="true"></i> Rider
+        </span>
+        <button id="theme-toggle" class="theme-toggle-btn" type="button" aria-label="Toggle dark/light theme" aria-pressed="true">
+          <i class="fa-solid fa-moon" id="theme-icon" aria-hidden="true"></i>
+        </button>
+        <button id="refresh-btn" class="theme-toggle-btn" type="button" aria-label="Refresh deliveries" title="Refresh deliveries" hidden>
+          <i class="fa-solid fa-rotate" aria-hidden="true"></i>
+        </button>
+        <button id="logout-btn" class="theme-toggle-btn" type="button" aria-label="Log out" title="Log out" hidden>
+          <i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i>
+        </button>
+      </div>
+    </header>
+
+    <main class="driver-container">
+      <!-- 1. Driver Login Screen -->
+      <section id="auth-section">
+        <div class="driver-auth-card">
+          <div style="text-align: center; margin-bottom: 1.25rem;">
+            <img src="images/coldberry-logo.png" alt="Coldberry Ice Cream" style="height: 56px; width: 56px; border-radius: 50%; object-fit: cover; margin: 0 auto 0.5rem; display: block;" />
+            <h1 style="margin: 0 0 0.35rem; font-size: 1.45rem;">Delivery Driver Login</h1>
+            <p style="margin: 0; color: var(--muted); font-size: 0.88rem;">
+              Locked Rider Portal for Coldberry Ice Cream Nigeria
+            </p>
+          </div>
+
+          <form id="driver-login-form">
+            <div class="auth-field">
+              <label for="login-username">
+                <span>Rider Username (14 chars)</span>
+                <span id="user-count" class="char-counter">0 / 14</span>
+              </label>
+              <input
+                type="text"
+                id="login-username"
+                class="driver-input"
+                minlength="14"
+                maxlength="14"
+                autocomplete="off"
+                autocapitalize="none"
+                autocorrect="off"
+                spellcheck="false"
+                placeholder="e.g. RomeosRider890"
+                required
+              />
+            </div>
+
+            <div class="auth-field">
+              <label for="login-password">
+                <span>Rider Password (14 chars)</span>
+                <span id="pass-count" class="char-counter">0 / 14</span>
+              </label>
+              <input
+                type="password"
+                id="login-password"
+                class="driver-input"
+                minlength="14"
+                maxlength="14"
+                autocomplete="off"
+                autocapitalize="none"
+                autocorrect="off"
+                spellcheck="false"
+                placeholder="14-char alphanumeric..."
+                required
+              />
+            </div>
+
+            <details style="margin: 0.5rem 0 1rem; font-size: 0.82rem; color: var(--muted); background: var(--surface-2); padding: 0.55rem 0.75rem; border-radius: 8px;">
+              <summary style="cursor: pointer; font-weight: 700;">
+                <i class="fa-solid fa-key" aria-hidden="true"></i> Quick Credential Helper
+              </summary>
+              <div style="margin-top: 0.45rem; line-height: 1.4;">
+                <div>User: <code style="font-weight: 700; color: var(--coral);">RomeosRider890</code></div>
+                <div>Pass: <code style="font-weight: 700; color: var(--coral);">Rdr72Kp45Lw19Q</code></div>
+                <button
+                  type="button"
+                  id="fill-demo-creds"
+                  class="driver-btn driver-btn-secondary"
+                  style="margin-top: 0.5rem; font-size: 0.78rem; padding: 0.35rem 0.65rem;"
+                >
+                  Fill Rider Credentials
+                </button>
+              </div>
+            </details>
+
+            <p id="login-error" role="alert" style="color: var(--danger); font-size: 0.85rem; margin: 0 0 0.85rem;" hidden></p>
+
+            <button type="submit" id="login-btn" class="driver-btn driver-btn-primary">
+              <i class="fa-solid fa-unlock-keyhole" aria-hidden="true"></i> Sign In to Rider Console
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- 2. Active Deliveries Panel -->
+      <section id="deliveries-section" hidden>
+        <!-- Filter Tabs -->
+        <div class="tabs-scroll" role="tablist" aria-label="Delivery status filter">
+          <button type="button" class="tab-chip active" data-filter="active">
+            Active Deliveries <span id="count-active" class="tab-count">0</span>
+          </button>
+          <button type="button" class="tab-chip" data-filter="ready">
+            Ready for Pickup <span id="count-ready" class="tab-count">0</span>
+          </button>
+          <button type="button" class="tab-chip" data-filter="out_for_delivery">
+            On the Road <span id="count-out" class="tab-count">0</span>
+          </button>
+          <button type="button" class="tab-chip" data-filter="preparing">
+            In Kitchen <span id="count-preparing" class="tab-count">0</span>
+          </button>
+          <button type="button" class="tab-chip" data-filter="completed">
+            Delivered <span id="count-completed" class="tab-count">0</span>
+          </button>
+          <button type="button" class="tab-chip" data-filter="all">
+            All <span id="count-all" class="tab-count">0</span>
+          </button>
+        </div>
+
+        <!-- Search Bar -->
+        <div style="margin: 0.5rem 0 1rem;">
+          <input
+            type="search"
+            id="driver-search"
+            class="driver-input"
+            aria-label="Search deliveries"
+            placeholder="Search customer, address, or order ID..."
+          />
+        </div>
+
+        <!-- Deliveries List -->
+        <div id="deliveries-list"></div>
+
+        <!-- Empty State -->
+        <div id="empty-state" style="text-align: center; padding: 3rem 1rem; color: var(--muted);" hidden>
+          <div style="font-size: 2.5rem; margin-bottom: 0.5rem; color: var(--coral);">
+            <i class="fa-solid fa-box-open" aria-hidden="true"></i>
+          </div>
+          <h2 style="font-size: 1.15rem; margin: 0 0 0.35rem;">No deliveries found</h2>
+          <p style="margin: 0; font-size: 0.88rem;">There are currently no matching delivery orders for this view.</p>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      (function () {
+        "use strict";
+
+        const TOKEN_KEY = "romeos_driver_token";
+        const USERNAME_KEY = "romeos_driver_username";
+        const ROLE_KEY = "romeos_driver_role";
+
+        // Theme management
+        const htmlEl = document.documentElement;
+        const themeToggleBtn = document.getElementById("theme-toggle");
+        const themeIcon = document.getElementById("theme-icon");
+        const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+
+        function applyTheme(theme) {
+          htmlEl.setAttribute("data-theme", theme);
+          localStorage.setItem("romeos-theme", theme);
+          if (theme === "dark") {
+            themeToggleBtn.setAttribute("aria-pressed", "true");
+            themeIcon.className = "fa-solid fa-moon";
+            if (metaThemeColor) metaThemeColor.setAttribute("content", "#161114");
+          } else {
+            themeToggleBtn.setAttribute("aria-pressed", "false");
+            themeIcon.className = "fa-solid fa-sun";
+            if (metaThemeColor) metaThemeColor.setAttribute("content", "#5C1A2B");
+          }
+        }
+
+        const savedTheme = localStorage.getItem("romeos-theme") || "dark";
+        applyTheme(savedTheme);
+
+        themeToggleBtn.addEventListener("click", () => {
+          const cur = htmlEl.getAttribute("data-theme") || "dark";
+          applyTheme(cur === "dark" ? "light" : "dark");
+        });
+
+        // DOM elements
+        const authSection = document.getElementById("auth-section");
+        const deliveriesSection = document.getElementById("deliveries-section");
+        const loginForm = document.getElementById("driver-login-form");
+        const loginUserInput = document.getElementById("login-username");
+        const loginPassInput = document.getElementById("login-password");
+        const userCount = document.getElementById("user-count");
+        const passCount = document.getElementById("pass-count");
+        const loginError = document.getElementById("login-error");
+        const loginBtn = document.getElementById("login-btn");
+        const fillDemoCredsBtn = document.getElementById("fill-demo-creds");
+        const riderStatusBadge = document.getElementById("rider-status-badge");
+        const refreshBtn = document.getElementById("refresh-btn");
+        const logoutBtn = document.getElementById("logout-btn");
+        const deliveriesList = document.getElementById("deliveries-list");
+        const emptyState = document.getElementById("empty-state");
+        const driverSearch = document.getElementById("driver-search");
+        const tabChips = document.querySelectorAll(".tab-chip");
+
+        let activeFilter = "active";
+        let currentOrders = [];
+        let refreshInterval = null;
+
+        function getApiBase() {
+          return "";
+        }
+
+        function showToast(msg, isError = false) {
+          const t = document.createElement("div");
+          t.className = "toast";
+          if (isError) t.style.background = "var(--danger)";
+          t.innerHTML = `<i class="fa-solid ${isError ? "fa-circle-exclamation" : "fa-circle-check"}"></i> <span>${msg}</span>`;
+          document.body.appendChild(t);
+          setTimeout(() => {
+            t.style.opacity = "0";
+            setTimeout(() => t.remove(), 250);
+          }, 2400);
+        }
+
+        // Live character counters
+        function updateCharCounters() {
+          const uLen = loginUserInput.value.length;
+          const pLen = loginPassInput.value.length;
+          userCount.textContent = `${uLen} / 14`;
+          passCount.textContent = `${pLen} / 14`;
+          userCount.classList.toggle("valid", uLen === 14);
+          passCount.classList.toggle("valid", pLen === 14);
+        }
+
+        loginUserInput.addEventListener("input", updateCharCounters);
+        loginPassInput.addEventListener("input", updateCharCounters);
+
+        if (fillDemoCredsBtn) {
+          fillDemoCredsBtn.addEventListener("click", () => {
+            loginUserInput.value = "RomeosRider890";
+            loginPassInput.value = "Rdr72Kp45Lw19Q";
+            updateCharCounters();
+          });
+        }
+
+        // Auth submit
+        loginForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          loginError.hidden = true;
+          loginBtn.disabled = true;
+          loginBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Authenticating...`;
+
+          const username = loginUserInput.value.trim();
+          const password = loginPassInput.value.trim();
+
+          try {
+            const res = await fetch(`${getApiBase()}/api/admin`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ action: "login", username, password }),
+            });
+            const data = await res.json().catch(() => ({}));
+
+            if (!res.ok) {
+              loginError.textContent = data.error || "Authentication failed. Invalid rider credentials.";
+              loginError.hidden = false;
+              loginBtn.disabled = false;
+              loginBtn.innerHTML = `<i class="fa-solid fa-unlock-keyhole"></i> Sign In to Rider Console`;
+              return;
+            }
+
+            if (data.role !== "driver" && data.role !== "admin") {
+              loginError.textContent = "Access denied: This console is reserved strictly for Delivery Drivers.";
+              loginError.hidden = false;
+              loginBtn.disabled = false;
+              loginBtn.innerHTML = `<i class="fa-solid fa-unlock-keyhole"></i> Sign In to Rider Console`;
+              return;
+            }
+
+            sessionStorage.setItem(TOKEN_KEY, data.token);
+            sessionStorage.setItem(USERNAME_KEY, data.username);
+            sessionStorage.setItem(ROLE_KEY, data.role);
+
+            showToast(`Signed in as Rider ${data.username}`);
+            enterConsoleMode(data.username, data.role);
+          } catch (_) {
+            loginError.textContent = "Network error connecting to verification server.";
+            loginError.hidden = false;
+            loginBtn.disabled = false;
+            loginBtn.innerHTML = `<i class="fa-solid fa-unlock-keyhole"></i> Sign In to Rider Console`;
+          }
+        });
+
+        function enterConsoleMode(username, role) {
+          authSection.hidden = true;
+          deliveriesSection.hidden = false;
+          riderStatusBadge.hidden = false;
+          refreshBtn.hidden = false;
+          logoutBtn.hidden = false;
+          riderStatusBadge.innerHTML = `<i class="fa-solid fa-motorcycle"></i> ${username}`;
+
+          fetchDeliveries();
+          if (refreshInterval) clearInterval(refreshInterval);
+          refreshInterval = setInterval(fetchDeliveries, 30000); // 30s auto-refresh
+        }
+
+        logoutBtn.addEventListener("click", () => {
+          sessionStorage.removeItem(TOKEN_KEY);
+          sessionStorage.removeItem(USERNAME_KEY);
+          sessionStorage.removeItem(ROLE_KEY);
+          if (refreshInterval) clearInterval(refreshInterval);
+          authSection.hidden = false;
+          deliveriesSection.hidden = true;
+          riderStatusBadge.hidden = true;
+          refreshBtn.hidden = true;
+          logoutBtn.hidden = true;
+          loginBtn.disabled = false;
+          loginBtn.innerHTML = `<i class="fa-solid fa-unlock-keyhole"></i> Sign In to Rider Console`;
+          showToast("Rider Console locked.");
+        });
+
+        refreshBtn.addEventListener("click", () => {
+          refreshBtn.innerHTML = `<i class="fa-solid fa-rotate fa-spin"></i>`;
+          fetchDeliveries().finally(() => {
+            setTimeout(() => {
+              refreshBtn.innerHTML = `<i class="fa-solid fa-rotate"></i>`;
+            }, 500);
+          });
+        });
+
+        // Tabs
+        tabChips.forEach((chip) => {
+          chip.addEventListener("click", () => {
+            tabChips.forEach((c) => c.classList.remove("active"));
+            chip.classList.add("active");
+            activeFilter = chip.dataset.filter;
+            renderDeliveries();
+          });
+        });
+
+        driverSearch.addEventListener("input", renderDeliveries);
+
+        async function fetchDeliveries() {
+          const token = sessionStorage.getItem(TOKEN_KEY);
+          if (!token) return;
+
+          try {
+            const res = await fetch(`${getApiBase()}/api/admin?limit=200`, {
+              method: "GET",
+              headers: { Authorization: `Bearer ${token}` },
+            });
+            const data = await res.json().catch(() => ({}));
+
+            if (!res.ok) {
+              if (res.status === 401) {
+                logoutBtn.click();
+              }
+              return;
+            }
+
+            currentOrders = Array.isArray(data.orders) ? data.orders : [];
+            updateTabCounts();
+            renderDeliveries();
+          } catch (_) {}
+        }
+
+        function updateTabCounts() {
+          const deliveryOrders = currentOrders.filter((o) => (o.fulfilment || "").toLowerCase() === "delivery");
+          const activeCount = deliveryOrders.filter((o) => ["preparing", "ready", "out_for_delivery"].includes(o.status)).length;
+          const readyCount = deliveryOrders.filter((o) => o.status === "ready").length;
+          const outCount = deliveryOrders.filter((o) => o.status === "out_for_delivery").length;
+          const prepCount = deliveryOrders.filter((o) => o.status === "preparing").length;
+          const compCount = deliveryOrders.filter((o) => o.status === "completed").length;
+
+          document.getElementById("count-active").textContent = activeCount;
+          document.getElementById("count-ready").textContent = readyCount;
+          document.getElementById("count-out").textContent = outCount;
+          document.getElementById("count-preparing").textContent = prepCount;
+          document.getElementById("count-completed").textContent = compCount;
+          document.getElementById("count-all").textContent = deliveryOrders.length;
+        }
+
+        // Package Summarizer (Pizza Boxes, Sides, Drinks)
+        function summarizePackages(itemsText) {
+          const raw = String(itemsText || "");
+          const lines = raw.split(/[\n,]+/).map((s) => s.trim()).filter(Boolean);
+
+          let pizzaCount = 0;
+          let sidesCount = 0;
+          let drinksCount = 0;
+          const pizzaList = [];
+          const sideList = [];
+          const drinkList = [];
+
+          for (const item of lines) {
+            const lower = item.toLowerCase();
+            const qtyMatch = item.match(/^(\d+)\s*x/i) || item.match(/^(\d+)\s+/);
+            const qty = qtyMatch ? parseInt(qtyMatch[1], 10) : 1;
+
+            if (
+              lower.includes("coca-cola") ||
+              lower.includes("coke") ||
+              lower.includes("fanta") ||
+              lower.includes("sprite") ||
+              lower.includes("water") ||
+              lower.includes("drink") ||
+              lower.includes("cl")
+            ) {
+              drinksCount += qty;
+              drinkList.push(item);
+            } else if (
+              lower.includes("wings") ||
+              lower.includes("shawarma") ||
+              lower.includes("fries") ||
+              lower.includes("bread") ||
+              lower.includes("side")
+            ) {
+              sidesCount += qty;
+              sideList.push(item);
+            } else {
+              pizzaCount += qty;
+              pizzaList.push(item);
+            }
+          }
+
+          if (pizzaCount === 0 && pizzaList.length > 0) pizzaCount = pizzaList.length;
+
+          return { pizzaCount, sidesCount, drinksCount, raw };
+        }
+
+        function formatMoney(amount) {
+          return "₦" + Number(amount || 0).toLocaleString("en-NG");
+        }
+
+        function formatTimeAgo(ts) {
+          try {
+            const d = new Date(ts);
+            if (isNaN(d.getTime())) return "Recently";
+            return d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+          } catch (_) {
+            return "Recently";
+          }
+        }
+
+        function buildWhatsAppLink(phone, customerName, orderId) {
+          const digits = String(phone || "").replace(/\D/g, "");
+          let waNumber = digits;
+          if (waNumber.startsWith("0") && waNumber.length === 11) {
+            waNumber = "234" + waNumber.slice(1);
+          }
+          const msg = encodeURIComponent(`Hello ${customerName || "there"}, this is your Coldberry Ice Cream delivery rider regarding order #${orderId}.`);
+          return `https://wa.me/${waNumber}?text=${msg}`;
+        }
+
+        function buildGoogleMapsLink(address, location) {
+          const fullQuery = [address, location, "Nigeria"].filter(Boolean).join(", ");
+          return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullQuery)}`;
+        }
+
+        function renderDeliveries() {
+          const query = driverSearch.value.trim().toLowerCase();
+          const deliveryOrders = currentOrders.filter((o) => (o.fulfilment || "").toLowerCase() === "delivery");
+
+          let filtered = deliveryOrders.filter((o) => {
+            const st = (o.status || "pending").toLowerCase();
+            if (activeFilter === "active") {
+              if (!["preparing", "ready", "out_for_delivery"].includes(st)) return false;
+            } else if (activeFilter !== "all" && st !== activeFilter) {
+              return false;
+            }
+
+            if (query) {
+              const hay = `${o.order_id || ""} ${o.customer_name || ""} ${o.customer_phone || ""} ${o.address || ""} ${o.location || ""} ${o.items || ""}`.toLowerCase();
+              if (!hay.includes(query)) return false;
+            }
+            return true;
+          });
+
+          // Sort: out_for_delivery first, then ready, then preparing, then completed
+          const priority = { out_for_delivery: 1, ready: 2, preparing: 3, completed: 4 };
+          filtered.sort((a, b) => {
+            const pA = priority[a.status] || 5;
+            const pB = priority[b.status] || 5;
+            if (pA !== pB) return pA - pB;
+            return (Date.parse(b.created_at || 0) || 0) - (Date.parse(a.created_at || 0) || 0);
+          });
+
+          if (filtered.length === 0) {
+            deliveriesList.innerHTML = "";
+            emptyState.hidden = false;
+            return;
+          }
+
+          emptyState.hidden = true;
+          deliveriesList.innerHTML = filtered.map(renderDeliveryCard).join("");
+        }
+
+        function renderDeliveryCard(order) {
+          const id = order.order_id || order.orderId;
+          const pin = order.order_pin || order.orderPin || "N/A";
+          const customerName = order.customer_name || order.customerName || "Customer";
+          const phone = order.customer_phone || order.customerPhone || "";
+          const address = order.address || "Delivery address provided with order";
+          const location = order.location || "Lagos";
+          const status = (order.status || "pending").toLowerCase();
+          const paymentStatus = (order.payment_status || order.paymentStatus || "pending").toLowerCase();
+          const isPaid = paymentStatus === "paid" || paymentStatus === "received";
+          const grandTotal = Number(order.grand_total || order.grandTotal || 0);
+          const timeStr = formatTimeAgo(order.created_at || order.timestamp);
+
+          const pkg = summarizePackages(order.items);
+          const mapsUrl = buildGoogleMapsLink(address, location);
+          const waUrl = buildWhatsAppLink(phone, customerName, id);
+
+          // Status Badge Pill
+          let pillHtml = "";
+          if (status === "preparing") {
+            pillHtml = `<span class="status-pill pill-preparing"><i class="fa-solid fa-kitchen-set"></i> Kitchen Baking</span>`;
+          } else if (status === "ready") {
+            pillHtml = `<span class="status-pill pill-ready"><i class="fa-solid fa-box"></i> Ready for Pickup</span>`;
+          } else if (status === "out_for_delivery") {
+            pillHtml = `<span class="status-pill pill-out"><i class="fa-solid fa-motorcycle"></i> On the Way</span>`;
+          } else if (status === "completed") {
+            pillHtml = `<span class="status-pill pill-completed"><i class="fa-solid fa-circle-check"></i> Delivered</span>`;
+          } else {
+            pillHtml = `<span class="status-pill pill-ready">${status}</span>`;
+          }
+
+          // Payment Badge (PAID vs COLLECT PAYMENT)
+          const paymentBannerHtml = isPaid
+            ? `<div class="payment-banner paid">
+                 <div class="payment-badge-text">
+                   <i class="fa-solid fa-circle-check" aria-hidden="true"></i> PAID ONLINE
+                 </div>
+                 <div style="font-size: 0.82rem; font-weight: 700;">DO NOT COLLECT CASH</div>
+               </div>`
+            : `<div class="payment-banner collect">
+                 <div>
+                   <div class="payment-badge-text">
+                     <i class="fa-solid fa-hand-holding-dollar" aria-hidden="true"></i> COLLECT PAYMENT
+                   </div>
+                   <div style="font-size: 0.78rem;">Collect cash / transfer upon delivery</div>
+                 </div>
+                 <div class="payment-amount">${formatMoney(grandTotal)}</div>
+               </div>`;
+
+          // Action Button
+          let actionBtnHtml = "";
+          if (status === "preparing" || status === "ready") {
+            actionBtnHtml = `
+              <button
+                type="button"
+                class="driver-action-btn action-pickup"
+                data-action="update-status"
+                data-id="${id}"
+                data-next-status="out_for_delivery"
+              >
+                <i class="fa-solid fa-motorcycle" aria-hidden="true"></i> Pick Up &amp; Start Delivery
+              </button>
+            `;
+          } else if (status === "out_for_delivery") {
+            actionBtnHtml = `
+              <button
+                type="button"
+                class="driver-action-btn action-complete"
+                data-action="update-status"
+                data-id="${id}"
+                data-next-status="completed"
+              >
+                <i class="fa-solid fa-circle-check" aria-hidden="true"></i> Handed Over to Customer
+              </button>
+            `;
+          } else if (status === "completed") {
+            actionBtnHtml = `
+              <div class="delivered-badge-done">
+                <i class="fa-solid fa-check-double" aria-hidden="true"></i> Order Delivered &amp; Completed
+              </div>
+            `;
+          }
+
+          return `
+            <article class="delivery-card status-${status}" data-order-id="${id}">
+              <div class="card-top">
+                <div>
+                  <div class="card-order-id">#${id}</div>
+                  <span class="card-pin"><i class="fa-solid fa-key"></i> PIN: <strong>${pin}</strong></span>
+                </div>
+                <div style="text-align: right;">
+                  <div>${pillHtml}</div>
+                  <div class="card-time" style="margin-top: 0.3rem;"><i class="fa-regular fa-clock"></i> ${timeStr}</div>
+                </div>
+              </div>
+
+              <!-- Customer & Address -->
+              <div class="address-section">
+                <div class="address-title">
+                  <i class="fa-solid fa-location-dot" style="color: var(--coral);"></i> Delivery Address
+                </div>
+                <div class="address-text">${address}</div>
+                <div class="address-sub"><i class="fa-solid fa-city"></i> Zone: ${location}</div>
+
+                <a href="${mapsUrl}" target="_blank" rel="noopener noreferrer" class="driver-btn driver-btn-map" style="width: 100%;">
+                  <i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Open in Google Maps
+                </a>
+              </div>
+
+              <!-- Customer Contact -->
+              <div style="display: flex; justify-content: space-between; align-items: center; margin: 0.5rem 0 0.25rem;">
+                <div style="font-weight: 800; font-size: 0.95rem;">
+                  <i class="fa-solid fa-user" style="color: var(--muted);"></i> ${customerName}
+                </div>
+                <div style="font-size: 0.85rem; color: var(--muted); font-family: monospace;">${phone}</div>
+              </div>
+
+              <div class="contact-grid">
+                <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="driver-btn driver-btn-wa">
+                  <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
+                </a>
+                <a href="tel:${phone}" class="driver-btn driver-btn-call">
+                  <i class="fa-solid fa-phone" aria-hidden="true"></i> Call
+                </a>
+              </div>
+
+              <!-- Package Breakdown -->
+              <div class="packages-summary">
+                <div class="packages-header">
+                  <span><i class="fa-solid fa-box-check"></i> Package Breakdown</span>
+                  <span style="font-weight: 700;">Verify Before Leaving</span>
+                </div>
+                <div class="package-badges">
+                  <span class="pkg-badge" style="border: 1px solid rgba(255,87,51,0.35);">
+                    🍕 <strong>${pkg.pizzaCount}</strong> Pizza Box${pkg.pizzaCount === 1 ? "" : "es"}
+                  </span>
+                  ${pkg.sidesCount > 0 ? `<span class="pkg-badge" style="border: 1px solid rgba(240,168,59,0.35);">🍗 <strong>${pkg.sidesCount}</strong> Side${pkg.sidesCount === 1 ? "" : "s"}</span>` : ""}
+                  ${pkg.drinksCount > 0 ? `<span class="pkg-badge" style="border: 1px solid rgba(13,202,240,0.35);">🥤 <strong>${pkg.drinksCount}</strong> Drink${pkg.drinksCount === 1 ? "" : "s"}</span>` : ""}
+                </div>
+                <details style="margin-top: 0.45rem; font-size: 0.8rem; color: var(--muted);">
+                  <summary style="cursor: pointer;">Itemized Receipt Details</summary>
+                  <div style="margin-top: 0.35rem; white-space: pre-line; color: var(--text);">${pkg.raw}</div>
+                  ${order.notes ? `<div style="margin-top: 0.35rem; color: var(--coral);"><strong>Customer Notes:</strong> ${order.notes}</div>` : ""}
+                </details>
+              </div>
+
+              <!-- Payment Status -->
+              ${paymentBannerHtml}
+
+              <!-- Action Button -->
+              <div style="margin-top: 0.85rem;">
+                ${actionBtnHtml}
+              </div>
+            </article>
+          `;
+        }
+
+        // Handle Delivery Action Click (Pick Up or Handed Over)
+        deliveriesList.addEventListener("click", async (e) => {
+          const btn = e.target.closest('button[data-action="update-status"]');
+          if (!btn) return;
+
+          const orderId = btn.dataset.id;
+          const nextStatus = btn.dataset.nextStatus;
+          if (!orderId || !nextStatus) return;
+
+          const label = nextStatus === "out_for_delivery" ? "start delivery" : "confirm delivery handover";
+          if (!confirm(`Are you sure you want to ${label} for order #${orderId}?`)) {
+            return;
+          }
+
+          const originalContent = btn.innerHTML;
+          btn.disabled = true;
+          btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Updating...`;
+
+          const token = sessionStorage.getItem(TOKEN_KEY);
+          try {
+            const res = await fetch(`${getApiBase()}/api/admin`, {
+              method: "PATCH",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({ orderId, status: nextStatus }),
+            });
+            const data = await res.json().catch(() => ({}));
+
+            if (!res.ok) {
+              showToast(data.error || "Failed to update delivery status.", true);
+              btn.disabled = false;
+              btn.innerHTML = originalContent;
+              return;
+            }
+
+            const successMsg =
+              nextStatus === "out_for_delivery"
+                ? `Order #${orderId} marked OUT FOR DELIVERY 🛵`
+                : `Order #${orderId} COMPLETED & HANDED OVER ✓`;
+            showToast(successMsg);
+
+            // Update local memory & re-render
+            const match = currentOrders.find((o) => (o.order_id || o.orderId) === orderId);
+            if (match) {
+              match.status = nextStatus;
+            }
+            updateTabCounts();
+            renderDeliveries();
+          } catch (_) {
+            showToast("Network error updating delivery status.", true);
+            btn.disabled = false;
+            btn.innerHTML = originalContent;
+          }
+        });
+
+        // Auto-login if session token already active
+        const existingToken = sessionStorage.getItem(TOKEN_KEY);
+        const existingUser = sessionStorage.getItem(USERNAME_KEY);
+        const existingRole = sessionStorage.getItem(ROLE_KEY);
+        if (existingToken && existingUser && (existingRole === "driver" || existingRole === "admin")) {
+          enterConsoleMode(existingUser, existingRole);
+        }
+      })();
+    </script>
+  </body>
+</html>

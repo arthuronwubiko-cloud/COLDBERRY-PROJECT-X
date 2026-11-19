@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#5C1A2B" />
+    <meta
+      name="description"
+      content="Track your Coldberry Ice Cream Nigeria order in real-time using your phone number and 6-digit Order Verification PIN."
+    />
+    <title>Track Order | Coldberry Ice Cream Nigeria</title>
+    <link
+      rel="icon"
+      href="images/coldberry-favicon.png"
+    />
+    <link rel="stylesheet" href="peter890.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+    <script src="js/cart.js" defer></script>
+    <script src="js/site.js" defer></script>
+    <script src="js/auth-ui.js" defer></script>
+    <script src="js/feedback-bubble.js" defer></script>
+  </head>
+  <body>
+    <header class="nav-bar">
+      <a href="index.html" class="logo-link" aria-label="Coldberry Ice Cream home">
+        <img
+          src="images/coldberry-logo.png"
+          alt="Coldberry Ice Cream Logo"
+          class="logo"
+        />
+      </a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="index.html#home">Home</a>
+        <a href="890b.html#pizza-menu">Menu</a>
+        <a href="index.html#locations">Locations</a>
+        <a href="pizzadeals.html#deals">Deals</a>
+        <a href="order.html">Order</a>
+        <a href="track.html" class="active" aria-current="page">Track</a>
+      </nav>
+      <a href="order.html#cart-heading" class="nav-cart-link" id="nav-cart-link" aria-label="Shopping cart (0 items)" title="View your shopping cart">
+        <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
+        <span class="nav-cart-badge" id="cart-count" data-nav-cart-count aria-live="polite">0</span>
+      </a>
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark theme" aria-pressed="false" title="Switch to dark theme"><i class="fa-solid fa-moon" aria-hidden="true"></i></button>
+    </header>
+
+    <main class="order-page">
+      <section class="order-hero">
+        <p class="section-label">LIVE ORDER TRACKER</p>
+        <h1>Track Your <span>Order</span></h1>
+        <p>Enter the phone number used for the order and your 6-digit verification PIN to check live status.</p>
+      </section>
+
+      <section class="order-section">
+        <form class="order-form" id="track-form" novalidate>
+          <div class="order-fields">
+            <div class="order-field">
+              <label for="track-phone">Phone Number</label>
+              <input
+                type="tel"
+                id="track-phone"
+                name="phone"
+                placeholder="e.g. 08012345678"
+                required
+                autocomplete="tel"
+              />
+            </div>
+
+            <div class="order-field">
+              <label for="track-pin">6-Digit Verification PIN</label>
+              <input
+                type="text"
+                id="track-pin"
+                name="pin"
+                placeholder="e.g. 847088"
+                maxlength="6"
+                pattern="[0-9]{6}"
+                required
+                inputmode="numeric"
+                autocomplete="one-time-code"
+              />
+            </div>
+          </div>
+
+          <p id="track-error" class="track-error-alert" role="alert" aria-live="polite" hidden></p>
+
+          <button class="order-button" id="track-submit-btn" type="submit">
+            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i> Check Status
+          </button>
+          <p class="order-disclaimer">Order lookup uses your phone number and PIN solely to retrieve live order status under our <a href="privacy.html">Privacy Policy</a>.</p>
+        </form>
+
+        <section class="order-confirmation track-result-card" id="track-result" aria-live="polite" hidden>
+          <div class="track-status-header">
+            <span class="track-pill" id="track-pill-status">Status</span>
+            <h2 id="track-status-title">Order Status</h2>
+            <p id="track-status-desc"></p>
+          </div>
+
+          <!-- Progress Stepper -->
+          <div class="track-stepper" id="track-stepper">
+            <div class="track-step" data-step="1">
+              <div class="step-circle"><i class="fa-solid fa-receipt"></i></div>
+              <span class="step-label">Received</span>
+            </div>
+            <div class="track-step-line"></div>
+            <div class="track-step" data-step="2">
+              <div class="step-circle"><i class="fa-solid fa-check"></i></div>
+              <span class="step-label">Confirmed</span>
+            </div>
+            <div class="track-step-line"></div>
+            <div class="track-step" data-step="3">
+              <div class="step-circle"><i class="fa-solid fa-fire-burner"></i></div>
+              <span class="step-label">Kitchen</span>
+            </div>
+            <div class="track-step-line"></div>
+            <div class="track-step" data-step="4">
+              <div class="step-circle"><i class="fa-solid fa-motorcycle"></i></div>
+              <span class="step-label">Rider / Ready</span>
+            </div>
+            <div class="track-step-line"></div>
+            <div class="track-step" data-step="5">
+              <div class="step-circle"><i class="fa-solid fa-box-open"></i></div>
+              <span class="step-label">Complete</span>
+            </div>
+          </div>
+
+          <div class="order-items-breakdown" id="track-order-details"></div>
+
+          <!-- Refund Notification Banner (shown when order has a 15-char refund token) -->
+          <div id="track-refund-banner" style="margin: 1rem 0; padding: 1.15rem 1.25rem; border-radius: 14px; border: 2px solid #20c997; background: rgba(32, 201, 151, 0.12);" hidden>
+            <div style="display: flex; align-items: center; gap: 0.6rem; font-weight: 800; font-size: 1.05rem; color: #20c997; margin-bottom: 0.45rem;">
+              <i class="fa-solid fa-ticket" aria-hidden="true"></i>
+              <span id="track-refund-title">Refund Issued for Your Order</span>
+            </div>
+            <p id="track-refund-desc" style="margin: 0 0 0.85rem; font-size: 0.9rem; line-height: 1.5;"></p>
+            <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; margin-bottom: 0.85rem;">
+              <div style="background: rgba(0,0,0,0.22); border: 1px dashed rgba(32, 201, 151, 0.55); border-radius: 8px; padding: 0.55rem 0.9rem; font-family: monospace; font-size: 1.2rem; font-weight: 900; letter-spacing: 0.12em;" id="track-refund-token">---------------</div>
+              <button type="button" id="track-copy-refund-btn" class="copy-pin-btn" style="padding: 0.5rem 0.9rem; font-size: 0.85rem;">
+                <i class="fa-solid fa-copy" aria-hidden="true"></i> Copy 15-Char Token
+              </button>
+              <a id="track-refund-wa-btn" href="https://wa.me/2349055303848" target="_blank" rel="noopener noreferrer" class="copy-pin-btn" style="padding: 0.5rem 0.9rem; font-size: 0.85rem; text-decoration: none; background: #25d366; color: #fff; border: none;">
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Claim on WhatsApp
+              </a>
+            </div>
+            <small id="track-refund-meta" style="display: block; opacity: 0.85; font-size: 0.82rem;"></small>
+          </div>
+
+          <!-- Feature 1: Customer Order Received Confirmation Container -->
+          <div id="track-received-container" class="track-received-container" hidden>
+            <button type="button" id="track-received-btn" class="track-received-btn">
+              <i class="fa-solid fa-circle-check"></i> I Have Received My Order (Done)
+            </button>
+            <div id="track-received-banner" class="track-celebration-banner" hidden>
+              <div style="font-size: 1.8rem;" aria-hidden="true">🎉</div>
+              <div>
+                <strong style="display: block; font-size: 1.05rem; margin-bottom: 0.25rem;">Order Delivered &amp; Received!</strong>
+                <p style="margin: 0; font-size: 0.95rem; line-height: 1.4;">🎉 Thank you! Your delivery is marked as received. Enjoy your Coldberry Ice Cream!</p>
+              </div>
+            </div>
+            <!-- Customer Experience Rating Prompt -->
+            <div id="track-rating-box" class="track-rating-box" hidden>
+              <h4 style="margin: 0 0 0.35rem; font-size: 1.05rem; color: var(--color-deep-wine, #5C1A2B);">Rate Your Experience</h4>
+              <p style="margin: 0 0 0.6rem; font-size: 0.88rem; opacity: 0.85;">How was your Coldberry Ice Cream order today? Tap to rate:</p>
+              <div id="track-stars" class="track-rating-stars" role="radiogroup" aria-label="Order rating 1 to 5 stars">
+                <button type="button" class="star-btn" data-value="1" aria-label="1 star"><i class="fa-regular fa-star"></i></button>
+                <button type="button" class="star-btn" data-value="2" aria-label="2 stars"><i class="fa-regular fa-star"></i></button>
+                <button type="button" class="star-btn" data-value="3" aria-label="3 stars"><i class="fa-regular fa-star"></i></button>
+                <button type="button" class="star-btn" data-value="4" aria-label="4 stars"><i class="fa-regular fa-star"></i></button>
+                <button type="button" class="star-btn" data-value="5" aria-label="5 stars"><i class="fa-regular fa-star"></i></button>
+              </div>
+              <div id="track-rating-comment-wrap" style="margin-top: 0.6rem;" hidden>
+                <textarea id="track-rating-comment" placeholder="Tell us about your flavours, toppings, or delivery (optional)..." rows="2" style="width: 100%; border-radius: 8px; border: 1px solid rgba(92,26,43,0.2); padding: 0.55rem; font-size: 0.88rem; box-sizing: border-box; background: var(--color-bg, #fff); color: inherit;"></textarea>
+                <button type="button" id="track-rating-submit" class="order-button" style="margin-top: 0.5rem; padding: 0.45rem 1.1rem; font-size: 0.88rem;">Submit Review</button>
+              </div>
+              <p id="track-rating-feedback" style="margin: 0.5rem 0 0; font-weight: 700; color: #16a34a; font-size: 0.9rem;" hidden></p>
+            </div>
+          </div>
+
+          <div id="track-cancel-container" class="order-cancel-container" hidden>
+            <div class="order-cancel-info">
+              <i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i>
+              <span>You can cancel this order easily within <strong>12 minutes</strong> of placement (<strong id="track-cancel-timer">12:00</strong> remaining).</span>
+            </div>
+            <button type="button" id="track-cancel-btn" class="order-cancel-btn">
+              <i class="fa-solid fa-ban" aria-hidden="true"></i> Cancel Order
+            </button>
+            <p id="track-cancel-feedback" class="order-cancel-feedback" role="status" aria-live="polite" hidden></p>
+          </div>
+
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-top: 1rem;">
+            <a href="order.html" class="order-button" style="text-decoration: none;">Order More Ice Cream</a>
+            <button type="button" class="order-edit" id="track-refresh-btn"><i class="fa-solid fa-rotate-right"></i> Refresh Status</button>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <a href="index.html" aria-label="Coldberry Ice Cream home">
+        <img
+          src="images/coldberry-logo.png"
+          alt="Coldberry Ice Cream Logo"
+          class="footer-logo"
+          loading="lazy"
+        />
+      </a>
+      <p class="footer-motto">Scoops of Pure Happiness</p>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="index.html">Home</a>
+        <a href="890b.html">Menu</a>
+        <a href="pizzadeals.html">Deals</a>
+        <a href="order.html">Order</a>
+        <a href="track.html">Track</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms &amp; Conditions</a>
+      </nav>
+      <p class="footer-text">&copy; 2026 Coldberry Ice Cream Nigeria. All rights reserved.</p>
+    </footer>
+
+    <script>
+      (function() {
+        const form = document.getElementById("track-form");
+        const phoneInput = document.getElementById("track-phone");
+        const pinInput = document.getElementById("track-pin");
+        const errorEl = document.getElementById("track-error");
+        const resultCard = document.getElementById("track-result");
+        const statusTitle = document.getElementById("track-status-title");
+        const statusDesc = document.getElementById("track-status-desc");
+        const statusPill = document.getElementById("track-pill-status");
+        const orderDetails = document.getElementById("track-order-details");
+        const refreshBtn = document.getElementById("track-refresh-btn");
+        const submitBtn = document.getElementById("track-submit-btn");
+        const cancelContainer = document.getElementById("track-cancel-container");
+        const cancelTimerEl = document.getElementById("track-cancel-timer");
+        const cancelBtn = document.getElementById("track-cancel-btn");
+        const cancelFeedback = document.getElementById("track-cancel-feedback");
+        const receivedContainer = document.getElementById("track-received-container");
+        const receivedBtn = document.getElementById("track-received-btn");
+        const receivedBanner = document.getElementById("track-received-banner");
+        const ratingBox = document.getElementById("track-rating-box");
+        const starBtns = document.querySelectorAll("#track-stars .star-btn");
+        const ratingCommentWrap = document.getElementById("track-rating-comment-wrap");
+        const ratingComment = document.getElementById("track-rating-comment");
+        const ratingSubmit = document.getElementById("track-rating-submit");
+        const ratingFeedback = document.getElementById("track-rating-feedback");
+        let cancelInterval = null;
+        let currentRating = 0;
+
+        async function fetchStatus(phone, pin) {
+          errorEl.hidden = true;
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Checking...";
+
+          const controller = typeof AbortController !== "undefined" ? new AbortController() : null;
+          const timeoutId = controller ? setTimeout(() => controller.abort(), 3000) : null;
+
+          try {
+            const res = await fetch(`/api/track?phone=${encodeURIComponent(phone)}&pin=${encodeURIComponent(pin)}`, {
+              signal: controller ? controller.signal : undefined,
+            });
+            if (timeoutId) clearTimeout(timeoutId);
+            const data = await res.json();
+
+            if (!res.ok || !data.found) {
+              errorEl.textContent = data.error || "Order not found. Please verify your phone number and 6-digit PIN.";
+              errorEl.hidden = false;
+              resultCard.hidden = true;
+            } else {
+              renderOrder(data.order, data.refund);
+              resultCard.hidden = false;
+              resultCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
+            }
+          } catch (err) {
+            errorEl.textContent = err.name === "AbortError"
+              ? "Request timed out. The server is busy — please wait a moment and try again."
+              : "Unable to connect to the tracking service. Please check your network.";
+            errorEl.hidden = false;
+          } finally {
+            if (timeoutId) clearTimeout(timeoutId);
+            setTimeout(() => {
+              submitBtn.disabled = false;
+              submitBtn.innerHTML = '<i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i> Check Status';
+            }, 600);
+          }
+        }
+
+        function renderOrder(order, refund) {
+          statusTitle.textContent = order.statusLabel || "Order Received";
+          statusDesc.textContent = order.statusDescription || order.statusDesc || "";
+          statusPill.textContent = (order.status || "pending").toUpperCase();
+
+          const refundBanner = document.getElementById("track-refund-banner");
+          if (refundBanner) {
+            if (refund && refund.token) {
+              const isClaimed = refund.status === "claimed";
+              document.getElementById("track-refund-title").textContent = isClaimed
+                ? "Refund Claimed & Processed"
+                : "Refund Issued — 15-Character Token Ready";
+              document.getElementById("track-refund-desc").textContent = isClaimed
+                ? `Your refund of ₦${Number(refund.amount || 0).toLocaleString("en-NG")} has been checked in and processed.`
+                : `Your order was refunded for ₦${Number(refund.amount || 0).toLocaleString("en-NG")}. Present or send your 15-character refund token below to redeem.`;
+              document.getElementById("track-refund-token").textContent = refund.token;
+              document.getElementById("track-refund-meta").textContent = `Reason: ${refund.reason || "Order Refunded"} · Issued: ${new Date(refund.issuedAt).toLocaleString()}`;
+              const copyBtn = document.getElementById("track-copy-refund-btn");
+              copyBtn.onclick = () => {
+                if (navigator.clipboard) navigator.clipboard.writeText(refund.token).catch(() => {});
+                copyBtn.textContent = "✓ Copied!";
+                setTimeout(() => { copyBtn.innerHTML = '<i class="fa-solid fa-copy" aria-hidden="true"></i> Copy 15-Char Token'; }, 2000);
+              };
+              const waMsg = encodeURIComponent(`Hello Coldberry Ice Cream, I would like to claim my refund. Order Ref: ${order.orderId || ""} | 15-Char Refund Token: ${refund.token} | Amount: ₦${Number(refund.amount || 0).toLocaleString("en-NG")}`);
+              document.getElementById("track-refund-wa-btn").href = `https://wa.me/2349055303848?text=${waMsg}`;
+              refundBanner.hidden = false;
+            } else {
+              refundBanner.hidden = true;
+            }
+          }
+
+          // Update Stepper
+          const currentStep = order.step || 1;
+          document.querySelectorAll(".track-step").forEach((el) => {
+            const stepNum = Number(el.dataset.step);
+            if (stepNum < currentStep) {
+              el.classList.add("completed");
+              el.classList.remove("active");
+            } else if (stepNum === currentStep) {
+              el.classList.add("active");
+              el.classList.remove("completed");
+            } else {
+              el.classList.remove("active", "completed");
+            }
+          });
+
+          // Order details
+          orderDetails.innerHTML = `
+            <p style="margin: 0 0 0.5rem; font-weight: 700; color: var(--color-deep-wine);">Order Details:</p>
+            <ul style="margin: 0; padding-left: 1.2rem; line-height: 1.6;">
+              <li><strong>Ref ID:</strong> ${order.orderId || "N/A"}</li>
+              <li>
+                <strong>Verification PIN:</strong>
+                <span style="font-family: monospace; font-size: 1.15rem; font-weight: 800; letter-spacing: 0.15em; color: var(--color-coral, #ff5733); padding: 0 4px; user-select: all; -webkit-user-select: all;">${order.orderPin}</span>
+                <button type="button" class="copy-pin-btn" aria-label="Copy Order Verification PIN" style="padding: 2px 8px; font-size: 0.75rem; margin-left: 0.5rem; vertical-align: middle;" onclick="navigator.clipboard.writeText('${order.orderPin}').then(() => { this.textContent = '✓ Copied!'; setTimeout(() => this.innerHTML = '<i class=\\'fa-solid fa-copy\\' aria-hidden=\\'true\\'></i> Copy', 2000); })">
+                  <i class="fa-solid fa-copy" aria-hidden="true"></i> Copy
+                </button>
+              </li>
+              <li><strong>Fulfilment:</strong> ${order.fulfilment} (${order.location})</li>
+              <li><strong>Items:</strong> ${order.items || "N/A"}</li>
+              <li><strong>Placed:</strong> ${new Date(order.createdAt).toLocaleString()}</li>
+            </ul>
+          `;
+
+          // 12-Minute Cancellation Eligibility Controls
+          if (cancelInterval) {
+            clearInterval(cancelInterval);
+            cancelInterval = null;
+          }
+          if (cancelContainer && cancelBtn) {
+            if (order.status === "cancelled") {
+              cancelContainer.hidden = false;
+              cancelBtn.hidden = true;
+              if (cancelTimerEl) cancelTimerEl.textContent = "00:00";
+              if (cancelFeedback) {
+                cancelFeedback.textContent = "✓ This order has been cancelled.";
+                cancelFeedback.classList.add("is-cancelled");
+                cancelFeedback.hidden = false;
+              }
+            } else if (order.canCancel && Number(order.cancelRemainingSeconds) > 0) {
+              cancelContainer.hidden = false;
+              cancelBtn.hidden = false;
+              cancelBtn.disabled = false;
+              cancelBtn.innerHTML = '<i class="fa-solid fa-ban" aria-hidden="true"></i> Cancel Order';
+              if (cancelFeedback) cancelFeedback.hidden = true;
+
+              const expiresAt = Date.now() + Number(order.cancelRemainingSeconds) * 1000;
+              function updateCancelCountdown() {
+                const secsLeft = Math.max(0, Math.ceil((expiresAt - Date.now()) / 1000));
+                const mins = String(Math.floor(secsLeft / 60)).padStart(2, "0");
+                const secs = String(secsLeft % 60).padStart(2, "0");
+                if (cancelTimerEl) cancelTimerEl.textContent = `${mins}:${secs}`;
+                if (secsLeft <= 0) {
+                  clearInterval(cancelInterval);
+                  cancelBtn.disabled = true;
+                  if (cancelFeedback) {
+                    cancelFeedback.textContent = "12-minute cancellation window has expired.";
+                    cancelFeedback.classList.remove("is-cancelled");
+                    cancelFeedback.hidden = false;
+                  }
+                }
+              }
+              updateCancelCountdown();
+              cancelInterval = setInterval(updateCancelCountdown, 1000);
+
+              cancelBtn.onclick = async () => {
+                cancelBtn.disabled = true;
+                cancelBtn.textContent = "Cancelling...";
+                try {
+                  const res = await fetch("/api/track", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                      action: "cancel",
+                      phone: phoneInput.value.trim(),
+                      pin: pinInput.value.trim(),
+                    }),
+                  });
+                  const data = await res.json().catch(() => ({}));
+                  if (res.ok && data.cancelled && data.order) {
+                    renderOrder(data.order);
+                  } else {
+                    cancelBtn.disabled = false;
+                    cancelBtn.innerHTML = '<i class="fa-solid fa-ban" aria-hidden="true"></i> Cancel Order';
+                    if (cancelFeedback) {
+                      cancelFeedback.textContent = data.error || "Unable to cancel order.";
+                      cancelFeedback.classList.remove("is-cancelled");
+                      cancelFeedback.hidden = false;
+                    }
+                  }
+                } catch (_) {
+                  cancelBtn.disabled = false;
+                  cancelBtn.innerHTML = '<i class="fa-solid fa-ban" aria-hidden="true"></i> Cancel Order';
+                  if (cancelFeedback) {
+                    cancelFeedback.textContent = "Network error while cancelling. Please try again.";
+                    cancelFeedback.classList.remove("is-cancelled");
+                    cancelFeedback.hidden = false;
+                  }
+                }
+              };
+            } else {
+              cancelContainer.hidden = true;
+            }
+          }
+
+          // Feature 1: Customer Order Received Confirmation (Done)
+          const isCompleted = (order.status || "").toLowerCase() === "completed" || Number(order.step) === 5;
+          const isCancelled = (order.status || "").toLowerCase() === "cancelled";
+
+          if (receivedContainer) {
+            if (isCancelled) {
+              receivedContainer.hidden = true;
+            } else if (isCompleted) {
+              receivedContainer.hidden = false;
+              if (receivedBtn) receivedBtn.hidden = true;
+              if (receivedBanner) receivedBanner.hidden = false;
+              if (ratingBox) ratingBox.hidden = false;
+              if (cancelContainer) cancelContainer.hidden = true;
+            } else {
+              receivedContainer.hidden = false;
+              if (receivedBtn) {
+                receivedBtn.hidden = false;
+                receivedBtn.disabled = false;
+                receivedBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> I Have Received My Order (Done)';
+              }
+              if (receivedBanner) receivedBanner.hidden = true;
+              if (ratingBox) ratingBox.hidden = true;
+            }
+          }
+        }
+
+        if (receivedBtn) {
+          receivedBtn.onclick = async () => {
+            receivedBtn.disabled = true;
+            receivedBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Confirming Receipt...';
+            try {
+              const res = await fetch("/api/track", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  action: "mark_received",
+                  phone: phoneInput.value.trim(),
+                  pin: pinInput.value.trim(),
+                }),
+              });
+              const data = await res.json().catch(() => ({}));
+              if (res.ok && (data.completed || data.order?.status === "completed")) {
+                if (cancelInterval) {
+                  clearInterval(cancelInterval);
+                  cancelInterval = null;
+                }
+                if (cancelContainer) cancelContainer.hidden = true;
+                if (data.order) {
+                  renderOrder(data.order);
+                } else {
+                  renderOrder({
+                    orderId: "N/A",
+                    orderPin: pinInput.value.trim(),
+                    status: "completed",
+                    step: 5,
+                    statusLabel: "Delivered / Collected",
+                    statusDescription: "Order fulfilled. Enjoy your meal!",
+                    fulfilment: "Standard",
+                    location: "Confirmed",
+                    createdAt: new Date().toISOString(),
+                  });
+                }
+              } else {
+                receivedBtn.disabled = false;
+                receivedBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> I Have Received My Order (Done)';
+                alert(data.error || "Unable to mark order as received. Please try again.");
+              }
+            } catch (_) {
+              receivedBtn.disabled = false;
+              receivedBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> I Have Received My Order (Done)';
+              alert("Network error while confirming receipt. Please check your connection.");
+            }
+          };
+        }
+
+        starBtns.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const val = Number(btn.dataset.value);
+            currentRating = val;
+            starBtns.forEach((b) => {
+              const bVal = Number(b.dataset.value);
+              const icon = b.querySelector("i");
+              if (bVal <= val) {
+                b.classList.add("active");
+                if (icon) { icon.classList.remove("fa-regular"); icon.classList.add("fa-solid"); }
+              } else {
+                b.classList.remove("active");
+                if (icon) { icon.classList.remove("fa-solid"); icon.classList.add("fa-regular"); }
+              }
+            });
+            if (ratingCommentWrap) ratingCommentWrap.hidden = false;
+          });
+        });
+
+        if (ratingSubmit) {
+          ratingSubmit.addEventListener("click", async () => {
+            if (!currentRating) return;
+            ratingSubmit.disabled = true;
+            ratingSubmit.textContent = "Submitting...";
+            try {
+              const res = await fetch("/api/feedback", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  rating: currentRating,
+                  order_pin: pinInput.value.trim(),
+                  customer_name: `Customer (${phoneInput.value.trim()})`,
+                  comments: ratingComment ? ratingComment.value.trim() : "",
+                  source: "track_completed",
+                }),
+              });
+              const data = await res.json().catch(() => ({}));
+              if (res.ok && data.success) {
+                if (ratingCommentWrap) ratingCommentWrap.hidden = true;
+                if (ratingFeedback) {
+                  ratingFeedback.textContent = "✓ Thank you for your review! We appreciate your feedback.";
+                  ratingFeedback.style.color = "#16a34a";
+                  ratingFeedback.hidden = false;
+                }
+              } else {
+                ratingSubmit.disabled = false;
+                ratingSubmit.textContent = "Submit Review";
+                if (ratingFeedback) {
+                  ratingFeedback.textContent = data.error || "Unable to save review.";
+                  ratingFeedback.style.color = "#dc3545";
+                  ratingFeedback.hidden = false;
+                }
+              }
+            } catch (_) {
+              ratingSubmit.disabled = false;
+              ratingSubmit.textContent = "Submit Review";
+            }
+          });
+        }
+
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          fetchStatus(phoneInput.value.trim(), pinInput.value.trim());
+        });
+
+        if (refreshBtn) {
+          refreshBtn.addEventListener("click", () => {
+            if (phoneInput.value && pinInput.value) {
+              fetchStatus(phoneInput.value.trim(), pinInput.value.trim());
+            }
+          });
+        }
+
+        // Auto-fill from query params (e.g. track.html?phone=08012345678&pin=847088)
+        const params = new URLSearchParams(window.location.search);
+        const pPhone = params.get("phone");
+        const pPin = params.get("pin");
+        if (pPhone && pPin) {
+          phoneInput.value = pPhone;
+          pinInput.value = pPin;
+          fetchStatus(pPhone, pPin);
+        }
+      })();
+    </script>
+  </body>
+</html>
