@@ -2063,7 +2063,7 @@
             const res = await fetch(`${getApiBase()}/api/admin`, {
               method: "POST",
               headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-              body: JSON.stringify({ action: "send_promo_email", target: "ALL", subject, body, ctaText: "Order Now", ctaUrl: "https://coldberry.ng/menu" }),
+              body: JSON.stringify({ action: "send_promo_email", target: "ALL", subject, body, ctaText: "Order Now", ctaUrl: "/890b.html" }),
             });
             const data = await res.json().catch(() => ({}));
             if (res.ok) {
