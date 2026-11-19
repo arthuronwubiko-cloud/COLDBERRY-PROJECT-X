@@ -183,17 +183,14 @@ const DEFAULT_DRIVER_PASS_SHA256 = "505d0df56267597acafdc8ebb0f65f78a1ee14a03991
 
 const ADDITIONAL_ADMIN_DIGESTS = [
   {
-    // ColdAdmin8901A / Adm73Jx91Qp42K
     user: "525588808ec88fdc20b746f21dd47a12934457d24adaf87c96af8c87e490c9fa",
     pass: "deb6c65e11fe122704b619ede279141d7e4f1e82469f9298d076724f080d3638",
   },
   {
-    // ColdAdmin8902B / Adm84Ky62Rp53M
     user: "eeb0ab32a86d20d9764901cce65526f33579c77f7ef2075c6334126145510888",
     pass: "5316850e5e3178785e5dd553a65e226d9667771879009928e5b5bd5ac6226f6e",
   },
   {
-    // ColdberryAdm89 / Adm94Kx72Qp81Z
     user: "f9145e3fe7f18a7d759a9ec1c9e3fd6b1f2acdcc9e9bdaf6410b1ed804a4f24b",
     pass: "ee5c41ee35d3093beeed33399a5e202c30dbfaf45d01eaded0d64c0b4a65920c",
   },
@@ -209,37 +206,30 @@ const ADDITIONAL_ADMIN_DIGESTS = [
 
 const ADDITIONAL_STAFF_DIGESTS = [
   {
-    // ColdStaff8901A / Stf11Ab22Cd33E
     user: "9910a1c262dcfa2a9ce894d0d84d84e59b2787836011b460251a1d070c3dd1e0",
     pass: "5b94efb5db37c3edb0f81aa6c7d328cb68b1245fd345f49da1a41453e5c04f90",
   },
   {
-    // ColdStaff8902B / Stf22Bc33De44F
     user: "1e8c892512247cdc4eaef868dcc871ba6a71543274d43a627de45a12c1f8850f",
     pass: "a653c1919b396a56fa1561b39e17cfadd4f079a456362599f35eaef221fe6312",
   },
   {
-    // ColdStaff8903C / Stf33Cd44Ef55G
     user: "4e7b914ffcfe367e597177bde849b75ff03ee876db6d2b5cbb12644592392abf",
     pass: "24d39b68115c46a1213bb472f87d9374cad4428723674670de662373d453cab5",
   },
   {
-    // ColdStaff8904D / Stf44De55Fg66H
     user: "f9fc44207a3286f0bd76d988646bc0fee3d8f67f573c821a9d08892f73b0a0af",
     pass: "bd85e33978ffc3c6849fe47f635a9d64863fdfff676a2f06c01837dad0f13a90",
   },
   {
-    // ColdStaff8905E / Stf55Ef66Gh77J
     user: "44a48520c2745c0d14a656461872e391aa2ca13e623904ba5de752a984bacd3c",
     pass: "d669d2256f05fa593692a9450dece020ebb9f2afd8d8b40a5ee324730ac4c14b",
   },
   {
-    // ColdStaff8906F / Stf66Fg77Hj88K
     user: "fc9aeb1349d65d774540f25eff78a4d48058c414b313805df3a90124f1009247",
     pass: "3bf00b3c8456b9e1be0440d10891765654dcc7f40dac1dd312fce8e1dada6f9f",
   },
   {
-    // ColdStaff8907G / Stf77Gh88Jk99L
     user: "69b9c3318f5632d5d5bcafa5232e3a43228f0c1cddd6b17361ef357a7c076c3a",
     pass: "af721e01add2cb1139dd5e85f55f151be28aa0b4962cec753f44a3dfe7e1dae3",
   },
@@ -275,37 +265,30 @@ const ADDITIONAL_STAFF_DIGESTS = [
 
 const ADDITIONAL_DRIVER_DIGESTS = [
   {
-    // ColdRider8901A / Rdr11Ab22Cd33E
     user: "b5b38ec8121028fa901bb3b5d180fa6c82a1b17069c798344af0a1328c2e147e",
     pass: "2a0f21b4717a538c174e136e0b03ffb254fcdfa804078b75c6c5af365c6a8d1c",
   },
   {
-    // ColdRider8902B / Rdr22Bc33De44F
     user: "ab7c359f383ea8edb9d998737c3c7499d586cc7588dd989ed0f7b620dbba5aac",
     pass: "d60969bc94e54417c7a3d045fa98310e50b3a77dd142625be0f31c562bdc3295",
   },
   {
-    // ColdRider8903C / Rdr33Cd44Ef55G
     user: "d4e1c2d80a8d00160c0c36263fc6f6ffdce7fa9bc27ef3181bac8e5721c4891d",
     pass: "5c09024dc51fac453608a9fd8dd54871898a2a7a51441a54e643b649271e6032",
   },
   {
-    // ColdRider8904D / Rdr44De55Fg66H
     user: "51d0e2da2d2681135f51fd11c5d2d2824cb4e64f37a6cfa1a7ffeeaa9b578510",
     pass: "ce7af9c90549891b952d305c6f808f6ac125d7958f3610886bb84d02f9cbda08",
   },
   {
-    // ColdRider8905E / Rdr55Ef66Gh77J
     user: "17b5343497ce8030044dd95277ff1b36ae25572d566c468e250b5f8715f8d07a",
     pass: "7c534d7265266ded741a6f03628f833e5b9cdf63d81ea2e2b3e652ff030ced6b",
   },
   {
-    // ColdRider8906F / Rdr66Fg77Hj88K
     user: "bb10bf999a5506344b00080300ec4ec6302a5dff387c8501ec965ae943e9ad24",
     pass: "e7342e157968ca30866b9d98612e778a6b28fc4c28e45611b3e801b958d790ed",
   },
   {
-    // ColdRider8907G / Rdr77Gh88Jk99L
     user: "88a572e7bbbba30ca91bb4e4942ca2a531867cfe2cadc2a76b01b4332787ef68",
     pass: "62b3f26ccfdeb6eafcca2e8126b67f16def414ced62b1a2f7c6bc5b29b37c523",
   },
@@ -324,12 +307,17 @@ function timingSafeHexEqual(hexA, hexB) {
   }
 }
 
+let ephemeralAdminSigningKey = null;
 function getSigningKey() {
-  return (
-    process.env.ADMIN_SESSION_SECRET ||
-    process.env.ADMIN_SECRET ||
-    sha256Hex(`${DEFAULT_ADMIN_USER_SHA256}:${DEFAULT_ADMIN_PASS_SHA256}:${DEFAULT_STAFF_PASS_SHA256}:${DEFAULT_DRIVER_PASS_SHA256}`)
-  );
+  const secret = process.env.ADMIN_SESSION_SECRET || process.env.ADMIN_SECRET;
+  if (secret) return secret;
+  if (process.env.VERCEL || process.env.NODE_ENV === "production") {
+    throw new Error("ADMIN_SESSION_SECRET or ADMIN_SECRET must be configured in production.");
+  }
+  if (!ephemeralAdminSigningKey) {
+    ephemeralAdminSigningKey = crypto.randomBytes(32).toString("hex");
+  }
+  return ephemeralAdminSigningKey;
 }
 
 function generate15CharRefundToken() {
@@ -427,8 +415,7 @@ function resolveAuthFromRequest(req) {
 
   // 1. Bearer session token or legacy ADMIN_SECRET
   const bearer = headers.authorization?.startsWith("Bearer ") ? headers.authorization.slice(7).trim() : null;
-  const querySecret = req.query?.secret || null;
-  const candidateToken = bearer || querySecret;
+  const candidateToken = bearer;
 
   if (candidateToken) {
     const tokenAuth = verifySessionToken(candidateToken);
@@ -547,8 +534,13 @@ function parseBody(req) {
 }
 
 module.exports = async function handler(req, res) {
+  const { checkRateLimit, getClientIp, getCorsOrigin } = require("./overload-protection");
   res.setHeader("Cache-Control", "no-store");
-  res.setHeader("Access-Control-Allow-Origin", req.headers?.origin || "*");
+  const allowedOrigin = getCorsOrigin(req);
+  if (allowedOrigin) {
+    res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
+    res.setHeader("Vary", "Origin");
+  }
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Auth-Username, X-Auth-Password");
 
@@ -563,11 +555,25 @@ module.exports = async function handler(req, res) {
 
   // POST actions
   if (req.method === "POST") {
+    const clientIp = getClientIp(req);
+    const rate = checkRateLimit(clientIp, 30, 60 * 1000, "admin_post");
+    if (!rate.allowed) {
+      res.setHeader("Retry-After", String(rate.retryAfter));
+      return res.status(429).json({ error: "Too many requests. Please wait a minute." });
+    }
+
     const body = parseBody(req);
     const action = String(body.action || "").toLowerCase();
 
-    // 1. Verify Refund Token
+    // 1. Verify Refund Token (requires admin or staff authentication)
     if (action === "verify_refund_token" || action === "verify_refund") {
+      const postAuth = resolveAuthFromRequest(req);
+      if (!postAuth) {
+        return res.status(401).json({ error: "Unauthorized. Admin or staff authentication required." });
+      }
+      if (postAuth.role !== "admin" && postAuth.role !== "staff") {
+        return res.status(403).json({ error: "Access denied: Only admin or staff accounts can verify refund tokens." });
+      }
       const token = String(body.token || body.refundToken || "").trim().toUpperCase();
       if (!token) return res.status(400).json({ error: "Refund token is required." });
       const rec = await findRefundToken(token);
@@ -579,7 +585,7 @@ module.exports = async function handler(req, res) {
         refundToken: rec.token,
         orderId: rec.order_id,
         customerName: rec.customer_name,
-        customerPhone: rec.customer_phone,
+        customerPhone: postAuth.role === "admin" ? rec.customer_phone : maskPhone(rec.customer_phone),
         refundedAmount: Number(rec.amount),
         amount: Number(rec.amount),
         reason: rec.reason,
@@ -591,13 +597,18 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    // 2. Check-In / Claim Refund Token
+    // 2. Check-In / Claim Refund Token (requires admin or staff authentication)
     if (action === "check_in_refund" || action === "claim_refund" || action === "checkin_refund") {
+      const postAuth = resolveAuthFromRequest(req);
+      if (!postAuth) {
+        return res.status(401).json({ error: "Unauthorized. Admin or staff authentication required." });
+      }
+      if (postAuth.role !== "admin" && postAuth.role !== "staff") {
+        return res.status(403).json({ error: "Access denied: Only admin or staff accounts can claim refund tokens." });
+      }
       const token = String(body.token || body.refundToken || "").trim().toUpperCase();
       if (!token) return res.status(400).json({ error: "Refund token is required." });
-      const auth = resolveAuthFromRequest(req);
-      const claimedBy = auth ? auth.username : (body.claimedBy || "staff");
-      const claimRes = await claimRefundToken(token, claimedBy);
+      const claimRes = await claimRefundToken(token, postAuth.username);
       if (claimRes.error) {
         return res.status(400).json({ error: claimRes.error, record: claimRes.record, alreadyClaimed: claimRes.alreadyClaimed });
       }
@@ -740,33 +751,6 @@ module.exports = async function handler(req, res) {
       role: result.role,
       permissions: getPermissionsForRole(result.role),
       token,
-    });
-  }
-
-  // GET: Verify Refund Token (allows public or staff lookup via ?verifyRefundToken=...)
-  if (req.method === "GET" && req.query?.verifyRefundToken) {
-    recordVisitorHit(req.headers?.["x-forwarded-for"] || req.socket?.remoteAddress);
-    const token = String(req.query.verifyRefundToken).trim().toUpperCase();
-    const rec = await findRefundToken(token);
-    if (!rec) {
-      return res.status(404).json({ valid: false, error: "Refund token not found." });
-    }
-    return res.status(200).json({
-      valid: true,
-      verified: true,
-      token: rec.token,
-      refundToken: rec.token,
-      orderId: rec.order_id,
-      customerName: rec.customer_name,
-      customerPhone: rec.customer_phone,
-      refundedAmount: Number(rec.amount),
-      amount: Number(rec.amount),
-      reason: rec.reason,
-      issuedBy: rec.issued_by,
-      issuedAt: rec.issued_at,
-      status: rec.status,
-      claimedAt: rec.claimed_at,
-      checkedIn: rec.status === "claimed",
     });
   }
 
