@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 "use strict";
+process.env.ALLOW_TEST_CLOCK = "1";
 
 /**
  * End-to-End Regression Verification Suite for Romeo's Pizza Nigeria.
@@ -1978,9 +1979,14 @@ async function checkLegalAndDealsCompliance() {
     { method: "DELETE", headers: { authorization: `Bearer ${admTokenLocal}` }, query: { refundToken: rToken } },
     delClaimedRes
   );
-  const verifyAfterDelRes = localMockRes();
+  const unauthVerifyRes = localMockRes();
   await adminHandlerLocal(
     { method: "GET", query: { verifyRefundToken: rToken } },
+    unauthVerifyRes
+  );
+  const verifyAfterDelRes = localMockRes();
+  await adminHandlerLocal(
+    { method: "GET", headers: { authorization: `Bearer ${admTokenLocal}` }, query: { verifyRefundToken: rToken } },
     verifyAfterDelRes
   );
   record(
@@ -1990,8 +1996,9 @@ async function checkLegalAndDealsCompliance() {
       claimBeforeDelRes.statusCode === 200 &&
       staffDelTokRes.statusCode === 403 &&
       delClaimedRes.statusCode === 200 &&
+      unauthVerifyRes.statusCode === 401 &&
       verifyAfterDelRes.statusCode === 404,
-    `unclaimedDel=${delUnclaimedRes.statusCode}, claimed=${claimBeforeDelRes.statusCode}, staffDel=${staffDelTokRes.statusCode}, adminDel=${delClaimedRes.statusCode}, afterDel=${verifyAfterDelRes.statusCode}`
+    `unclaimedDel=${delUnclaimedRes.statusCode}, claimed=${claimBeforeDelRes.statusCode}, staffDel=${staffDelTokRes.statusCode}, adminDel=${delClaimedRes.statusCode}, unauthVerify=${unauthVerifyRes.statusCode}, afterDel=${verifyAfterDelRes.statusCode}`
   );
 
   // 6v. Admin Broadcast & Direct Messaging to Customers

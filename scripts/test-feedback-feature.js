@@ -111,13 +111,19 @@ async function runFeedbackVerification() {
   });
 
   // 4. Test API handler OPTIONS / CORS
-  await asyncTest("api/feedback OPTIONS returns 204 with CORS headers", async () => {
-    const req = { method: "OPTIONS", headers: { origin: "https://example.com" } };
+  await asyncTest("api/feedback OPTIONS returns 204 with allowlisted CORS headers", async () => {
+    const req = { method: "OPTIONS", headers: { origin: "https://coldberry-project-x.vercel.app" } };
     const res = createMockRes();
     await feedbackHandler(req, res);
     assert.strictEqual(res.statusCode, 204);
-    assert.strictEqual(res.headers["access-control-allow-origin"], "https://example.com");
+    assert.strictEqual(res.headers["access-control-allow-origin"], "https://coldberry-project-x.vercel.app");
     assert.strictEqual(res.headers["access-control-allow-methods"], "GET, POST, OPTIONS");
+
+    const untrustedReq = { method: "OPTIONS", headers: { origin: "https://example.com" } };
+    const untrustedRes = createMockRes();
+    await feedbackHandler(untrustedReq, untrustedRes);
+    assert.strictEqual(untrustedRes.statusCode, 204);
+    assert.strictEqual(untrustedRes.headers["access-control-allow-origin"], undefined);
   });
 
   // 5. Test API handler GET

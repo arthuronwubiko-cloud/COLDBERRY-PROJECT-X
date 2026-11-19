@@ -31,24 +31,26 @@ const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
 const MAX_REQUESTS_PER_WINDOW = 120; // 120 reqs/min per IP
 const ipRequestWindows = new Map();
 
-function checkRateLimit(ip) {
+function checkRateLimit(ip, maxRequests = MAX_REQUESTS_PER_WINDOW, windowMs = RATE_LIMIT_WINDOW_MS, keyPrefix = "global") {
   const now = Date.now();
-  const clientIp = ip || "unknown";
+  const clientIp = `${keyPrefix}:${ip || "unknown"}`;
+  const limit = Number.isFinite(maxRequests) && maxRequests > 0 ? maxRequests : MAX_REQUESTS_PER_WINDOW;
+  const windowDuration = Number.isFinite(windowMs) && windowMs > 0 ? windowMs : RATE_LIMIT_WINDOW_MS;
 
   let record = ipRequestWindows.get(clientIp);
-  if (!record || now - record.windowStart > RATE_LIMIT_WINDOW_MS) {
+  if (!record || now - record.windowStart > windowDuration) {
     record = { windowStart: now, count: 1 };
     ipRequestWindows.set(clientIp, record);
-    return { allowed: true, remaining: MAX_REQUESTS_PER_WINDOW - 1 };
+    return { allowed: true, remaining: limit - 1 };
   }
 
   record.count++;
-  if (record.count > MAX_REQUESTS_PER_WINDOW) {
-    const retryAfter = Math.ceil((record.windowStart + RATE_LIMIT_WINDOW_MS - now) / 1000);
+  if (record.count > limit) {
+    const retryAfter = Math.ceil((record.windowStart + windowDuration - now) / 1000);
     return { allowed: false, retryAfter: Math.max(1, retryAfter) };
   }
 
-  return { allowed: true, remaining: MAX_REQUESTS_PER_WINDOW - record.count };
+  return { allowed: true, remaining: limit - record.count };
 }
 
 // Periodic cleanup of stale rate-limit IP records to prevent memory leak
@@ -174,15 +176,47 @@ async function executeWithDbCircuitBreaker(operationFn, fallbackFn, timeoutMs = 
   }
 }
 
-// Helper to extract client IP from request headers or socket
+// Helper to extract client IP from platform-verified headers or socket
 function getClientIp(req) {
+  const realIp = req.headers?.["x-real-ip"];
+  if (realIp && typeof realIp === "string") {
+    return realIp.trim();
+  }
+  const vercelForwarded = req.headers?.["x-vercel-forwarded-for"];
+  if (vercelForwarded && typeof vercelForwarded === "string") {
+    return vercelForwarded.split(",")[0].trim();
+  }
+  const forwarded = req.headers?.["x-forwarded-for"];
+  if (forwarded && typeof forwarded === "string") {
+    const parts = forwarded.split(",").map((s) => s.trim()).filter(Boolean);
+    if (parts.length > 0) return parts[parts.length - 1];
+  }
   return (
-    req.headers?.["x-forwarded-for"]?.split(",")?.[0]?.trim() ||
-    req.headers?.["x-real-ip"] ||
     req.connection?.remoteAddress ||
     req.socket?.remoteAddress ||
     "127.0.0.1"
   );
+}
+
+const DEFAULT_ALLOWED_ORIGINS = new Set([
+  "https://coldberry-project-x.vercel.app",
+  "https://coldberry-project-x-ordering.vercel.app",
+  "https://romeos-project-x-ordering.vercel.app",
+  "https://romeos-project-x-admin.vercel.app",
+]);
+
+function getCorsOrigin(req) {
+  const origin = req.headers?.origin;
+  if (!origin || typeof origin !== "string") return null;
+  if (DEFAULT_ALLOWED_ORIGINS.has(origin)) return origin;
+  if (process.env.ALLOWED_CORS_ORIGINS) {
+    const custom = process.env.ALLOWED_CORS_ORIGINS.split(",").map((s) => s.trim()).filter(Boolean);
+    if (custom.includes(origin)) return origin;
+  }
+  if (/^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/i.test(origin)) {
+    return origin;
+  }
+  return null;
 }
 
 async function defaultHandler(req, res) {
@@ -203,6 +237,7 @@ defaultHandler.getCachedResponse = getCachedResponse;
 defaultHandler.setCachedResponse = setCachedResponse;
 defaultHandler.executeWithDbCircuitBreaker = executeWithDbCircuitBreaker;
 defaultHandler.getClientIp = getClientIp;
+defaultHandler.getCorsOrigin = getCorsOrigin;
 defaultHandler.CIRCUIT_STATES = CIRCUIT_STATES;
 defaultHandler.circuitState = circuitState;
 defaultHandler.MAX_CONCURRENT_REQUESTS = MAX_CONCURRENT_REQUESTS;
