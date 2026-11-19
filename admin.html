@@ -660,6 +660,9 @@
           <button type="button" class="console-tab-btn" id="tab-btn-users" data-tab="users" hidden>
             <i class="fa-solid fa-user-check" aria-hidden="true"></i> Signed-In People <span class="tab-badge" id="tab-users-badge">0</span>
           </button>
+          <button type="button" class="console-tab-btn" id="tab-btn-access" data-tab="access" hidden>
+            <i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Staff &amp; Driver Passwords
+          </button>
         </div>
 
         <!-- Staff Notice Banner -->
@@ -984,6 +987,59 @@
             <div id="sent-messages-list" style="display: grid; gap: 0.5rem; font-size: 0.85rem;"></div>
           </div>
         </div>
+
+        <!-- Panel 5: Staff & Driver Access Control (Admin Only) -->
+        <div id="panel-access" class="admin-card" hidden>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
+            <div>
+              <h2 style="font-size: 1.25rem; margin: 0 0 0.2rem;">
+                <i class="fa-solid fa-shield-halved" style="color: var(--coral);" aria-hidden="true"></i> Staff &amp; Driver Password Control
+              </h2>
+              <small style="color: var(--muted);">Generate random 14-character passwords or immediately shut down Staff and Driver access.</small>
+            </div>
+            <button type="button" id="refresh-access-btn" class="admin-btn admin-btn-secondary" style="padding: 0.4rem 0.85rem; font-size: 0.85rem;">
+              <i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh Status
+            </button>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+            <!-- Staff Access Card -->
+            <div style="background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                <h3 style="margin: 0; font-size: 1.08rem;"><i class="fa-solid fa-user-tie" style="color: var(--coral);" aria-hidden="true"></i> Staff Account</h3>
+                <span id="access-staff-badge" class="status-badge status-pending">Loading...</span>
+              </div>
+              <div id="access-staff-meta" style="font-size: 0.84rem; color: var(--muted); margin-bottom: 1rem; line-height: 1.5;"></div>
+              <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <button type="button" class="admin-btn" id="rotate-staff-btn">
+                  <i class="fa-solid fa-shuffle" aria-hidden="true"></i> Generate Random Password
+                </button>
+                <button type="button" class="quick-btn danger" id="shutdown-staff-btn" style="padding: 0.55rem 0.9rem;">
+                  <i class="fa-solid fa-power-off" aria-hidden="true"></i> Shut Down
+                </button>
+              </div>
+              <div id="access-staff-output" hidden style="margin-top: 1rem; padding: 0.85rem; border-radius: 8px; border: 1px dashed var(--coral); background: rgba(255,87,51,0.06); font-size: 0.86rem;"></div>
+            </div>
+
+            <!-- Driver Access Card -->
+            <div style="background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                <h3 style="margin: 0; font-size: 1.08rem;"><i class="fa-solid fa-motorcycle" style="color: var(--coral);" aria-hidden="true"></i> Driver (Rider) Account</h3>
+                <span id="access-driver-badge" class="status-badge status-pending">Loading...</span>
+              </div>
+              <div id="access-driver-meta" style="font-size: 0.84rem; color: var(--muted); margin-bottom: 1rem; line-height: 1.5;"></div>
+              <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <button type="button" class="admin-btn" id="rotate-driver-btn">
+                  <i class="fa-solid fa-shuffle" aria-hidden="true"></i> Generate Random Password
+                </button>
+                <button type="button" class="quick-btn danger" id="shutdown-driver-btn" style="padding: 0.55rem 0.9rem;">
+                  <i class="fa-solid fa-power-off" aria-hidden="true"></i> Shut Down
+                </button>
+              </div>
+              <div id="access-driver-output" hidden style="margin-top: 1rem; padding: 0.85rem; border-radius: 8px; border: 1px dashed var(--coral); background: rgba(255,87,51,0.06); font-size: 0.86rem;"></div>
+            </div>
+          </div>
+        </div>
       </section>
     </main>
 
@@ -1149,6 +1205,8 @@
           exportCsvBtn.hidden = !isAdmin;
           const usersTabBtn = document.getElementById("tab-btn-users");
           if (usersTabBtn) usersTabBtn.hidden = !isAdmin;
+          const accessTabBtn = document.getElementById("tab-btn-access");
+          if (accessTabBtn) accessTabBtn.hidden = !isAdmin;
           roleSubtitle.textContent = isAdmin
             ? "Full administrative access: inspect orders, update state, cancel, delete, and export."
             : "Staff operational console: advance order state as pizzas move from oven to delivery.";
@@ -1179,9 +1237,13 @@
           const usersTabBtn = document.getElementById("tab-btn-users");
           const panelUsers = document.getElementById("panel-users");
           const usersBody = document.getElementById("users-body");
+          const accessTabBtn = document.getElementById("tab-btn-access");
+          const panelAccess = document.getElementById("panel-access");
           if (usersTabBtn) usersTabBtn.hidden = true;
           if (panelUsers) panelUsers.hidden = true;
           if (usersBody) usersBody.innerHTML = "";
+          if (accessTabBtn) accessTabBtn.hidden = true;
+          if (panelAccess) panelAccess.hidden = true;
           dashboardPanel.hidden = true;
           authPanel.hidden = false;
           ordersBody.innerHTML = "";
@@ -2108,9 +2170,107 @@
           }
         });
 
-        const panels = { orders: "panel-orders", refunds: "panel-refunds", feedback: "panel-feedback", users: "panel-users" };
+        async function loadAccessControl() {
+          const token = sessionStorage.getItem(TOKEN_KEY);
+          if (!token || sessionStorage.getItem(ROLE_KEY) !== "admin") return;
+          try {
+            const res = await fetch(`${getApiBase()}/api/admin?tab=credentials`, {
+              headers: { Authorization: `Bearer ${token}` },
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) throw new Error(data.error || "Unable to load credential status");
+
+            ["staff", "driver"].forEach((role) => {
+              const info = data[role] || {};
+              const badge = document.getElementById(`access-${role}-badge`);
+              const meta = document.getElementById(`access-${role}-meta`);
+              if (badge) {
+                if (info.disabled) {
+                  badge.className = "status-badge status-cancelled";
+                  badge.textContent = "Shut Down";
+                } else if (info.hasCustomPassword) {
+                  badge.className = "status-badge status-completed";
+                  badge.textContent = "Active (Random)";
+                } else {
+                  badge.className = "status-badge status-confirmed";
+                  badge.textContent = "Active (Env/Default)";
+                }
+              }
+              if (meta) {
+                const userText = info.username ? `<code>${esc(info.username)}</code>` : "<em>Env / Default</em>";
+                const updatedText = info.updatedAt ? `${formatDate(info.updatedAt)} by ${esc(info.updatedBy || "admin")}` : "Never rotated";
+                meta.innerHTML = `Username: ${userText}<br/>Last Updated: ${updatedText}`;
+              }
+            });
+          } catch (e) {
+            showToast(e.message || "Failed to load credential status.", true);
+          }
+        }
+
+        async function rotateRolePassword(role) {
+          const token = sessionStorage.getItem(TOKEN_KEY);
+          if (!token || sessionStorage.getItem(ROLE_KEY) !== "admin") return;
+          const out = document.getElementById(`access-${role}-output`);
+          try {
+            const res = await fetch(`${getApiBase()}/api/admin`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+              body: JSON.stringify({ action: "rotate_role_password", role, rotateUsername: true }),
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) throw new Error(data.error || "Failed to generate random password");
+            if (out) {
+              out.hidden = false;
+              out.innerHTML = `
+                <div style="font-weight:700;margin-bottom:0.4rem;color:var(--coral);">New Random ${esc(role.toUpperCase())} Credentials (Copy Now)</div>
+                <div>Username: <code style="font-weight:700;">${esc(data.username)}</code></div>
+                <div style="margin-top:0.25rem;">Password: <code style="font-weight:700;">${esc(data.password)}</code></div>
+                <button type="button" class="quick-btn" style="margin-top:0.6rem;font-size:0.78rem;" data-copy-cred="${esc(data.username)} / ${esc(data.password)}">
+                  <i class="fa-solid fa-copy" aria-hidden="true"></i> Copy Username &amp; Password
+                </button>
+              `;
+              const copyBtn = out.querySelector("[data-copy-cred]");
+              if (copyBtn) {
+                copyBtn.addEventListener("click", () => {
+                  navigator.clipboard.writeText(copyBtn.dataset.copyCred).then(() => {
+                    showToast(`${role.toUpperCase()} credentials copied ✓`);
+                  });
+                });
+              }
+            }
+            showToast(`New random ${role} password generated ✓`);
+            loadAccessControl();
+          } catch (e) {
+            showToast(e.message || "Failed to rotate password.", true);
+          }
+        }
+
+        async function shutdownRolePassword(role) {
+          const token = sessionStorage.getItem(TOKEN_KEY);
+          if (!token || sessionStorage.getItem(ROLE_KEY) !== "admin") return;
+          const out = document.getElementById(`access-${role}-output`);
+          try {
+            const res = await fetch(`${getApiBase()}/api/admin`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+              body: JSON.stringify({ action: "shutdown_role_password", role }),
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) throw new Error(data.error || "Failed to shut down access");
+            if (out) {
+              out.hidden = false;
+              out.innerHTML = `<span style="color:var(--danger);font-weight:700;"><i class="fa-solid fa-ban"></i> ${esc(role.toUpperCase())} access has been shut down. All logins and active sessions are blocked until you generate a new random password.</span>`;
+            }
+            showToast(`${role.toUpperCase()} password shut down ✓`);
+            loadAccessControl();
+          } catch (e) {
+            showToast(e.message || "Failed to shut down access.", true);
+          }
+        }
+
+        const panels = { orders: "panel-orders", refunds: "panel-refunds", feedback: "panel-feedback", users: "panel-users", access: "panel-access" };
         function switchTab(name) {
-          if (name === "users" && sessionStorage.getItem(ROLE_KEY) !== "admin") {
+          if ((name === "users" || name === "access") && sessionStorage.getItem(ROLE_KEY) !== "admin") {
             name = "orders";
           }
           Object.entries(panels).forEach(([k, id]) => { document.getElementById(id).hidden = k !== name; });
@@ -2118,12 +2278,18 @@
           if (name === "refunds") loadRefunds();
           if (name === "feedback") loadFeedback();
           if (name === "users") loadUsers();
+          if (name === "access") loadAccessControl();
         }
         document.querySelectorAll(".console-tab-btn").forEach((b) => b.addEventListener("click", () => switchTab(b.dataset.tab)));
         document.getElementById("refresh-feedback-btn").addEventListener("click", loadFeedback);
         const fbFilterEl = document.getElementById("feedback-type-filter");
         if (fbFilterEl) fbFilterEl.addEventListener("change", loadFeedback);
         document.getElementById("refresh-users-btn").addEventListener("click", loadUsers);
+        document.getElementById("refresh-access-btn").addEventListener("click", loadAccessControl);
+        document.getElementById("rotate-staff-btn").addEventListener("click", () => rotateRolePassword("staff"));
+        document.getElementById("shutdown-staff-btn").addEventListener("click", () => shutdownRolePassword("staff"));
+        document.getElementById("rotate-driver-btn").addEventListener("click", () => rotateRolePassword("driver"));
+        document.getElementById("shutdown-driver-btn").addEventListener("click", () => shutdownRolePassword("driver"));
 
         document.getElementById("refresh-orders-btn").addEventListener("click", () => fetchOrders(false));
         document.getElementById("logout-btn").addEventListener("click", () => lockConsole());

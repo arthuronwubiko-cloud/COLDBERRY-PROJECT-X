@@ -325,6 +325,16 @@ async function ensureNeonSchema() {
         )
       `;
       await sql`CREATE INDEX IF NOT EXISTS promotional_emails_created_idx ON promotional_emails (created_at DESC)`;
+      await sql`
+        CREATE TABLE IF NOT EXISTS role_credentials (
+          role          TEXT PRIMARY KEY,
+          username      TEXT,
+          password_hash TEXT,
+          disabled      BOOLEAN NOT NULL DEFAULT FALSE,
+          updated_by    TEXT,
+          updated_at    TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        )
+      `;
       return sql;
     })().catch((err) => {
       neonSchemaPromise = null; // allow a retry on the next request
@@ -2009,6 +2019,120 @@ async function getPromotionalEmails({ limit = 25 } = {}) {
   return readLocalPromoEmailsFile().slice(0, limit);
 }
 
+const LOCAL_ROLE_CREDS_FILE = path.join(require("os").tmpdir(), "romeos-role-credentials.json");
+
+function readLocalRoleCredsFile() {
+  try {
+    if (!fs.existsSync(LOCAL_ROLE_CREDS_FILE)) return {};
+    const parsed = JSON.parse(fs.readFileSync(LOCAL_ROLE_CREDS_FILE, "utf8"));
+    return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
+  } catch (_) {
+    return {};
+  }
+}
+
+function writeLocalRoleCredsFile(map) {
+  try {
+    fs.writeFileSync(LOCAL_ROLE_CREDS_FILE, JSON.stringify(map), "utf8");
+  } catch (_) {}
+}
+
+async function getRoleCredential(role) {
+  const cleanRole = String(role || "").trim().toLowerCase();
+  if (!["staff", "driver"].includes(cleanRole)) return null;
+
+  if (isNeonConfigured()) {
+    try {
+      const sql = await ensureNeonSchema();
+      const rows = await sql`
+        SELECT role, username, password_hash, disabled, updated_by, updated_at
+        FROM role_credentials
+        WHERE role = ${cleanRole}
+        LIMIT 1
+      `;
+      if (rows && rows[0]) return rows[0];
+    } catch (_) {}
+  }
+
+  const supabase = getSupabaseConfig();
+  if (supabase) {
+    try {
+      const res = await fetch(
+        `${supabase.url}/rest/v1/role_credentials?role=eq.${encodeURIComponent(cleanRole)}&limit=1`,
+        { headers: supabaseHeaders(supabase) }
+      );
+      if (res.ok) {
+        const rows = await res.json();
+        if (Array.isArray(rows) && rows[0]) return rows[0];
+      }
+    } catch (_) {}
+  }
+
+  const localMap = readLocalRoleCredsFile();
+  return localMap[cleanRole] || null;
+}
+
+async function getAllRoleCredentials() {
+  const [staff, driver] = await Promise.all([
+    getRoleCredential("staff"),
+    getRoleCredential("driver"),
+  ]);
+  return { staff, driver };
+}
+
+async function saveRoleCredential({ role, username = null, passwordHash = null, disabled = false, updatedBy = "admin" }) {
+  const cleanRole = String(role || "").trim().toLowerCase();
+  if (!["staff", "driver"].includes(cleanRole)) {
+    return { error: "Role must be 'staff' or 'driver'." };
+  }
+  const nowIso = new Date().toISOString();
+  const record = {
+    role: cleanRole,
+    username: username ? String(username).trim() : null,
+    password_hash: passwordHash ? String(passwordHash) : null,
+    disabled: Boolean(disabled),
+    updated_by: String(updatedBy || "admin"),
+    updated_at: nowIso,
+  };
+
+  const localMap = readLocalRoleCredsFile();
+  localMap[cleanRole] = record;
+  writeLocalRoleCredsFile(localMap);
+
+  if (isNeonConfigured()) {
+    try {
+      const sql = await ensureNeonSchema();
+      const rows = await sql`
+        INSERT INTO role_credentials (role, username, password_hash, disabled, updated_by, updated_at)
+        VALUES (${record.role}, ${record.username}, ${record.password_hash}, ${record.disabled}, ${record.updated_by}, ${record.updated_at})
+        ON CONFLICT (role) DO UPDATE SET
+          username = EXCLUDED.username,
+          password_hash = EXCLUDED.password_hash,
+          disabled = EXCLUDED.disabled,
+          updated_by = EXCLUDED.updated_by,
+          updated_at = EXCLUDED.updated_at
+        RETURNING role, username, password_hash, disabled, updated_by, updated_at
+      `;
+      if (rows && rows[0]) return { success: true, record: rows[0] };
+    } catch (err) {
+      console.warn("[RoleCreds] Neon save warning:", err.message);
+    }
+  }
+
+  const supabase = getSupabaseConfig();
+  if (supabase) {
+    try {
+      await fetch(`${supabase.url}/rest/v1/role_credentials?on_conflict=role`, {
+        method: "POST",
+        headers: supabaseHeaders(supabase, { Prefer: "resolution=merge-duplicates,return=representation" }),
+        body: JSON.stringify(record),
+      });
+    } catch (_) {}
+  }
+
+  return { success: true, record };
+}
+
 defaultHandler.insertOrder = insertOrder;
 defaultHandler.getOrders = getOrders;
 defaultHandler.allocatePin = allocatePin;
@@ -2039,6 +2163,9 @@ defaultHandler.getMessagesForCustomer = getMessagesForCustomer;
 defaultHandler.getAllCustomerMessages = getAllCustomerMessages;
 defaultHandler.savePromotionalEmail = savePromotionalEmail;
 defaultHandler.getPromotionalEmails = getPromotionalEmails;
+defaultHandler.getRoleCredential = getRoleCredential;
+defaultHandler.getAllRoleCredentials = getAllRoleCredentials;
+defaultHandler.saveRoleCredential = saveRoleCredential;
 defaultHandler.getOrdersByCustomer = getOrdersByCustomer;
 defaultHandler.recordVisitorHit = recordVisitorHit;
 defaultHandler.getActiveVisitorCount = getActiveVisitorCount;
