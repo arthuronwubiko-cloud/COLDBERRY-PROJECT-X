@@ -57,7 +57,7 @@ async function runOverloadTests() {
   const FLAVORS = [
     "Pepperoni Pizza", "BBQ Chicken Pizza", "Chicken Supreme Pizza", "Veggie Supreme Pizza",
     "BBQ Beef Pizza", "Beef Suya Pizza", "Shawarma Pizza", "Chicken Suya Pizza",
-    "Sweet Chilli Chicken", "Meatylover Pizza", "Nineoverloaded Pizza", "Sweet & Hot Pizza", "Margherita Pizza"
+    "Sweet Chilli Chicken", "Meatylover Pizza", "Sweet & Hot Pizza", "Margherita Pizza"
   ];
   const SIZES = ["Medium", "Large", "Champion"];
 

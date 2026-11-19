@@ -21,11 +21,6 @@
       Large: "₦15,000",
       Champion: "₦23,500",
     },
-    nineoverloaded: {
-      Medium: "₦15,100",
-      Large: "₦16,500",
-      Champion: "₦25,000",
-    },
   };
 
   // Maps flavour names (lowercase, trimmed) to categories
@@ -86,13 +81,6 @@
     "sweet and hot pizza": "exclusive",
     "margherita": "exclusive",
     "margherita pizza": "exclusive",
-
-    // Nineoverloaded Tub
-    "coldberry nineoverloaded tub": "nineoverloaded",
-    "nineoverloaded": "nineoverloaded",
-    "nineoverloaded pizza": "nineoverloaded",
-    "nine overloaded": "nineoverloaded",
-    "nine overloaded pizza": "nineoverloaded",
   };
 
   // Helper to decode HTML entities in names
@@ -349,6 +337,10 @@
     const sizeSelect = document.getElementById("half-pizza-size");
     const side1Select = document.getElementById("half-pizza-side1");
     const side2Select = document.getElementById("half-pizza-side2");
+    const side3Select = document.getElementById("half-pizza-side3");
+    const side4Select = document.getElementById("half-pizza-side4");
+    const side3Group = document.getElementById("half-pizza-side3-group");
+    const side4Group = document.getElementById("half-pizza-side4-group");
     const basePriceEl = document.getElementById("half-base-price");
     const surchargeEl = document.getElementById("half-surcharge-price");
     const totalPriceEl = document.getElementById("half-total-price");
@@ -358,8 +350,12 @@
     const incBtn = accordion.querySelector('[data-cart-action="increment"]');
     const previewLeft = document.getElementById("half-preview-left");
     const previewRight = document.getElementById("half-preview-right");
+    const previewSlice3 = document.getElementById("half-preview-slice3");
+    const previewSlice4 = document.getElementById("half-preview-slice4");
     const labelLeft = document.getElementById("half-label-left");
     const labelRight = document.getElementById("half-label-right");
+    const label3 = document.getElementById("half-label-3");
+    const label4 = document.getElementById("half-label-4");
 
     const PIZZA_IMAGE_MAP = {
       "vanilla": "images/cone.jpg",
@@ -390,8 +386,7 @@
       "chicken suya": "images/taco-roll-ice-cream.jpg",
       "sweet chilli": "images/sweet-cookies.jpg",
       "meatylover": "images/chocolate-rock.jpg",
-      "nineoverloaded": "images/tropical.jpg",
-      "sweet & hot": "images/tropical.jpg",
+      "sweet & hot": "images/sweet-cookies.jpg",
       "margherita": "images/cup-cake.jpg"
     };
 
@@ -418,12 +413,30 @@
     function updateHalfAndHalf() {
       const rawSize = sizeSelect.value || "Large";
       const sizeName = normalizeSize(rawSize);
+
       const side1Name = decodeHtml(side1Select.value);
       const side2Name = decodeHtml(side2Select.value);
+      const side3Name = side3Select ? decodeHtml(side3Select.value) : "";
+      const side4Name = side4Select ? decodeHtml(side4Select.value) : "";
 
-      const price1 = getNumericPrice(side1Name, sizeName);
-      const price2 = getNumericPrice(side2Name, sizeName);
-      const maxPrice = Math.max(price1, price2);
+      const activeNames = [side1Name, side2Name];
+
+      if (sizeName === "Medium") {
+        if (side3Group) side3Group.style.display = "none";
+        if (side4Group) side4Group.style.display = "none";
+      } else if (sizeName === "Large") {
+        if (side3Group) side3Group.style.display = "";
+        if (side4Group) side4Group.style.display = "none";
+        if (side3Name) activeNames.push(side3Name);
+      } else if (sizeName === "Champion") {
+        if (side3Group) side3Group.style.display = "";
+        if (side4Group) side4Group.style.display = "";
+        if (side3Name) activeNames.push(side3Name);
+        if (side4Name) activeNames.push(side4Name);
+      }
+
+      const prices = activeNames.map((n) => getNumericPrice(n, sizeName));
+      const maxPrice = Math.max(...prices, 0);
       const surcharge = Math.round(maxPrice * 0.05);
       const totalPrice = Math.round(maxPrice * 1.05);
 
@@ -443,14 +456,47 @@
       if (previewRight) {
         previewRight.style.backgroundImage = `url("${getPizzaImage(side2Name)}")`;
       }
+      if (previewSlice3) {
+        if (sizeName === "Large" || sizeName === "Champion") {
+          previewSlice3.style.display = "";
+          previewSlice3.style.backgroundImage = `url("${getPizzaImage(side3Name)}")`;
+        } else {
+          previewSlice3.style.display = "none";
+        }
+      }
+      if (previewSlice4) {
+        if (sizeName === "Champion") {
+          previewSlice4.style.display = "";
+          previewSlice4.style.backgroundImage = `url("${getPizzaImage(side4Name)}")`;
+        } else {
+          previewSlice4.style.display = "none";
+        }
+      }
+
       if (labelLeft) {
         labelLeft.textContent = side1Name;
       }
       if (labelRight) {
         labelRight.textContent = side2Name;
       }
+      if (label3) {
+        if (sizeName === "Large" || sizeName === "Champion") {
+          label3.style.display = "inline";
+          label3.textContent = ` + ${side3Name}`;
+        } else {
+          label3.style.display = "none";
+        }
+      }
+      if (label4) {
+        if (sizeName === "Champion") {
+          label4.style.display = "inline";
+          label4.textContent = ` + ${side4Name}`;
+        } else {
+          label4.style.display = "none";
+        }
+      }
 
-      const itemKey = `Half & Half Pizza (${side1Name} + ${side2Name}, ${sizeName})`;
+      const itemKey = `Half & Half Pizza (${activeNames.join(" + ")}, ${sizeName})`;
       if (quantityControl) {
         quantityControl.dataset.cartItem = itemKey;
       }
@@ -474,6 +520,8 @@
     sizeSelect.addEventListener("change", updateHalfAndHalf);
     side1Select.addEventListener("change", updateHalfAndHalf);
     side2Select.addEventListener("change", updateHalfAndHalf);
+    if (side3Select) side3Select.addEventListener("change", updateHalfAndHalf);
+    if (side4Select) side4Select.addEventListener("change", updateHalfAndHalf);
 
     if (quantityControl) {
       quantityControl.addEventListener("click", (event) => {

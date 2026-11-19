@@ -11,6 +11,7 @@ const {
   findRefundsByPhone,
   getMessagesForCustomer,
   recordVisitorHit,
+  phoneMatchVariants,
 } = require("./db");
 
 const SESSION_COOKIE = "romeos_user_session";
@@ -404,6 +405,88 @@ module.exports = async function handler(req, res) {
     return res.status(200).json({
       success: true,
       user: sanitizeUser(updated.user),
+    });
+  }
+
+  if (action === "reset_password") {
+    const username = String(body.username || "").trim().toLowerCase();
+    const verifyContact = String(body.verifyContact || body.email || body.phone || "").trim();
+    const newPassword = String(body.newPassword || body.password || "");
+
+    if (!username) {
+      return res.status(400).json({ error: "Username is required." });
+    }
+    if (!verifyContact) {
+      return res.status(400).json({
+        error: "Registered email address or phone number is required to verify your identity.",
+      });
+    }
+    if (!newPassword || newPassword.length < 8 || newPassword.length > 128) {
+      return res.status(400).json({
+        error: "New password must be at least 8 characters.",
+      });
+    }
+
+    const user = await findCustomerByUsername(username);
+    if (!user) {
+      return res.status(404).json({ error: "Account not found with that username." });
+    }
+
+    // Verify identity: verifyContact must match either registered email or phone
+    const cleanVerify = verifyContact.toLowerCase();
+    const userEmail = String(user.email || "").toLowerCase();
+    const isEmailMatch = Boolean(userEmail && (cleanVerify === userEmail || cleanVerify === userEmail.trim()));
+
+    // Check phone match
+    const variants = typeof phoneMatchVariants === "function" ? phoneMatchVariants(user.phone) : [user.phone];
+    const normPhone = normalizePhoneNumber(verifyContact, body.countryCode);
+    const cleanContactDigits = verifyContact.replace(/\D/g, "");
+    const isPhoneMatch = Boolean(
+      (normPhone && variants.includes(normPhone)) ||
+      variants.some((v) => {
+        const vDigits = String(v).replace(/\D/g, "");
+        return cleanContactDigits.length >= 7 && (vDigits.endsWith(cleanContactDigits) || cleanContactDigits.endsWith(vDigits));
+      })
+    );
+
+    if (!isEmailMatch && !isPhoneMatch) {
+      return res.status(403).json({
+        error: "Verification failed. The email or phone number provided does not match our records for this account.",
+      });
+    }
+
+    const passwordHash = hashPassword(newPassword);
+    await updateCustomerProfile(username, { passwordHash });
+
+    recordVisitorHit(`pwreset:${username}`);
+    return res.status(200).json({
+      success: true,
+      message: "Password reset successfully. You can now sign in with your new password.",
+    });
+  }
+
+  if (action === "change_password") {
+    const session = resolveCustomerSession(req);
+    if (!session) {
+      return res.status(401).json({ error: "Sign in required." });
+    }
+    const currentPassword = String(body.currentPassword || "");
+    const newPassword = String(body.newPassword || "");
+    if (!currentPassword || !newPassword) {
+      return res.status(400).json({ error: "Current password and new password are required." });
+    }
+    if (newPassword.length < 8 || newPassword.length > 128) {
+      return res.status(400).json({ error: "New password must be at least 8 characters." });
+    }
+    const user = await findCustomerByUsername(session.username);
+    if (!user || !verifyPassword(currentPassword, user.password_hash)) {
+      return res.status(401).json({ error: "Current password is incorrect." });
+    }
+    const passwordHash = hashPassword(newPassword);
+    await updateCustomerProfile(session.username, { passwordHash });
+    return res.status(200).json({
+      success: true,
+      message: "Password updated successfully.",
     });
   }
 

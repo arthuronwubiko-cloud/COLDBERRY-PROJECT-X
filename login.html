@@ -29,8 +29,8 @@
       }
       .auth-tabs {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 0.5rem;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.35rem;
         margin-bottom: 1.25rem;
         background: rgba(128, 128, 128, 0.1);
         padding: 0.3rem;
@@ -175,6 +175,7 @@
         <div class="auth-tabs" role="tablist">
           <button type="button" class="auth-tab-btn" id="tab-signin" role="tab" aria-selected="true">Sign In</button>
           <button type="button" class="auth-tab-btn" id="tab-register" role="tab" aria-selected="false">Create Account</button>
+          <button type="button" class="auth-tab-btn" id="tab-reset" role="tab" aria-selected="false">Reset Password</button>
         </div>
 
         <!-- Sign In Form -->
@@ -187,11 +188,57 @@
             <label for="signin-password">Password</label>
             <input id="signin-password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required />
           </div>
+          <div style="display:flex;justify-content:flex-end;margin-bottom:0.75rem;">
+            <button type="button" id="forgot-password-link" style="background:none;border:none;color:#db2777;font-weight:700;font-size:0.84rem;cursor:pointer;padding:0;">
+              <i class="fa-solid fa-key" aria-hidden="true"></i> Forgot Password?
+            </button>
+          </div>
           <p id="signin-msg" class="auth-msg" role="alert" hidden></p>
           <p style="font-size:0.8rem;opacity:0.78;margin:0 0 0.85rem;">
             By signing in, you agree to our <a href="terms.html" style="color:#ff5733;">Terms &amp; Conditions</a> and <a href="privacy.html" style="color:#ff5733;">Privacy Policy</a>.
           </p>
           <button type="submit" class="auth-submit-btn">Sign In</button>
+        </form>
+
+        <!-- Reset Password Form -->
+        <form id="reset-form" novalidate hidden>
+          <div style="margin-bottom:1rem;padding:0.75rem;border-radius:10px;background:rgba(219,39,119,0.08);border:1px solid rgba(219,39,119,0.2);">
+            <div style="font-weight:800;font-size:0.9rem;color:#db2777;margin-bottom:0.25rem;">
+              <i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Reset Your Password
+            </div>
+            <div style="font-size:0.82rem;line-height:1.4;opacity:0.85;">
+              Enter your account username and your registered email address or phone number to verify your identity and set a new password.
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label for="reset-username">Account Username</label>
+            <input id="reset-username" type="text" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Enter your username" required />
+          </div>
+
+          <div class="form-row">
+            <label for="reset-contact">Registered Email or Phone Number</label>
+            <input id="reset-contact" type="text" autocomplete="email" placeholder="e.g. you@example.com or 08012345678" required />
+          </div>
+
+          <div class="form-row">
+            <label for="reset-password">New Password (minimum 8 characters)</label>
+            <input id="reset-password" type="password" autocomplete="new-password" minlength="8" placeholder="Enter at least 8 characters" required />
+          </div>
+
+          <div class="form-row">
+            <label for="reset-confirm-password">Confirm New Password</label>
+            <input id="reset-confirm-password" type="password" autocomplete="new-password" minlength="8" placeholder="Re-enter your new password" required />
+          </div>
+
+          <p id="reset-msg" class="auth-msg" role="alert" hidden></p>
+          <button type="submit" id="reset-submit-btn" class="auth-submit-btn">Reset Password</button>
+
+          <div style="text-align:center;margin-top:0.85rem;">
+            <button type="button" id="reset-back-signin" style="background:none;border:none;color:inherit;font-size:0.85rem;font-weight:700;cursor:pointer;opacity:0.85;">
+              <i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to Sign In
+            </button>
+          </div>
         </form>
 
         <!-- Register Form -->
@@ -260,19 +307,37 @@
       (function () {
         const tabSignIn = document.getElementById("tab-signin");
         const tabRegister = document.getElementById("tab-register");
+        const tabReset = document.getElementById("tab-reset");
         const signInForm = document.getElementById("signin-form");
         const regForm = document.getElementById("register-form");
+        const resetForm = document.getElementById("reset-form");
+        const forgotPwLink = document.getElementById("forgot-password-link");
+        const resetBackSignIn = document.getElementById("reset-back-signin");
         let selectedIcon = "pizza";
 
         function setTab(mode) {
           const isSignIn = mode === "signin";
+          const isReg = mode === "register";
+          const isReset = mode === "reset";
+
           tabSignIn.setAttribute("aria-selected", isSignIn ? "true" : "false");
-          tabRegister.setAttribute("aria-selected", isSignIn ? "false" : "true");
+          tabRegister.setAttribute("aria-selected", isReg ? "true" : "false");
+          tabReset.setAttribute("aria-selected", isReset ? "true" : "false");
+
           signInForm.hidden = !isSignIn;
-          regForm.hidden = isSignIn;
+          regForm.hidden = !isReg;
+          resetForm.hidden = !isReset;
         }
+
         tabSignIn.addEventListener("click", () => setTab("signin"));
         tabRegister.addEventListener("click", () => setTab("register"));
+        tabReset.addEventListener("click", () => setTab("reset"));
+        if (forgotPwLink) forgotPwLink.addEventListener("click", () => setTab("reset"));
+        if (resetBackSignIn) resetBackSignIn.addEventListener("click", () => setTab("signin"));
+
+        if (window.location.hash === "#reset" || window.location.hash === "#forgot-password") {
+          setTab("reset");
+        }
 
         document.querySelectorAll("#reg-icon-picker .icon-pick-btn").forEach((btn) => {
           btn.addEventListener("click", () => {
@@ -359,6 +424,83 @@
           } catch (_) {
             msg.textContent = "Network error. Please try again.";
             msg.hidden = false;
+          }
+        });
+
+        resetForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const msg = document.getElementById("reset-msg");
+          msg.className = "auth-msg";
+          msg.hidden = true;
+
+          const username = document.getElementById("reset-username").value.trim();
+          const verifyContact = document.getElementById("reset-contact").value.trim();
+          const newPassword = document.getElementById("reset-password").value;
+          const confirmPassword = document.getElementById("reset-confirm-password").value;
+
+          if (!username || !verifyContact || !newPassword) {
+            msg.textContent = "Please fill in all required fields.";
+            msg.hidden = false;
+            return;
+          }
+          if (newPassword.length < 8) {
+            msg.textContent = "New password must be at least 8 characters.";
+            msg.hidden = false;
+            return;
+          }
+          if (newPassword !== confirmPassword) {
+            msg.textContent = "Passwords do not match.";
+            msg.hidden = false;
+            return;
+          }
+
+          const submitBtn = document.getElementById("reset-submit-btn");
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Verifying & Updating...";
+
+          try {
+            const res = await fetch("/api/auth", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              credentials: "same-origin",
+              body: JSON.stringify({
+                action: "reset_password",
+                username,
+                verifyContact,
+                newPassword,
+              }),
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) {
+              msg.textContent = data.error || "Password reset failed.";
+              msg.hidden = false;
+              submitBtn.disabled = false;
+              submitBtn.textContent = "Reset Password";
+              return;
+            }
+
+            msg.className = "auth-msg ok";
+            msg.textContent = "Password reset successfully! Redirecting to sign in...";
+            msg.hidden = false;
+
+            document.getElementById("signin-username").value = username;
+            document.getElementById("signin-password").value = newPassword;
+
+            setTimeout(() => {
+              setTab("signin");
+              const signInMsg = document.getElementById("signin-msg");
+              if (signInMsg) {
+                signInMsg.className = "auth-msg ok";
+                signInMsg.textContent = "Password updated! You can now sign in.";
+                signInMsg.hidden = false;
+              }
+            }, 1200);
+          } catch (_) {
+            msg.textContent = "Network error. Please try again.";
+            msg.hidden = false;
+          } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Reset Password";
           }
         });
       })();

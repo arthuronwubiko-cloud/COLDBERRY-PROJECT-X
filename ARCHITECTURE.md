@@ -157,7 +157,7 @@ flowchart TD
     │
     └── Individual Menu Pizzas:
           User selects size (Medium 10" / Large 12" / Champion 16")
-          ├── js/deals-interactive.js maps pizza to category (Traditional, Special, Exclusive, Nineoverloaded)
+          ├── js/deals-interactive.js maps pizza to category (Traditional, Special, Exclusive)
           ├── Resolves live price from PIZZA_PRICES dictionary
           ├── Updates visible price tag (e.g., "₦14,150")
           └── Updates data-cart-item to "Pizza Name (Size)"

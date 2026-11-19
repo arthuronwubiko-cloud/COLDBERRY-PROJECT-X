@@ -148,8 +148,8 @@ function checkMenuPizzaCards() {
   record(
     "menu-cards",
     "Total pizza cards count",
-    cards.length === 13,
-    `found ${cards.length} (expected 13)`
+    cards.length === 12,
+    `found ${cards.length} (expected 12)`
   );
 
   const expectedSizes = ["Medium", "Large", "Champion"];
@@ -582,7 +582,7 @@ function checkPriceCalculation(parsedMenuItems) {
   const testCases = [
     { name: "Pepperoni Pizza (Champion)", expected: 21200 },
     { name: "Beef Suya Pizza (Large)", expected: 14800 },
-    { name: "Nineoverloaded Pizza (Champion)", expected: 25000 },
+    { name: "Meatylover Pizza (Champion)", expected: 23500 },
     { name: "Chicken Wings (6 pcs)", expected: 4700 },
     { name: "Cold Coca-Cola (50cl)", expected: 900 },
     { name: "The Festive Box (Pepperoni Pizza + BBQ Chicken Pizza)", expected: 28000 },
@@ -716,28 +716,28 @@ function checkPriceCalculation(parsedMenuItems) {
     if (hasFns) {
       // 1. getPizzaBasePrice defaults & tiers
       const pepLarge = getPizzaBasePrice("Pepperoni", "large");
-      const nineLarge = getPizzaBasePrice("Nineoverloaded", "large");
+      const meatyLarge = getPizzaBasePrice("Meatylover", "large");
       const suyaMed = getPizzaBasePrice("Beef Suya", "medium");
       const meatyChamp = getPizzaBasePrice("Meatylover", "champion");
 
-      // 2. calculateHalfAndHalfPrice formula
-      const hhCalc = calculateHalfAndHalfPrice("Pepperoni", "Nineoverloaded", "Large");
-      const expectedHhTotal = Math.round(16500 * 1.05); // 17325
-      const expectedSurcharge = Math.round(16500 * 0.05); // 825
+      // 2. calculateHalfAndHalfPrice formula (supports 2, 3, or 4 flavours)
+      const hhCalc = calculateHalfAndHalfPrice("Pepperoni", "Meatylover", "Large");
+      const expectedHhTotal = Math.round(15000 * 1.05); // 15750
+      const expectedSurcharge = Math.round(15000 * 0.05); // 750
 
       // 3. getItemPrice string parsing
-      const parsedPrice1 = getItemPrice("Half & Half Pizza (Pepperoni Pizza + Nineoverloaded Pizza, Large)");
-      const parsedPrice2 = getItemPrice("Half & Half Pizza: Pepperoni / Nineoverloaded (Large)");
+      const parsedPrice1 = getItemPrice("Half & Half Pizza (Pepperoni Pizza + Meatylover Pizza, Large)");
+      const parsedPrice2 = getItemPrice("Half & Half Pizza: Pepperoni / Meatylover (Large)");
 
       hhOk =
         pepLarge === 14150 &&
-        nineLarge === 16500 &&
+        meatyLarge === 15000 &&
         suyaMed === 12200 &&
         meatyChamp === 23500 &&
-        hhCalc.moreExpensivePrice === 16500 &&
+        hhCalc.moreExpensivePrice === 15000 &&
         hhCalc.surcharge === expectedSurcharge &&
         hhCalc.totalPrice === expectedHhTotal &&
-        hhCalc.moreExpensiveSide === "Nineoverloaded" &&
+        hhCalc.moreExpensiveSide === "Meatylover" &&
         parsedPrice1 === expectedHhTotal &&
         parsedPrice2 === expectedHhTotal;
     }
@@ -747,7 +747,7 @@ function checkPriceCalculation(parsedMenuItems) {
       "Half & Half Pizza pricing engine and formula (5% surcharge over more expensive half)",
       hhOk,
       hhOk
-        ? "functions exported, base prices accurate across tiers, 5% formula exact (₦17,325)"
+        ? "functions exported, base prices accurate across tiers, 5% formula exact (₦15,750)"
         : `hasFns=${hasFns}`
     );
   }
@@ -1574,13 +1574,13 @@ async function checkLegalAndDealsCompliance() {
       pricesData.pizzaTiers?.traditional?.prices?.Large === 14150 &&
       pricesData.pizzaTiers?.special?.prices?.Large === 14800 &&
       pricesData.pizzaTiers?.exclusive?.prices?.Large === 15000 &&
-      pricesData.pizzaTiers?.nineoverloaded?.prices?.Large === 16500;
+      !pricesData.pizzaTiers?.nineoverloaded;
   } catch (_) {}
   record(
     "prices-centralized",
     "Single source of truth prices.json exists with valid tiers, sizes, and fee rules",
     pricesValid,
-    pricesValid ? "prices.json verified across all 4 tiers and fee rates" : "missing or invalid prices.json"
+    pricesValid ? "prices.json verified across all 3 tiers and fee rates" : "missing or invalid prices.json"
   );
 
   // 7h. Order Tracking Page: track.html

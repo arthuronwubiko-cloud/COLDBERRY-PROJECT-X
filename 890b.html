@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#5C1A2B" />
     <meta
       name="description"
-      content="Order from Coldberry Ice Cream Nigeria (coldberry.ng) — Coldberry Vanilla Bean, Strawberry Bliss Swirl, Coldberry Delight, Oreo & Strawberry Roll, Chocolate Romance Supreme, Nineoverloaded Tub and more. Delivery in Abuja & Lagos."
+      content="Order from Coldberry Ice Cream Nigeria (coldberry.ng) — Coldberry Vanilla Bean, Strawberry Bliss Swirl, Coldberry Delight, Oreo & Strawberry Roll, Chocolate Romance Supreme and more. Delivery in Abuja & Lagos."
     />
     <link
       rel="icon"
@@ -110,32 +110,36 @@
           <p>Rich, velvety ice cream flavours crafted the Coldberry way.</p>
         </div>
 
-        <!-- Half & Half 2-in-1 Custom Split Tub Builder Accordion -->
+        <!-- Multi-Flavour Custom Split Tub Builder Accordion -->
         <details class="related-pizzas-details half-and-half-accordion" open>
           <summary class="related-pizzas-summary">
             <span class="summary-title">
               <i class="fa-solid fa-ice-cream" aria-hidden="true"></i>
-              <span>Half &amp; Half Tub (Custom 2-in-1 Flavour Split)</span>
+              <span>Custom Flavour Split Tub (2, 3 or 4 Flavours)</span>
             </span>
-            <span class="half-accordion-badge">2-in-1 Split</span>
+            <span class="half-accordion-badge">Multi-Flavour Split</span>
             <i class="fa-solid fa-chevron-down summary-icon" aria-hidden="true"></i>
           </summary>
           <div class="half-and-half-card">
             <div class="half-card-header">
-              <p class="half-card-subtitle">Can't decide on one flavour? Split any two Coldberry flavours across Medium, Large, or Champion tub sizes.</p>
+              <p class="half-card-subtitle">Can't decide on one flavour? Split 2 flavours in Medium (500ml), 3 flavours in Large (1L), or 4 flavours in Champion (2L)!</p>
             </div>
 
-            <!-- Half & Half Split Circle Visual Preview -->
+            <!-- Multi-Flavour Split Circle Visual Preview -->
             <div class="half-visual-preview" aria-hidden="true">
-              <div class="half-split-circle">
-                <div class="split-side split-left" id="half-preview-left" title="Left Half"></div>
-                <div class="split-divider"></div>
-                <div class="split-side split-right" id="half-preview-right" title="Right Half"></div>
+              <div class="half-split-circle" id="half-split-circle">
+                <div class="split-side split-left" id="half-preview-left" title="Scoop 1"></div>
+                <div class="split-divider" id="half-split-divider"></div>
+                <div class="split-side split-right" id="half-preview-right" title="Scoop 2"></div>
+                <div class="split-side split-slice3" id="half-preview-slice3" title="Scoop 3" style="display:none;"></div>
+                <div class="split-side split-slice4" id="half-preview-slice4" title="Scoop 4" style="display:none;"></div>
               </div>
               <div class="half-preview-labels">
                 <span id="half-label-left">Coldberry Vanilla Bean</span>
-                <i class="fa-solid fa-arrows-left-right" aria-hidden="true"></i>
-                <span id="half-label-right">Coldberry Nineoverloaded Tub</span>
+                <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                <span id="half-label-right">Belgian Chocolate Fudge</span>
+                <span id="half-label-3" class="split-extra-label"> + BlueMoon Berry Cream</span>
+                <span id="half-label-4" class="split-extra-label" style="display:none;"></span>
               </div>
             </div>
 
@@ -146,20 +150,20 @@
                 </label>
                 <div class="select-wrapper">
                   <select id="half-pizza-size" class="half-select" aria-label="Select Tub Size">
-                    <option value="Medium">Medium (500ml)</option>
-                    <option value="Large" selected>Large (1 Litre)</option>
-                    <option value="Champion">Champion (2 Litre Party Tub)</option>
+                    <option value="Medium">Medium (500ml) — 2 Flavours</option>
+                    <option value="Large" selected>Large (1 Litre) — 3 Flavours</option>
+                    <option value="Champion">Champion (2 Litres) — 4 Flavours</option>
                   </select>
                   <i class="fa-solid fa-chevron-down select-arrow" aria-hidden="true"></i>
                 </div>
               </div>
 
-              <div class="half-selector-group">
+              <div class="half-selector-group" id="half-pizza-side1-group">
                 <label class="half-select-label" for="half-pizza-side1">
-                  <i class="fa-solid fa-ice-cream" aria-hidden="true"></i> Left Scoop Half:
+                  <i class="fa-solid fa-ice-cream" aria-hidden="true"></i> Flavour 1:
                 </label>
                 <div class="select-wrapper">
-                  <select id="half-pizza-side1" class="half-select" aria-label="Select Left Half Flavour">
+                  <select id="half-pizza-side1" class="half-select" aria-label="Select Flavour 1">
                     <optgroup label="Classic Creamery">
                       <option value="Coldberry Vanilla Bean" selected>Coldberry Vanilla Bean</option>
                       <option value="Strawberry Bliss Swirl">Strawberry Bliss Swirl</option>
@@ -178,24 +182,21 @@
                       <option value="Cheesecake Fantasy Crunch">Cheesecake Fantasy Crunch</option>
                       <option value="Fresh Cream &amp; Berry Classic">Fresh Cream &amp; Berry Classic</option>
                     </optgroup>
-                    <optgroup label="Overloaded Tubs">
-                      <option value="Coldberry Nineoverloaded Tub">Coldberry Nineoverloaded Tub</option>
-                    </optgroup>
                   </select>
                   <i class="fa-solid fa-chevron-down select-arrow" aria-hidden="true"></i>
                 </div>
               </div>
 
-              <div class="half-selector-group">
+              <div class="half-selector-group" id="half-pizza-side2-group">
                 <label class="half-select-label" for="half-pizza-side2">
-                  <i class="fa-solid fa-ice-cream" aria-hidden="true"></i> Right Scoop Half:
+                  <i class="fa-solid fa-ice-cream" aria-hidden="true"></i> Flavour 2:
                 </label>
                 <div class="select-wrapper">
-                  <select id="half-pizza-side2" class="half-select" aria-label="Select Right Half Flavour">
+                  <select id="half-pizza-side2" class="half-select" aria-label="Select Flavour 2">
                     <optgroup label="Classic Creamery">
                       <option value="Coldberry Vanilla Bean">Coldberry Vanilla Bean</option>
                       <option value="Strawberry Bliss Swirl">Strawberry Bliss Swirl</option>
-                      <option value="Belgian Chocolate Fudge">Belgian Chocolate Fudge</option>
+                      <option value="Belgian Chocolate Fudge" selected>Belgian Chocolate Fudge</option>
                       <option value="BlueMoon Berry Cream">BlueMoon Berry Cream</option>
                       <option value="Caramel Popcorn Crunch">Caramel Popcorn Crunch</option>
                     </optgroup>
@@ -210,8 +211,63 @@
                       <option value="Cheesecake Fantasy Crunch">Cheesecake Fantasy Crunch</option>
                       <option value="Fresh Cream &amp; Berry Classic">Fresh Cream &amp; Berry Classic</option>
                     </optgroup>
-                    <optgroup label="Overloaded Tubs">
-                      <option value="Coldberry Nineoverloaded Tub" selected>Coldberry Nineoverloaded Tub</option>
+                  </select>
+                  <i class="fa-solid fa-chevron-down select-arrow" aria-hidden="true"></i>
+                </div>
+              </div>
+
+              <div class="half-selector-group" id="half-pizza-side3-group">
+                <label class="half-select-label" for="half-pizza-side3">
+                  <i class="fa-solid fa-ice-cream" aria-hidden="true"></i> Flavour 3 (Large &amp; Champion):
+                </label>
+                <div class="select-wrapper">
+                  <select id="half-pizza-side3" class="half-select" aria-label="Select Flavour 3">
+                    <optgroup label="Classic Creamery">
+                      <option value="Coldberry Vanilla Bean">Coldberry Vanilla Bean</option>
+                      <option value="Strawberry Bliss Swirl">Strawberry Bliss Swirl</option>
+                      <option value="Belgian Chocolate Fudge">Belgian Chocolate Fudge</option>
+                      <option value="BlueMoon Berry Cream" selected>BlueMoon Berry Cream</option>
+                      <option value="Caramel Popcorn Crunch">Caramel Popcorn Crunch</option>
+                    </optgroup>
+                    <optgroup label="Signature Rolled &amp; Swirl">
+                      <option value="Coldberry Delight">Coldberry Delight</option>
+                      <option value="Oreo &amp; Strawberry Roll">Oreo &amp; Strawberry Roll</option>
+                      <option value="Rainbow Berry Rolls">Rainbow Berry Rolls</option>
+                      <option value="Caramel Swirl Sundae">Caramel Swirl Sundae</option>
+                    </optgroup>
+                    <optgroup label="Supreme Indulgence">
+                      <option value="Chocolate Romance Supreme">Chocolate Romance Supreme</option>
+                      <option value="Cheesecake Fantasy Crunch">Cheesecake Fantasy Crunch</option>
+                      <option value="Fresh Cream &amp; Berry Classic">Fresh Cream &amp; Berry Classic</option>
+                    </optgroup>
+                  </select>
+                  <i class="fa-solid fa-chevron-down select-arrow" aria-hidden="true"></i>
+                </div>
+              </div>
+
+              <div class="half-selector-group" id="half-pizza-side4-group" style="display:none;">
+                <label class="half-select-label" for="half-pizza-side4">
+                  <i class="fa-solid fa-ice-cream" aria-hidden="true"></i> Flavour 4 (Champion Only):
+                </label>
+                <div class="select-wrapper">
+                  <select id="half-pizza-side4" class="half-select" aria-label="Select Flavour 4">
+                    <optgroup label="Classic Creamery">
+                      <option value="Coldberry Vanilla Bean">Coldberry Vanilla Bean</option>
+                      <option value="Strawberry Bliss Swirl">Strawberry Bliss Swirl</option>
+                      <option value="Belgian Chocolate Fudge">Belgian Chocolate Fudge</option>
+                      <option value="BlueMoon Berry Cream">BlueMoon Berry Cream</option>
+                      <option value="Caramel Popcorn Crunch" selected>Caramel Popcorn Crunch</option>
+                    </optgroup>
+                    <optgroup label="Signature Rolled &amp; Swirl">
+                      <option value="Coldberry Delight">Coldberry Delight</option>
+                      <option value="Oreo &amp; Strawberry Roll">Oreo &amp; Strawberry Roll</option>
+                      <option value="Rainbow Berry Rolls">Rainbow Berry Rolls</option>
+                      <option value="Caramel Swirl Sundae">Caramel Swirl Sundae</option>
+                    </optgroup>
+                    <optgroup label="Supreme Indulgence">
+                      <option value="Chocolate Romance Supreme">Chocolate Romance Supreme</option>
+                      <option value="Cheesecake Fantasy Crunch">Cheesecake Fantasy Crunch</option>
+                      <option value="Fresh Cream &amp; Berry Classic">Fresh Cream &amp; Berry Classic</option>
                     </optgroup>
                   </select>
                   <i class="fa-solid fa-chevron-down select-arrow" aria-hidden="true"></i>
@@ -221,24 +277,24 @@
 
             <div class="half-pricing-breakdown" id="half-pricing-breakdown" aria-live="polite">
               <div class="half-breakdown-row base-price-row">
-                <span class="breakdown-label">Base Price (More Expensive Side):</span>
-                <strong class="breakdown-value" id="half-base-price">₦16,500</strong>
+                <span class="breakdown-label">Base Price (Highest Tier Scoop):</span>
+                <strong class="breakdown-value" id="half-base-price">₦14,150</strong>
               </div>
               <div class="half-breakdown-row surcharge-row">
                 <span class="breakdown-label">5% Split Surcharge:</span>
-                <strong class="breakdown-value" id="half-surcharge-price">+₦825</strong>
+                <strong class="breakdown-value" id="half-surcharge-price">+₦708</strong>
               </div>
               <div class="half-breakdown-row total-price-row">
                 <span class="breakdown-label">Total Price:</span>
-                <strong class="breakdown-value half-total-val" id="half-total-price">₦17,325</strong>
+                <strong class="breakdown-value half-total-val" id="half-total-price">₦14,858</strong>
               </div>
             </div>
 
             <div class="half-action-row">
-              <div class="quantity-control half-quantity-control" data-cart-item="Half &amp; Half Pizza (Coldberry Vanilla Bean + Coldberry Nineoverloaded Tub, Large)">
-                <button type="button" data-cart-action="decrement" aria-label="Remove one Half &amp; Half Tub">−</button>
+              <div class="quantity-control half-quantity-control" data-cart-item="Half &amp; Half Pizza (Coldberry Vanilla Bean + Belgian Chocolate Fudge + BlueMoon Berry Cream, Large)">
+                <button type="button" data-cart-action="decrement" aria-label="Remove one Custom Split Tub">−</button>
                 <span data-cart-quantity aria-live="polite">0</span>
-                <button type="button" data-cart-action="increment" aria-label="Add one Half &amp; Half Tub">+</button>
+                <button type="button" data-cart-action="increment" aria-label="Add one Custom Split Tub">+</button>
               </div>
             </div>
           </div>
@@ -591,11 +647,11 @@
         </div>
       </section>
 
-      <!-- Supreme Indulgence & Overloaded Tubs -->
+      <!-- Supreme Indulgence Signature Tubs -->
       <section class="menu-section" id="exclusive">
         <div class="section-heading">
           <p class="section-label">MADE FOR ULTIMATE SWEET CRAVINGS</p>
-          <h2>Exclusive &amp; Overloaded Tubs</h2>
+          <h2>Exclusive Signature Tubs</h2>
           <p>Discover the extra-indulgent side of Coldberry Ice Cream Nigeria.</p>
         </div>
 
@@ -637,44 +693,7 @@
             </div>
           </article>
 
-          <!-- 11. Coldberry Nineoverloaded Tub -->
-          <article class="pizza-card" id="nineoverloaded">
-            <img
-              src="images/tropical.jpg"
-              alt="Coldberry Nineoverloaded Tub"
-              class="pizza-image"
-            />
-            <div class="pizza-info">
-              <h3>Coldberry Nineoverloaded Tub</h3>
-              <p>
-                Our ultimate 9-topping creamery feast packed with berries, Oreo
-                crumbs, brownie chunks, waffle crisps, roasted nuts, and fudge.
-              </p>
-
-              <div class="pizza-size-picker">
-                <label class="pizza-size-label" for="size-nineoverloaded"><i class="fa-solid fa-ice-cream"></i> Select Size:</label>
-                <div class="select-wrapper">
-                  <select class="pizza-size-select" id="size-nineoverloaded" data-base-name="Coldberry Nineoverloaded Tub" aria-label="Select size for Coldberry Nineoverloaded Tub">
-                    <option value="Medium" data-price="₦15,100">Medium (500ml) — ₦15,100</option>
-                    <option value="Large" data-price="₦16,500" selected>Large (1L) — ₦16,500</option>
-                    <option value="Champion" data-price="₦25,000">Champion (2L Tub) — ₦25,000</option>
-                  </select>
-                  <i class="fa-solid fa-chevron-down select-arrow" aria-hidden="true"></i>
-                </div>
-              </div>
-
-              <div class="pizza-bottom">
-                <span class="price">₦16,500</span>
-                <div class="quantity-control" data-cart-item="Coldberry Nineoverloaded Tub (Large)">
-                  <button type="button" data-cart-action="decrement" aria-label="Remove one Coldberry Nineoverloaded Tub">−</button>
-                  <span data-cart-quantity aria-live="polite">0</span>
-                  <button type="button" data-cart-action="increment" aria-label="Add one Coldberry Nineoverloaded Tub">+</button>
-                </div>
-              </div>
-            </div>
-          </article>
-
-          <!-- 12. Cheesecake Fantasy Crunch -->
+          <!-- 11. Cheesecake Fantasy Crunch -->
           <article class="pizza-card" id="cheesecake-fantasy">
             <img
               src="images/cup-cake.jpg"
@@ -1108,7 +1127,6 @@
                   <select class="deal-pizza-select" id="menu-champion-pizza-select" aria-label="Select Champion Tub">
                     <optgroup label="Exclusive &amp; Champion Category">
                       <option value="Chocolate Romance Supreme" selected>Chocolate Romance Supreme (Exclusive)</option>
-                      <option value="Coldberry Nineoverloaded Tub">Coldberry Nineoverloaded Tub (Overloaded)</option>
                       <option value="Cheesecake Fantasy Crunch">Cheesecake Fantasy Crunch (Exclusive)</option>
                       <option value="Fresh Cream &amp; Berry Classic">Fresh Cream &amp; Berry Classic (Exclusive)</option>
                     </optgroup>
@@ -1149,17 +1167,6 @@
                         </div>
                       </div>
                       <button type="button" class="related-select-btn" data-target-select="0" data-pizza="Chocolate Romance Supreme">Select</button>
-                    </li>
-                    <li class="related-pizza-row">
-                      <img src="images/tropical.jpg" alt="Coldberry Nineoverloaded Tub" class="related-pizza-thumb" loading="lazy" />
-                      <div class="related-pizza-meta">
-                        <strong>Coldberry Nineoverloaded Tub</strong>
-                        <span class="related-category-pill pill-exclusive">Overloaded</span>
-                        <div class="related-size-pricing">
-                          <span class="size-price-tag champion">Champion: ₦25,000</span>
-                        </div>
-                      </div>
-                      <button type="button" class="related-select-btn" data-target-select="0" data-pizza="Coldberry Nineoverloaded Tub">Select</button>
                     </li>
                   </ul>
                 </div>
@@ -1272,7 +1279,6 @@
                     </optgroup>
                     <optgroup label="Exclusive Tubs">
                       <option value="Chocolate Romance Supreme">Chocolate Romance Supreme (Exclusive)</option>
-                      <option value="Coldberry Nineoverloaded Tub">Coldberry Nineoverloaded Tub (Overloaded)</option>
                       <option value="Cheesecake Fantasy Crunch">Cheesecake Fantasy Crunch (Exclusive)</option>
                     </optgroup>
                   </select>
@@ -1291,7 +1297,6 @@
                     </optgroup>
                     <optgroup label="Exclusive Tubs">
                       <option value="Chocolate Romance Supreme" selected>Chocolate Romance Supreme (Exclusive)</option>
-                      <option value="Coldberry Nineoverloaded Tub">Coldberry Nineoverloaded Tub (Overloaded)</option>
                       <option value="Cheesecake Fantasy Crunch">Cheesecake Fantasy Crunch (Exclusive)</option>
                     </optgroup>
                   </select>

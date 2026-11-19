@@ -53,15 +53,6 @@
         "Sweet & Hot Pizza",
         "Margherita Pizza"
       ]
-    },
-    "nineoverloaded": {
-      "name": "Overloaded Creamery Tub",
-      "prices": { "Medium": 15100, "Large": 16500, "Champion": 25000 },
-      "formatted": { "Medium": "₦15,100", "Large": "₦16,500", "Champion": "₦25,000" },
-      "pizzas": [
-        "Coldberry Nineoverloaded Tub",
-        "Nineoverloaded Pizza"
-      ]
     }
   },
   "sidesAndDrinks": {

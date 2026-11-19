@@ -116,12 +116,6 @@
     "Fresh Cream &amp; Berry Classic (Champion)": 23500,
     "Fresh Cream &amp; Berry Classic": 15000,
 
-    // Coldberry Overloaded Tub (Tier D — Medium: 15100 | Large: 16500 | Champion: 25000)
-    "Coldberry Nineoverloaded Tub (Medium)": 15100,
-    "Coldberry Nineoverloaded Tub (Large)": 16500,
-    "Coldberry Nineoverloaded Tub (Champion)": 25000,
-    "Coldberry Nineoverloaded Tub": 16500,
-
     // Legacy compatibility keys (Medium: 11200 | Large: 14150 | Champion: 21200)
     "Pepperoni Pizza (Medium)": 11200,
     "Pepperoni Pizza (Large)": 14150,
@@ -200,13 +194,6 @@
     "Margherita Pizza (Champion)": 23500,
     "Margherita Pizza": 15000,
     "Margherita": 15000,
-
-    // Nineoverloaded Pizza (Medium: 15100 | Large: 16500 | Champion: 25000)
-    "Nineoverloaded Pizza (Medium)": 15100,
-    "Nineoverloaded Pizza (Large)": 16500,
-    "Nineoverloaded Pizza (Champion)": 25000,
-    "Nineoverloaded Pizza": 16500,
-    "Nineoverloaded": 16500,
   };
 
   function normalizeItemName(itemName) {
@@ -220,7 +207,6 @@
     A: { medium: 11200, large: 14150, champion: 21200 },
     B: { medium: 12200, large: 14800, champion: 22000 },
     C: { medium: 13500, large: 15000, champion: 23500 },
-    D: { medium: 15100, large: 16500, champion: 25000 },
   };
 
   function normalizePizzaSize(size, fallbackString) {
@@ -241,11 +227,6 @@
   function getPizzaTier(flavorName) {
     if (!flavorName || typeof flavorName !== "string") return null;
     const lower = normalizeItemName(flavorName).toLowerCase();
-
-    // Tier D: Nineoverloaded
-    if (lower.includes("nineoverloaded") || lower.includes("nine overloaded")) {
-      return "D";
-    }
 
     // Tier C: Chocolate Romance, Cheesecake Fantasy, Fresh Cream & Berry, Meatylover, Sweet & Hot, Margherita
     if (
@@ -312,18 +293,38 @@
     return 0;
   }
 
-  function calculateHalfAndHalfPrice(sideA, sideB, size) {
+  function calculateHalfAndHalfPrice(sideA, sideB, size, ...extraSides) {
     const normSize = normalizePizzaSize(size);
-    const sideAPrice = getPizzaBasePrice(sideA, normSize);
-    const sideBPrice = getPizzaBasePrice(sideB, normSize);
-    const moreExpensivePrice = Math.max(sideAPrice, sideBPrice);
+    let allSides = [];
+    if (Array.isArray(sideA)) {
+      allSides = sideA.slice();
+    } else {
+      if (sideA) allSides.push(sideA);
+      if (sideB) allSides.push(sideB);
+      if (extraSides && extraSides.length > 0) {
+        for (const s of extraSides) {
+          if (s) allSides.push(s);
+        }
+      }
+    }
+    const sidePrices = allSides.map((side) => ({
+      side,
+      price: getPizzaBasePrice(side, normSize),
+    }));
+    const prices = sidePrices.map((sp) => sp.price);
+    const moreExpensivePrice = prices.length > 0 ? Math.max(...prices) : 0;
     const surcharge = Math.round(moreExpensivePrice * 0.05);
     const totalPrice = Math.round(moreExpensivePrice * 1.05);
-    const moreExpensiveSide = sideAPrice >= sideBPrice ? sideA : sideB;
+    const highest = sidePrices.find((sp) => sp.price === moreExpensivePrice);
+    const moreExpensiveSide = highest ? highest.side : (sideA || "");
 
     return {
-      sideAPrice,
-      sideBPrice,
+      sideAPrice: sidePrices[0] ? sidePrices[0].price : 0,
+      sideBPrice: sidePrices[1] ? sidePrices[1].price : 0,
+      sideCPrice: sidePrices[2] ? sidePrices[2].price : 0,
+      sideDPrice: sidePrices[3] ? sidePrices[3].price : 0,
+      sidePrices,
+      allSides,
       moreExpensivePrice,
       surcharge,
       totalPrice,
@@ -345,11 +346,17 @@
     const size = normalizePizzaSize(typeof itemName === "object" ? itemName.size : null, str);
 
     if (typeof itemName === "object" && itemName.sideA && itemName.sideB) {
-      return {
+      const res = {
         sideA: String(itemName.sideA).trim(),
         sideB: String(itemName.sideB).trim(),
         size,
       };
+      if (itemName.sideC) res.sideC = String(itemName.sideC).trim();
+      if (itemName.sideD) res.sideD = String(itemName.sideD).trim();
+      res.sides = [res.sideA, res.sideB];
+      if (res.sideC) res.sides.push(res.sideC);
+      if (res.sideD) res.sides.push(res.sideD);
+      return res;
     }
 
     // Remove leading Half & Half prefix
@@ -369,6 +376,8 @@
 
     let sideA = "";
     let sideB = "";
+    let sideC = "";
+    let sideD = "";
 
     // 1. Try splitting by explicit separators (+, /, |, vs, with)
     const splitSeparators = [
@@ -381,31 +390,48 @@
 
     for (const sep of splitSeparators) {
       if (sep.test(content)) {
-        const parts = content.split(sep);
-        if (parts.length >= 2 && parts[0].trim() && parts[1].trim()) {
-          sideA = parts[0].trim();
-          sideB = parts[1].trim();
+        const parts = content.split(sep).map((p) => p.trim()).filter(Boolean);
+        if (parts.length >= 2) {
+          sideA = parts[0];
+          sideB = parts[1];
+          if (parts[2]) sideC = parts[2];
+          if (parts[3]) sideD = parts[3];
           break;
         }
       }
     }
 
-    // 2. Try single comma separator if present (e.g. "Pepperoni, Nineoverloaded")
+    // 2. Try single comma separator if present (e.g. "Pepperoni, Meatylover")
     if (!sideA || !sideB) {
-      const commaParts = content.split(/\s*,\s*/);
-      if (commaParts.length === 2 && commaParts[0].trim() && commaParts[1].trim()) {
-        sideA = commaParts[0].trim();
-        sideB = commaParts[1].trim();
+      const commaParts = content.split(/\s*,\s*/).map((p) => p.trim()).filter(Boolean);
+      if (commaParts.length >= 2) {
+        sideA = commaParts[0];
+        sideB = commaParts[1];
+        if (commaParts[2]) sideC = commaParts[2];
+        if (commaParts[3]) sideD = commaParts[3];
       }
     }
 
-    // 3. Try " and " or " & " while protecting "Sweet & Hot"
+    // 3. Try " and " or " & " while protecting "Sweet & Hot", "Fresh Cream & Berry", and "Oreo & Strawberry"
     if (!sideA || !sideB) {
-      const masked = content.replace(/sweet\s*(?:&|&amp;|and)\s*hot/gi, "___SWEET_HOT___");
+      const masked = content
+        .replace(/sweet\s*(?:&|&amp;|and)\s*hot/gi, "___SWEET_HOT___")
+        .replace(/fresh\s*cream\s*(?:&|&amp;|and)\s*berry/gi, "___FRESH_CREAM___")
+        .replace(/oreo\s*(?:&|&amp;|and)\s*strawberry/gi, "___OREO_STRAWBERRY___");
       const andMatch = masked.match(/\s+(?:&|&amp;|and)\s+/i);
       if (andMatch && andMatch.index !== undefined) {
-        const p1 = masked.slice(0, andMatch.index).replace(/___SWEET_HOT___/g, "Sweet & Hot").trim();
-        const p2 = masked.slice(andMatch.index + andMatch[0].length).replace(/___SWEET_HOT___/g, "Sweet & Hot").trim();
+        const p1 = masked
+          .slice(0, andMatch.index)
+          .replace(/___SWEET_HOT___/g, "Sweet & Hot")
+          .replace(/___FRESH_CREAM___/g, "Fresh Cream & Berry")
+          .replace(/___OREO_STRAWBERRY___/g, "Oreo & Strawberry")
+          .trim();
+        const p2 = masked
+          .slice(andMatch.index + andMatch[0].length)
+          .replace(/___SWEET_HOT___/g, "Sweet & Hot")
+          .replace(/___FRESH_CREAM___/g, "Fresh Cream & Berry")
+          .replace(/___OREO_STRAWBERRY___/g, "Oreo & Strawberry")
+          .trim();
         if (p1 && p2) {
           sideA = p1;
           sideB = p2;
@@ -416,7 +442,6 @@
     // 4. Fallback: scan for known flavor occurrences
     if (!sideA || !sideB) {
       const knownFlavors = [
-        "Coldberry Nineoverloaded Tub",
         "Chocolate Romance Supreme",
         "Cheesecake Fantasy Crunch",
         "Fresh Cream & Berry Classic",
@@ -435,8 +460,6 @@
         "Sweet Chili Chicken",
         "Chicken Supreme",
         "Veggie Supreme",
-        "Nineoverloaded",
-        "Nine Overloaded",
         "Sweet & Hot",
         "Sweet and Hot",
         "Sweet &amp; Hot",
@@ -465,11 +488,19 @@
       if (found.length >= 2) {
         sideA = found[0].flavor;
         sideB = found[1].flavor;
+        if (found[2]) sideC = found[2].flavor;
+        if (found[3]) sideD = found[3].flavor;
       }
     }
 
     if (sideA && sideB) {
-      return { sideA, sideB, size };
+      const res = { sideA, sideB, size };
+      if (sideC) res.sideC = sideC;
+      if (sideD) res.sideD = sideD;
+      res.sides = [sideA, sideB];
+      if (sideC) res.sides.push(sideC);
+      if (sideD) res.sides.push(sideD);
+      return res;
     }
 
     return null;
@@ -478,10 +509,16 @@
   function getItemPrice(itemName) {
     if (!itemName) return 0;
 
-    // Support object inputs (e.g. { sideA, sideB, size })
+    // Support object inputs (e.g. { sideA, sideB, size, sideC, sideD })
     if (typeof itemName === "object" && itemName !== null) {
       if (itemName.sideA && itemName.sideB) {
-        return calculateHalfAndHalfPrice(itemName.sideA, itemName.sideB, itemName.size).totalPrice;
+        return calculateHalfAndHalfPrice(
+          itemName.sideA,
+          itemName.sideB,
+          itemName.size,
+          itemName.sideC,
+          itemName.sideD
+        ).totalPrice;
       }
       itemName = itemName.name || itemName.item || "";
     }
@@ -508,11 +545,17 @@
       return 21000;
     }
 
-    // 2. Check Half & Half Pizza
+    // 2. Check Half & Half Pizza (Custom Tub)
     if (isHalfAndHalfItem(clean)) {
       const parsed = parseHalfAndHalfItem(clean);
       if (parsed) {
-        const pricing = calculateHalfAndHalfPrice(parsed.sideA, parsed.sideB, parsed.size);
+        const pricing = calculateHalfAndHalfPrice(
+          parsed.sideA,
+          parsed.sideB,
+          parsed.size,
+          parsed.sideC,
+          parsed.sideD
+        );
         if (pricing.totalPrice > 0) {
           return pricing.totalPrice;
         }

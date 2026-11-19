@@ -57,7 +57,7 @@ A modern, responsive ice cream and dessert ordering platform for **Coldberry Ice
 | File | Purpose |
 | --- | --- |
 | [`index.html`](./index.html) | Home page with hero section, menu highlights (including a consolidated 13-pizza dropdown inside the Pizza card), locations, gallery, search, and footer. |
-| [`890b.html`](./890b.html) | Full menu page with pizza categories (Traditional, Special, Exclusive, Nineoverloaded), sides, drinks, and deal previews with eligible-pizza accordions. |
+| [`890b.html`](./890b.html) | Full menu page with pizza categories (Traditional, Special, Exclusive), sides, drinks, and deal previews with eligible-pizza accordions. |
 | [`pizzadeals.html`](./pizzadeals.html) | Deals page with featured combos, interactive flavor selectors, and related pizza accordions with quick-select buttons. |
 | [`order.html`](./order.html) | Order checkout form with delivery/pickup selection, interactive cart summary, "🍗 Add Popular Sides & Extras" section, order PIN display, direct tracking link, consent, and WhatsApp handoff. |
 | [`track.html`](./track.html) | Real-time customer order tracking interface querying orders by phone number + 6-digit PIN, with 5-stage visual progress stepper, dark/light theme support, and live details. |
@@ -182,18 +182,16 @@ A separately hostable, strictly locked verification console for Store Admins and
 
 - **Canonical Pizza Sizing & Live Pricing Sync**:
   - Standardized strictly to three official sizes: **Medium (10")**, **Large (12")**, and **Champion (16")**. The outdated "Jumbo" terminology has been completely retired across markup, scripts, and tests.
-  - Live pricing synchronized directly from `romeospizza.ng` across four distinct tiers:
+  - Live pricing synchronized directly across three distinct tiers:
     - **Traditional** (Pepperoni, BBQ Chicken, Chicken Supreme, Veggie Supreme, BBQ Beef):
       - Medium (10"): ₦11,200 | Large (12"): ₦14,150 | Champion (16"): ₦21,200
     - **Special** (Beef Suya, Shawarma Pizza, Chicken Suya, Sweet Chilli Chicken):
       - Medium (10"): ₦12,200 | Large (12"): ₦14,800 | Champion (16"): ₦22,000
     - **Exclusive** (Meatylover, Sweet & Hot, Margherita):
       - Medium (10"): ₦13,500 | Large (12"): ₦15,000 | Champion (16"): ₦23,500
-    - **Nineoverloaded**:
-      - Medium (10"): ₦15,100 | Large (12"): ₦16,500 | Champion (16"): ₦25,000
 - **Relocated Homepage Pizza Dropdown & Deal Selectors**:
-  - Consolidated all 13 pizzas (Traditional, Special, and Exclusive) into a single scrollable `<details class="related-pizzas-details homepage-pizzas-details">` accordion inside the Pizza preview card on `index.html`, displaying thumbnails, size pricing tags (`Med`, `Lrg`, `Champion`), and direct `Order` links (`890b.html#<id>`).
-  - Removed individual category accordions from the 13 pizza cards on `890b.html` for cleaner browsing while retaining eligible-pizza `<details>` accordions on deal cards.
+  - Consolidated all 12 pizzas (Traditional, Special, and Exclusive) into a single scrollable `<details class="related-pizzas-details homepage-pizzas-details">` accordion inside the Pizza preview card on `index.html`, displaying thumbnails, size pricing tags (`Med`, `Lrg`, `Champion`), and direct `Order` links (`890b.html#<id>`).
+  - Removed individual category accordions from the 12 pizza cards on `890b.html` for cleaner browsing while retaining eligible-pizza `<details>` accordions on deal cards.
   - On `pizzadeals.html` and the `890b.html` deals preview, deals feature interactive dropdown selectors (`.deal-pizza-select` managed by `js/deals-interactive.js`) for choosing combo pizza flavors, updating cart keys and quantity steppers in real time, accompanied by accordions of eligible pizzas with quick "Select" buttons.
 - **Interactive Dark / Light Theme Switcher & Mobile `theme-color` Sync**:
   - An accessible circular `.theme-toggle` button (`#theme-toggle`) in the navigation bar of all pages (`index.html`, `890b.html`, `pizzadeals.html`, `order.html`) allows customers to switch between dark and light themes at any time.
@@ -299,10 +297,10 @@ npm run test:overload
 
 1. **JavaScript Syntax Sanity (14 checks)**: Verifies that all project scripts (`admin-console/server.js`, `api/admin.js`, `api/db.js`, `api/orders.js`, `api/overload-protection.js`, `api/pin-manager.js`, `api/track.js`, `dev-server.js`, `js/cart.js`, `js/deals-interactive.js`, `js/order.js`, `js/site.js`, `scripts/overload-test.js`, `scripts/stress-test.js`) compile cleanly without syntax errors.
 2. **Size Naming Hygiene (1 check)**: Scans all HTML and JS files for any legacy "Jumbo" references, ensuring 100% adherence to the canonical Medium / Large / Champion naming convention.
-3. **Menu Pizza Cards, Sizing & Half/Half Accordion (15 checks)**: Confirms that all 13 pizza cards in `890b.html` include Medium, Large, and Champion size options, default to Large, have accurate live prices, and includes the Half & Half 2-in-1 accordion builder.
+3. **Menu Pizza Cards, Sizing & Half/Half Accordion (15 checks)**: Confirms that all 12 pizza cards in `890b.html` include Medium, Large, and Champion size options, default to Large, have accurate live prices, and includes the Half & Half 2-in-1 accordion builder.
 4. **Image Asset Integrity (3 checks)**: Verifies that local side and drink images (`images/chicken-wings.jpg`, `images/shawarma.jpg`, `images/coca-cola.jpg`) exist on disk, are valid non-empty files, and are correctly referenced in `order.html`.
 5. **Pricing Math & Order Logic (15 checks)**:
-   - Validates unit prices for pizzas across categories and sizes (e.g., Pepperoni Champion: ₦21,200, Beef Suya Large: ₦14,800, Nineoverloaded Champion: ₦25,000).
+   - Validates unit prices for pizzas across categories and sizes (e.g., Pepperoni Champion: ₦21,200, Beef Suya Large: ₦14,800, Meatylover Champion: ₦23,500).
    - Validates unit prices for popular sides (Chicken Wings 6 pcs: ₦4,700) and combo deals (The Festive Box: ₦28,000).
    - Validates Coca-Cola (50cl) canonical unit price at ₦900 across order and menu pages.
    - Validates flat service fee logic: exactly ₦800 for orders with items (`serviceFee = 800`).

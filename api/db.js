@@ -143,11 +143,14 @@ function deleteLocalOrder(orderId) {
   return true;
 }
 
+const DEFAULT_SUPABASE_URL = "https://tfpedhsgktihxkeuoztv.supabase.co";
+
 function getSupabaseConfig() {
   const url =
     process.env.SUPABASE_URL ||
     process.env.NEXT_PUBLIC_SUPABASE_URL ||
-    process.env.SUPABASE_PROJECT_URL;
+    process.env.SUPABASE_PROJECT_URL ||
+    DEFAULT_SUPABASE_URL;
   const candidates = [
     process.env.SUPABASE_SERVICE_ROLE_KEY,
     process.env.SUPABASE_KEY,
@@ -1500,6 +1503,7 @@ async function updateCustomerProfile(username, updates = {}) {
     if (updates.defaultLocation !== undefined) local[idx].default_location = updates.defaultLocation || null;
     if (updates.defaultAddress !== undefined) local[idx].default_address = updates.defaultAddress || null;
     if (updates.lastLoginAt) local[idx].last_login_at = updates.lastLoginAt;
+    if (updates.passwordHash) local[idx].password_hash = String(updates.passwordHash);
     writeLocalUsersFile(local);
   }
 
@@ -1512,7 +1516,8 @@ async function updateCustomerProfile(username, updates = {}) {
           full_name = COALESCE(${updates.fullName || null}, full_name),
           default_location = COALESCE(${updates.defaultLocation !== undefined ? updates.defaultLocation : null}, default_location),
           default_address = COALESCE(${updates.defaultAddress !== undefined ? updates.defaultAddress : null}, default_address),
-          last_login_at = COALESCE(${updates.lastLoginAt || null}, last_login_at)
+          last_login_at = COALESCE(${updates.lastLoginAt || null}, last_login_at),
+          password_hash = COALESCE(${updates.passwordHash || null}, password_hash)
         WHERE username = ${clean}
       `;
     } catch (_) {}
@@ -1527,6 +1532,7 @@ async function updateCustomerProfile(username, updates = {}) {
       if (updates.defaultLocation !== undefined) patch.default_location = updates.defaultLocation;
       if (updates.defaultAddress !== undefined) patch.default_address = updates.defaultAddress;
       if (updates.lastLoginAt) patch.last_login_at = updates.lastLoginAt;
+      if (updates.passwordHash) patch.password_hash = updates.passwordHash;
       if (Object.keys(patch).length > 0) {
         await fetch(`${supabase.url}/rest/v1/customer_users?username=eq.${encodeURIComponent(clean)}`, {
           method: "PATCH",
@@ -1961,6 +1967,7 @@ defaultHandler.getFeedback = getFeedback;
 defaultHandler.deleteFeedback = deleteFeedback;
 defaultHandler.ensureNeonSchema = ensureNeonSchema;
 defaultHandler.isConfigured = isConfigured;
+defaultHandler.phoneMatchVariants = phoneMatchVariants;
 defaultHandler.ORDER_STATUSES = ORDER_STATUSES;
 defaultHandler.CANCELLATION_WINDOW_MS = CANCELLATION_WINDOW_MS;
 

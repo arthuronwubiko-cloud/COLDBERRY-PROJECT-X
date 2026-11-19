@@ -60,7 +60,7 @@ async function runRound(roundNum) {
   const flavors = [
     "Pepperoni Pizza", "BBQ Chicken Pizza", "Chicken Supreme Pizza", "Veggie Supreme Pizza", "BBQ Beef Pizza",
     "Beef Suya Pizza", "Shawarma Pizza", "Chicken Suya Pizza", "Sweet Chilli Chicken",
-    "Meatylover Pizza", "Sweet & Hot Pizza", "Margherita Pizza", "Nineoverloaded Pizza"
+    "Meatylover Pizza", "Sweet & Hot Pizza", "Margherita Pizza"
   ];
   const sizes = ["Medium", "Large", "Champion"];
 
