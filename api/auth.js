@@ -427,27 +427,28 @@ module.exports = async function handler(req, res) {
       });
     }
 
+    const { checkRateLimit } = require("./overload-protection");
+    const resetIpLimit = checkRateLimit(clientIp, 10, 15 * 60 * 1000, "pwreset_ip");
+    const resetUserLimit = checkRateLimit(username, 5, 15 * 60 * 1000, "pwreset_user");
+    if (!resetIpLimit.allowed || !resetUserLimit.allowed) {
+      return res.status(429).json({
+        error: "Too many password reset attempts. Please wait 15 minutes before trying again.",
+      });
+    }
+
     const user = await findCustomerByUsername(username);
     if (!user) {
       return res.status(404).json({ error: "Account not found with that username." });
     }
 
-    // Verify identity: verifyContact must match either registered email or phone
+    // Verify identity: verifyContact must exactly match registered email or normalized phone
     const cleanVerify = verifyContact.toLowerCase();
-    const userEmail = String(user.email || "").toLowerCase();
-    const isEmailMatch = Boolean(userEmail && (cleanVerify === userEmail || cleanVerify === userEmail.trim()));
+    const userEmail = String(user.email || "").trim().toLowerCase();
+    const isEmailMatch = Boolean(userEmail && cleanVerify === userEmail);
 
-    // Check phone match
     const variants = typeof phoneMatchVariants === "function" ? phoneMatchVariants(user.phone) : [user.phone];
     const normPhone = normalizePhoneNumber(verifyContact, body.countryCode);
-    const cleanContactDigits = verifyContact.replace(/\D/g, "");
-    const isPhoneMatch = Boolean(
-      (normPhone && variants.includes(normPhone)) ||
-      variants.some((v) => {
-        const vDigits = String(v).replace(/\D/g, "");
-        return cleanContactDigits.length >= 7 && (vDigits.endsWith(cleanContactDigits) || cleanContactDigits.endsWith(vDigits));
-      })
-    );
+    const isPhoneMatch = Boolean(normPhone && variants.includes(normPhone));
 
     if (!isEmailMatch && !isPhoneMatch) {
       return res.status(403).json({

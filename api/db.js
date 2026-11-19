@@ -188,6 +188,7 @@ function supabaseHeaders(supabase, extra = {}) {
 // --- Neon helpers ----------------------------------------------------------
 
 let neonSqlPromise = null;
+let neonDirectSqlPromise = null;
 let neonSchemaPromise = null;
 
 async function getNeonSql() {
@@ -197,12 +198,21 @@ async function getNeonSql() {
   return neonSqlPromise;
 }
 
+async function getNeonDirectSql() {
+  if (!neonDirectSqlPromise) {
+    const directUrl = process.env.DATABASE_URL_UNPOOLED || process.env.DATABASE_URL;
+    neonDirectSqlPromise = import("@neondatabase/serverless").then(({ neon }) => neon(directUrl));
+  }
+  return neonDirectSqlPromise;
+}
+
 // Creates tables on first use and upgrades older `orders` tables that predate order_pin.
 async function ensureNeonSchema() {
   if (!neonSchemaPromise) {
     neonSchemaPromise = (async () => {
-      const sql = await getNeonSql();
-      await sql`
+      const ddlSql = await getNeonDirectSql();
+      const sql = ddlSql;
+      await ddlSql`
         CREATE TABLE IF NOT EXISTS orders (
           id            SERIAL PRIMARY KEY,
           order_id      TEXT UNIQUE NOT NULL,

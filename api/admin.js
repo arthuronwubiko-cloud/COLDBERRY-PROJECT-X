@@ -324,12 +324,17 @@ function timingSafeHexEqual(hexA, hexB) {
   }
 }
 
+let ephemeralAdminSigningKey = null;
 function getSigningKey() {
-  return (
-    process.env.ADMIN_SESSION_SECRET ||
-    process.env.ADMIN_SECRET ||
-    sha256Hex(`${DEFAULT_ADMIN_USER_SHA256}:${DEFAULT_ADMIN_PASS_SHA256}:${DEFAULT_STAFF_PASS_SHA256}:${DEFAULT_DRIVER_PASS_SHA256}`)
-  );
+  const secret = process.env.ADMIN_SESSION_SECRET || process.env.ADMIN_SECRET;
+  if (secret) return secret;
+  if (process.env.VERCEL || process.env.NODE_ENV === "production") {
+    throw new Error("ADMIN_SESSION_SECRET or ADMIN_SECRET must be configured in production.");
+  }
+  if (!ephemeralAdminSigningKey) {
+    ephemeralAdminSigningKey = crypto.randomBytes(32).toString("hex");
+  }
+  return ephemeralAdminSigningKey;
 }
 
 function generate15CharRefundToken() {
@@ -547,8 +552,13 @@ function parseBody(req) {
 }
 
 module.exports = async function handler(req, res) {
+  const { checkRateLimit, getClientIp, getCorsOrigin } = require("./overload-protection");
   res.setHeader("Cache-Control", "no-store");
-  res.setHeader("Access-Control-Allow-Origin", req.headers?.origin || "*");
+  const allowedOrigin = getCorsOrigin(req);
+  if (allowedOrigin) {
+    res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
+    res.setHeader("Vary", "Origin");
+  }
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Auth-Username, X-Auth-Password");
 
@@ -563,11 +573,25 @@ module.exports = async function handler(req, res) {
 
   // POST actions
   if (req.method === "POST") {
+    const clientIp = getClientIp(req);
+    const rate = checkRateLimit(clientIp, 30, 60 * 1000, "admin_post");
+    if (!rate.allowed) {
+      res.setHeader("Retry-After", String(rate.retryAfter));
+      return res.status(429).json({ error: "Too many requests. Please wait a minute." });
+    }
+
     const body = parseBody(req);
     const action = String(body.action || "").toLowerCase();
 
-    // 1. Verify Refund Token
+    // 1. Verify Refund Token (requires admin or staff authentication)
     if (action === "verify_refund_token" || action === "verify_refund") {
+      const postAuth = resolveAuthFromRequest(req);
+      if (!postAuth) {
+        return res.status(401).json({ error: "Unauthorized. Admin or staff authentication required." });
+      }
+      if (postAuth.role !== "admin" && postAuth.role !== "staff") {
+        return res.status(403).json({ error: "Access denied: Only admin or staff accounts can verify refund tokens." });
+      }
       const token = String(body.token || body.refundToken || "").trim().toUpperCase();
       if (!token) return res.status(400).json({ error: "Refund token is required." });
       const rec = await findRefundToken(token);
@@ -579,7 +603,7 @@ module.exports = async function handler(req, res) {
         refundToken: rec.token,
         orderId: rec.order_id,
         customerName: rec.customer_name,
-        customerPhone: rec.customer_phone,
+        customerPhone: postAuth.role === "admin" ? rec.customer_phone : maskPhone(rec.customer_phone),
         refundedAmount: Number(rec.amount),
         amount: Number(rec.amount),
         reason: rec.reason,
@@ -591,13 +615,18 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    // 2. Check-In / Claim Refund Token
+    // 2. Check-In / Claim Refund Token (requires admin or staff authentication)
     if (action === "check_in_refund" || action === "claim_refund" || action === "checkin_refund") {
+      const postAuth = resolveAuthFromRequest(req);
+      if (!postAuth) {
+        return res.status(401).json({ error: "Unauthorized. Admin or staff authentication required." });
+      }
+      if (postAuth.role !== "admin" && postAuth.role !== "staff") {
+        return res.status(403).json({ error: "Access denied: Only admin or staff accounts can claim refund tokens." });
+      }
       const token = String(body.token || body.refundToken || "").trim().toUpperCase();
       if (!token) return res.status(400).json({ error: "Refund token is required." });
-      const auth = resolveAuthFromRequest(req);
-      const claimedBy = auth ? auth.username : (body.claimedBy || "staff");
-      const claimRes = await claimRefundToken(token, claimedBy);
+      const claimRes = await claimRefundToken(token, postAuth.username);
       if (claimRes.error) {
         return res.status(400).json({ error: claimRes.error, record: claimRes.record, alreadyClaimed: claimRes.alreadyClaimed });
       }
@@ -740,33 +769,6 @@ module.exports = async function handler(req, res) {
       role: result.role,
       permissions: getPermissionsForRole(result.role),
       token,
-    });
-  }
-
-  // GET: Verify Refund Token (allows public or staff lookup via ?verifyRefundToken=...)
-  if (req.method === "GET" && req.query?.verifyRefundToken) {
-    recordVisitorHit(req.headers?.["x-forwarded-for"] || req.socket?.remoteAddress);
-    const token = String(req.query.verifyRefundToken).trim().toUpperCase();
-    const rec = await findRefundToken(token);
-    if (!rec) {
-      return res.status(404).json({ valid: false, error: "Refund token not found." });
-    }
-    return res.status(200).json({
-      valid: true,
-      verified: true,
-      token: rec.token,
-      refundToken: rec.token,
-      orderId: rec.order_id,
-      customerName: rec.customer_name,
-      customerPhone: rec.customer_phone,
-      refundedAmount: Number(rec.amount),
-      amount: Number(rec.amount),
-      reason: rec.reason,
-      issuedBy: rec.issued_by,
-      issuedAt: rec.issued_at,
-      status: rec.status,
-      claimedAt: rec.claimed_at,
-      checkedIn: rec.status === "claimed",
     });
   }
 
