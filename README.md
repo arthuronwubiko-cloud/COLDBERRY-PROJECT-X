@@ -69,7 +69,7 @@ A modern, responsive ice cream and dessert ordering platform for **Coldberry Ice
 | [`ARCHITECTURE.md`](./ARCHITECTURE.md) | Comprehensive architecture map, Mermaid diagrams, and connection matrix detailing how HTML pages, CSS, JS modules, browser storage, APIs, and databases connect. |
 | [`js/site.js`](./js/site.js) | Real-time live search for home-page previews and full-menu products/combos with Enter-key handoff, plus interactive dark/light theme switcher with `localStorage` persistence and `<meta name="theme-color">` sync. |
 | [`js/cart.js`](./js/cart.js) | Client-side cart state management, quantity limits (1–10), and cross-page synchronization via `localStorage`. |
-| [`js/deals-interactive.js`](./js/deals-interactive.js) | Handles interactive pull-down selectors, size pricing updates from `romeospizza.ng`, deal flavor pickers, Half & Half visual split preview, and related pizza accordions with descriptive `Pizza 1` and `Pizza 2` buttons. |
+| [`js/deals-interactive.js`](./js/deals-interactive.js) | Handles interactive pull-down selectors, size pricing updates, deal flavor pickers, Half & Half visual split preview, and related flavour accordions with descriptive `Scoop 1` and `Scoop 2` buttons. |
 | [`js/order.js`](./js/order.js) | Client-side form validation, two-way cart sync, live subtotal, ₦800 service fee, 15% delivery fee calculation in ₦, and WhatsApp order synthesis. |
 | [`api/orders.js`](./api/orders.js) | Serverless endpoint validating order payloads, computing itemized pricing/totals, issuing non-recycling 6-digit order verification PINs (5-day window), persisting to database (optional), and generating WhatsApp click-to-chat links. |
 | [`api/track.js`](./api/track.js) | Serverless endpoint resolving customer tracking requests via Phone + 6-digit PIN with 5-step status lifecycle progression. |
@@ -78,7 +78,7 @@ A modern, responsive ice cream and dessert ordering platform for **Coldberry Ice
 | [`api/admin.js`](./api/admin.js) | Protected admin endpoint to query stored orders (`GET`) and advance order preparation status (`PATCH`). |
 | [`api/db.js`](./api/db.js) | Database client adapter supporting Neon Postgres and Supabase order persistence, atomic PIN allocation, and live order tracking queries. |
 | [`migrations/001_order_pin_and_tracking.sql`](./migrations/001_order_pin_and_tracking.sql) | SQL schema migration provisioning `order_pins` retention table, order lifecycle status column, and atomic `allocate_order_pin` database function. |
-| [`scripts/verify-all.js`](./scripts/verify-all.js) | 81-point automated regression test suite validating syntax, size naming, card counts, Half & Half accordion component, image assets, pricing math, homepage preview & theme controller, navbar shopping cart icon, WhatsApp Order API, random 6-digit PIN 5-day retention, 1-click PIN clipboard copy, RBAC console auth (14-char credentials), 12-minute customer cancellation, order tracking lifecycle, single source of truth prices, and legal compliance. |
+| [`scripts/verify-all.js`](./scripts/verify-all.js) | 102-point automated regression test suite validating syntax, size naming, card counts, Half & Half accordion component, image assets, pricing math, homepage preview & theme controller, navbar shopping cart icon, WhatsApp Order API, random 6-digit PIN 5-day retention, 1-click PIN clipboard copy, RBAC console auth (14-char credentials), 12-minute customer cancellation, order tracking lifecycle, single source of truth prices, and legal compliance. |
 | [`scripts/stress-test.js`](./scripts/stress-test.js) | 5-round adversarial stress test suite verifying high-concurrency collision resistance (100 PINs), all 507 Half & Half permutations, XSS fuzzing, tracking lifecycle, and 5-day non-recycling math. |
 | [`scripts/overload-test.js`](./scripts/overload-test.js) | System overload suite testing 5,000 rapid concurrent PIN allocations, 100,000 pricing engine calculations, 1,000 HTTP connection flood, and massive buffer injection. |
 | [`peter890.css`](./peter890.css) | Centralized stylesheet for all pages: responsive layout, brand palette, typography, touch targets, and accessibility. |
@@ -92,10 +92,10 @@ A modern, responsive ice cream and dessert ordering platform for **Coldberry Ice
 The home page includes:
 
 1. Header navigation with Home, Menu, Locations, Deals, and Order links, with active page highlighting.
-2. Hero section with a featured pizza banner and direct order call-to-action.
-3. Menu preview cards with live search filtering (including inside the pizza dropdown), Enter-key handoff to the full menu, and a consolidated interactive `<details class="related-pizzas-details homepage-pizzas-details">` dropdown inside the `13 Varieties` Pizza card listing all 13 pizzas across Traditional, Special, and Exclusive groups with thumbnails, size pricing tags (`Med`, `Lrg`, `Champion`), and `Order` links (`890b.html#<id>`), without a generic Pizza quantity adder.
-4. Romeo's Pizza store locations in Nigeria grouped by Abuja (Garki, Lugbe) and Lagos (Yaba, Surulere, Okota, Festac, Ajao).
-5. Horizontally scrollable pizza gallery showcasing popular menu items.
+2. Hero section with a featured Coldberry Ice Cream banner and direct order call-to-action.
+3. Menu preview cards with live search filtering, Enter-key handoff to the full menu, and a consolidated interactive `<details class="related-pizzas-details homepage-pizzas-details">` dropdown inside the `13 Varieties` Ice Cream card listing all 13 flavours across Classic, Premium, and Signature groups with thumbnails, size pricing tags (`Med`, `Lrg`, `Champion`), and `Order` links (`890b.html#<id>`).
+4. Coldberry store locations in Nigeria grouped by Abuja (Wuse II, Garki, Jabi) and Lagos (Victoria Island, Lekki Phase 1, Ikeja GRA, Surulere).
+5. Horizontally scrollable ice cream gallery showcasing authentic menu items from `coldberry.ng/menu/`.
 6. Footer with social links, store hours, and brand information.
 
 ### Full menu — `890b.html`
@@ -103,19 +103,18 @@ The home page includes:
 The full menu page includes:
 
 1. Header navigation and breadcrumb links.
-2. Category navigation jumps for Traditional, Special, Exclusive, Nineoverloaded pizzas, Sides & Drinks, and Pizza Deals.
+2. Category navigation jumps for Classic Scoops, Premium Flavours, Signature Creations, Rolled Ice Cream & Tacos, Waffles & Cakes, Toppings, and Drinks.
 3. **Half & Half Custom 2-in-1 Split Accordion**:
-   - Interactive `<details class="related-pizzas-details half-and-half-accordion" open>` component allowing customers to split any two Romeo's pizza flavors across Medium, Large, or Champion sizes.
+   - Interactive `<details class="related-pizzas-details half-and-half-accordion" open>` component allowing customers to split any two Coldberry ice cream flavours across Medium, Large, or Champion sizes.
    - **Pricing Formula**: Exactly 5% more expensive than the full price of the more expensive side:
      $$\text{Price} = \mathrm{round}\Big(\max(\text{Price}(\text{Side}_1), \text{Price}(\text{Side}_2)) \times 1.05\Big)$$
    - Live breakdown displaying Base Price (more expensive side), 5% Split Surcharge, and Total Price.
    - Stepper quantity controls wired directly into the cart system.
-4. **13 Signature Pizza Cards** across four canonical categories:
-   - **Canonical Size Hierarchy**: Every pizza offers **Medium (10")**, **Large (12")**, and **Champion (16")** sizes (never "Jumbo").
-   - **Live Pricing Sync**: Unit prices reflect live rates from `romeospizza.ng`.
-   - **Size Selector Pull-Downs**: Interactive `<select class="pizza-size-select">` menus dynamically update displayed prices and cart keys. Individual per-card category accordions were removed from the 13 pizza cards for cleaner browsing (the consolidated 13-pizza dropdown lives inside the Pizza card on `index.html`).
-5. **Sides & Drinks**: Chicken Wings (6 pcs), Shawarma Roll, Bottled Water (Eva 75cl PET), Coca-Cola (50cl), Fanta, Monster Green, Schweppes Can (Chapman 33cl) & Schweppes PET (Chapman 40cl), and Sprite with interactive quantity controls.
-6. **Priced Pizza Deal Previews**: Combos with interactive pizza flavor selectors, eligible-pizza `<details class="related-pizzas-details">` accordions, and cart controls, plus links to view all deals.
+4. **13 Signature Coldberry Flavours** across four canonical categories:
+   - **Canonical Size Hierarchy**: Every tub offers **Medium (10")**, **Large (12")**, and **Champion (16")** sizes.
+   - **Size Selector Pull-Downs**: Interactive `<select class="pizza-size-select">` menus dynamically update displayed prices and cart keys.
+5. **Sides, Toppings & Drinks**: Dip Waffle Bowl, Cone & Taco Crisps, Eva Water (75cl PET), Fanta & Coke (50cl), Pulpy Orange Juice with interactive quantity controls.
+6. **Priced Ice Cream Deal Previews**: Combos with interactive flavour selectors, eligible-flavour `<details class="related-pizzas-details">` accordions, and cart controls.
 7. Footer navigation and search status live announcements (`aria-live`).
 
 ### Deals page — `pizzadeals.html`
@@ -123,21 +122,21 @@ The full menu page includes:
 The dedicated deals page includes:
 
 1. Hero banner for promotional combo packages.
-2. Value deal cards with interactive flavor selectors (`.deal-pizza-select`) allowing customers to customize pizza varieties included in the combo.
-3. Interactive related-pizza pull-down accordions listing eligible pizzas for each deal with size pricing tags and quick-select buttons (`data-target-select`) to populate combo choices instantly.
-4. Real-time combo badge updates (`.deal-combo-badge`) reflecting chosen pizza varieties and syncing with the cart.
+2. Value deal cards with interactive flavour selectors (`.deal-pizza-select`) allowing customers to customize ice cream varieties included in the combo.
+3. Interactive related-flavour pull-down accordions listing eligible flavours for each deal with size pricing tags and quick-select buttons (`data-target-select`) to populate combo choices instantly.
+4. Real-time combo badge updates (`.deal-combo-badge`) reflecting chosen ice cream varieties and syncing with the cart.
 5. Promotional deal cards, responsive layout, and order CTAs.
 
 ### Order page — `order.html`
 
 The checkout order page collects customer details, fulfilment choice, and provides a comprehensive order summary:
 
-1. **Customer Contact & Fulfilment**: Name, phone number (with automatic Nigerian phone number normalization e.g. `+234...`), optional email, fulfilment type (Delivery vs. Store Pickup), Romeo's store location selector, and delivery address field with conditional validation.
+1. **Customer Contact & Fulfilment**: Name, phone number (with automatic Nigerian phone number normalization e.g. `+234...`), optional email, fulfilment type (Delivery vs. Store Pickup), Coldberry store location selector, and delivery address field with conditional validation.
 2. **Interactive Cart Summary**: Displays all selected items with live quantity steppers (+/−), item removal, and instant price updates.
-3. **🍗 Add Popular Sides & Extras Section**:
+3. **🍦 Add Popular Sides & Extras Section**:
    - Prominent add-ons section allowing customers to add high-demand sides directly to their order at checkout:
-     - **Chicken Wings (6 pcs)** — ₦4,700
-     - **Shawarma Roll** — ₦4,400
+     - **Dip Waffle Bowl** — ₦4,700
+     - **Crispy Cone & Taco** — ₦4,400
      - **Cold Coca-Cola (50cl)** — ₦900
    - Features local image assets (`images/chicken-wings.jpg`, `images/shawarma.jpg`, `images/coca-cola.jpg`) and interactive quantity steppers (+/−) capped at 10 items.
 4. **Live Pricing Summary**:
@@ -357,7 +356,7 @@ vercel dev
 
 ## Notes
 
-- Most images are loaded from Romeo's Pizza or Unsplash, with local optimized fallbacks in `images/`.
+- 100% of product images and brand media are downloaded directly from **Coldberry Ice Cream Nigeria** (`coldberry.ng/menu/`) into `images/` with 0 external hotlinks and 0 AI imagery.
 - Font Awesome is loaded from a CDN for icons.
 - If an external image or font URL changes or fails, replace the `src` or stylesheet link with a valid alternative.
 
