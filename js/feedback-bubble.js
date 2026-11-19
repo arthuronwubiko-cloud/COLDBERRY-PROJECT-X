@@ -1,5 +1,5 @@
 /**
- * Romeo's Pizza Nigeria - Floating Client Feedback Bubble
+ * Coldberry Ice Cream Nigeria - Floating Client Feedback Bubble
  * Connected to BOTH Neon Postgres and Supabase (dual-DB sync) via /api/feedback.
  *
  * Lightweight, self-contained, responsive, and theme-aware (light/dark mode).
@@ -14,16 +14,16 @@
   }
 
   const QUICK_TAGS = [
-    "🍕 Hot & Fresh",
-    "⚡ Fast Delivery",
-    "😋 Great Taste",
-    "🛵 Friendly Rider"
+    "🍦 Rich & Creamy",
+    "⚡ Fast Cold-Bag Delivery",
+    "😋 Authentic Flavours",
+    "🛵 Friendly Courier"
   ];
 
   const COMPLAINT_TAGS = [
-    "🐢 Late Delivery",
-    "🍕 Wrong / Missing Item",
-    "🥶 Cold Food",
+    "🐢 Delayed Delivery",
+    "🍨 Melted / Wrong Scoop",
+    "🧇 Missing Waffle / Cone",
     "💳 Payment / Refund Issue"
   ];
 
@@ -31,9 +31,9 @@
     "Tap a star to rate",
     "1 - Needs Improvement 😞",
     "2 - Fair / Okay 😐",
-    "3 - Good 😊",
-    "4 - Very Good! 🍕",
-    "5 - Outstanding! 🌟"
+    "3 - Sweet & Good 😊",
+    "4 - Delicious Scoop! 🍨",
+    "5 - Outstanding Indulgence! 🍦"
   ];
 
   function getAutoFillData() {
@@ -507,8 +507,8 @@
         <div id="rfb-form-view">
           <div class="rfb-header">
             <div class="rfb-title-group">
-              <h3 id="rfb-title">🍕 Client Feedback</h3>
-              <p>Help us keep Romeo's Pizza fast, fresh & delicious!</p>
+              <h3 id="rfb-title">🍦 Customer Feedback</h3>
+              <p>Help us keep Coldberry Ice Cream fresh, rich &amp; creamy!</p>
             </div>
             <button type="button" class="rfb-close-btn" id="rfb-close-btn" aria-label="Close feedback window">
               <i class="fa-solid fa-xmark" aria-hidden="true">✕</i>
@@ -543,7 +543,7 @@
 
           <!-- Textarea Comments -->
           <div class="rfb-field">
-            <textarea id="rfb-comments" class="rfb-textarea" rows="3" maxlength="1000" placeholder="Tell us how your food or delivery was..."></textarea>
+            <textarea id="rfb-comments" class="rfb-textarea" rows="3" maxlength="1000" placeholder="Tell us how your ice cream scoops or delivery were..."></textarea>
           </div>
 
           <!-- Customer Name & Optional Order PIN -->
@@ -564,7 +564,7 @@
             <i class="fa-solid fa-check" aria-hidden="true">✓</i>
           </div>
           <h4>Thank You!</h4>
-          <p>Your feedback was received and synced directly to our kitchen & riders. We appreciate you!</p>
+          <p>Your feedback was received and synced directly to our parlor &amp; couriers. We appreciate you!</p>
         </div>
       </div>
 
@@ -572,7 +572,7 @@
       <button type="button" id="rfb-trigger" class="rfb-trigger-btn" aria-haspopup="dialog" aria-expanded="false" aria-label="Open client feedback form">
         <i class="fa-solid fa-star rfb-trigger-star" style="color: #FFD700;" aria-hidden="true">★</i>
         <span>Feedback</span>
-        <span class="rfb-badge">Hot</span>
+        <span class="rfb-badge" style="background:#db2777;color:#fff;">Cool</span>
       </button>
     `;
 
@@ -632,8 +632,8 @@
       tagsGrid.innerHTML = activeList.map((tag) => `<button type="button" class="rfb-tag-chip" data-tag="${tag}">${tag}</button>`).join("");
       bindTagChips();
       commentsInput.placeholder = isComplaint
-        ? "Describe your complaint (missing item, delay, refund, etc.)..."
-        : "Tell us how your food or delivery was...";
+        ? "Describe your complaint (melted scoop, missing cone, delay, refund, etc.)..."
+        : "Tell us how your ice cream scoops or delivery were...";
       submitBtn.innerHTML = isComplaint ? `<span>Submit Complaint</span> ⚠️` : `<span>Send Feedback</span> 🚀`;
     }
 

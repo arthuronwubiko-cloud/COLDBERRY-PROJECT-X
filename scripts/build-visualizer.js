@@ -106,7 +106,7 @@ const html = `<!DOCTYPE html>
           <!-- Price & Formula Display -->
           <div class="mt-3 text-center">
             <div id="price-display" class="text-base font-extrabold text-[var(--primary)] dark:text-[#E57388]">₦11,760</div>
-            <div id="formula-display" class="text-[11px] text-[var(--muted-foreground)] mt-0.5">Base: ₦11,200 + 5% Split Surcharge (₦560)</div>
+            <div id="formula-display" class="text-[11px] text-[var(--muted-foreground)] mt-0.5">Custom Multi-Flavour Tub</div>
           </div>
         </div>
 
@@ -286,7 +286,7 @@ const html = `<!DOCTYPE html>
 
       document.getElementById("price-display").textContent = "₦" + grandTotal.toLocaleString();
       document.getElementById("formula-display").textContent = 
-        \`Base (\${activeFlavours.length} scoops): ₦\${basePrice.toLocaleString()} + 5% Split Surcharge (₦\${surcharge.toLocaleString()})\`;
+        "Custom Tub: " + activeFlavours.length + " Signature Varieties (" + activeSize + ")";
     }
 
     populateSelects();

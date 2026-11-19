@@ -69,12 +69,15 @@ a {
 
 .logo {
   display: block;
-  width: 68px;
-  height: 68px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid var(--color-saffron);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.22);
+  height: 50px;
+  max-height: 50px;
+  width: auto;
+  max-width: 165px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: none;
+  box-shadow: none;
+  transition: transform 0.2s ease;
 }
 
 .nav-links {
@@ -605,12 +608,15 @@ a {
 
 .footer-logo {
   display: block;
-  width: 96px;
-  height: 96px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid var(--color-saffron);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
+  height: 64px;
+  max-height: 64px;
+  width: auto;
+  max-width: 190px;
+  object-fit: contain;
+  margin: 0 auto 1.5rem;
+  border-radius: 8px;
+  border: none;
+  box-shadow: none;
 }
 
 .footer-motto {
@@ -777,7 +783,10 @@ a {
   }
 
   .logo {
-    width: 120px;
+    height: 42px;
+    max-height: 42px;
+    width: auto;
+    max-width: 135px;
   }
 
   .nav-links {
@@ -2852,7 +2861,9 @@ a {
   color: var(--color-slate);
 }
 
-.surcharge-row {
+.surcharge-row,
+.base-price-row {
+  display: none !important;
   color: var(--color-olive);
   font-weight: 600;
 }

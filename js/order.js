@@ -11,6 +11,8 @@
   // Item prices map in Nigerian Naira (NGN)
   const ITEM_PRICES = {
     // Popular Sides & Add-ons
+    "Ice Cream Cone": 4400,
+    "Waffle Cup": 4700,
     "Dipped Waffle Bowl (6 pcs)": 4700,
     "Dipped Waffle Bowl": 4700,
     "Chicken Wings (6 pcs)": 4700,

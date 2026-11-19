@@ -1,4 +1,4 @@
-// Customer Feedback API for Romeo's Pizza Nigeria
+// Customer Feedback API for Coldberry Ice Cream Nigeria
 // Accepts ratings, reviews, order PIN, and tags, writing concurrently to both
 // Neon Postgres and Supabase with local fallback.
 
@@ -64,7 +64,7 @@ module.exports = async function handler(req, res) {
 
     return res.status(200).json({
       success: true,
-      message: "Thank you for your feedback! We appreciate you helping us improve Romeo's Pizza.",
+      message: "Thank you for your feedback! We appreciate you helping us improve Coldberry Ice Cream.",
       record: result.record,
       neon: result.neon,
       supabase: result.supabase,

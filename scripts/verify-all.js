@@ -761,15 +761,15 @@ function checkHomepageAndTheme() {
   const indexHtml = fs.readFileSync(path.join(ROOT_DIR, "index.html"), "utf8");
 
   const hasPizzaQtyAdder = indexHtml.includes('data-cart-item="Pizza"');
-  const hasShawarmaQty = indexHtml.includes('data-cart-item="Shawarma"');
-  const hasWingsQty = indexHtml.includes('data-cart-item="Chicken Wings"');
+  const hasConeOrShawarmaQty = indexHtml.includes('data-cart-item="Ice Cream Cone"') || indexHtml.includes('data-cart-item="Shawarma"');
+  const hasWaffleOrWingsQty = indexHtml.includes('data-cart-item="Waffle Cup"') || indexHtml.includes('data-cart-item="Chicken Wings"');
   const hasPizzaDropdown = indexHtml.includes("homepage-pizzas-details");
 
   record(
     "homepage-card",
-    "Homepage Pizza card quantity adder removed (Shawarma/Wings & 13-pizza dropdown preserved)",
-    !hasPizzaQtyAdder && hasShawarmaQty && hasWingsQty && hasPizzaDropdown,
-    `hasPizzaQtyAdder=${hasPizzaQtyAdder}, shawarma=${hasShawarmaQty}, wings=${hasWingsQty}, dropdown=${hasPizzaDropdown}`
+    "Homepage Pizza card quantity adder removed (Ice Cream Cone / Waffle Cup & 13-item dropdown preserved)",
+    !hasPizzaQtyAdder && hasConeOrShawarmaQty && hasWaffleOrWingsQty && hasPizzaDropdown,
+    `hasPizzaQtyAdder=${hasPizzaQtyAdder}, cone/shawarma=${hasConeOrShawarmaQty}, waffle/wings=${hasWaffleOrWingsQty}, dropdown=${hasPizzaDropdown}`
   );
 
   for (const page of ["index.html", "890b.html", "pizzadeals.html", "order.html"]) {

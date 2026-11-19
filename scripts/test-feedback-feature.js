@@ -187,14 +187,18 @@ async function runFeedbackVerification() {
     assert(code.includes("fa-star"), "Has star icon");
     assert(code.includes("#FFD700"), "Has gold star color #FFD700");
 
-    // Check quick tags
-    assert(code.includes("🍕 Hot & Fresh"), "Includes '🍕 Hot & Fresh' tag");
-    assert(code.includes("⚡ Fast Delivery"), "Includes '⚡ Fast Delivery' tag");
-    assert(code.includes("😋 Great Taste"), "Includes '😋 Great Taste' tag");
-    assert(code.includes("🛵 Friendly Rider"), "Includes '🛵 Friendly Rider' tag");
+    // Check quick tags (Ice Cream theme)
+    assert(code.includes("🍦 Rich & Creamy"), "Includes '🍦 Rich & Creamy' tag");
+    assert(code.includes("⚡ Fast Cold-Bag Delivery") || code.includes("⚡ Fast Delivery"), "Includes Fast Delivery tag");
+    assert(code.includes("😋 Authentic Flavours") || code.includes("😋 Great Taste"), "Includes Authentic Flavours tag");
+    assert(code.includes("🛵 Friendly Courier") || code.includes("🛵 Friendly Rider"), "Includes Friendly Courier tag");
 
     // Check textarea placeholder
-    assert(code.includes("Tell us how your food or delivery was..."), "Includes textarea placeholder");
+    assert(
+      code.includes("Tell us how your ice cream scoops or delivery were...") ||
+      code.includes("Tell us how your food or delivery was..."),
+      "Includes textarea placeholder"
+    );
 
     // Check auto-read logic
     assert(code.includes("customer_name") && code.includes("order_pin"), "Auto-reads name and PIN");

@@ -62,9 +62,11 @@
       }
       .console-logo {
         height: 42px;
-        width: 42px;
-        border-radius: 50%;
-        object-fit: cover;
+        max-height: 42px;
+        width: auto;
+        max-width: 140px;
+        object-fit: contain;
+        border-radius: 8px;
         display: block;
       }
       .console-header-actions {
@@ -548,7 +550,7 @@
           <img
             src="images/coldberry-logo.png"
             alt="Coldberry Ice Cream"
-            style="height: 56px; width: 56px; border-radius: 50%; object-fit: cover; margin: 0 auto 0.6rem; display: block;"
+            style="height: 52px; width: auto; max-width: 170px; object-fit: contain; margin: 0 auto 0.6rem; display: block;"
           />
           <h1 id="login-heading" style="margin: 0 0 0.35rem; font-size: 1.45rem;">Locked Verification Console</h1>
           <p style="margin: 0; color: var(--muted); font-size: 0.88rem;">
