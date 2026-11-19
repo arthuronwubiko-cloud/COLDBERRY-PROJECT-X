@@ -51,6 +51,17 @@
     <script src="js/feedback-bubble.js" defer></script>
   </head>
   <body>
+    <!-- Sister Brand Banner -->
+    <aside class="sister-brand-banner" aria-label="Sister kitchen announcement">
+      <div class="sister-banner-inner">
+        <span class="sister-banner-badge">Sister Kitchen</span>
+        <span class="sister-banner-text">🍕 Craving hot pizza with your scoops? Order from <strong>Romeo's Pizza Nigeria</strong></span>
+        <a href="https://romeos-project-x-ordering.vercel.app" class="sister-banner-btn" target="_blank" rel="noopener noreferrer">
+          Order Romeo's Pizza <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+        </a>
+      </div>
+    </aside>
+
     <header class="nav-bar">
       <a href="index.html" class="logo-link" aria-label="Coldberry Ice Cream home">
         <img
@@ -66,6 +77,7 @@
         <a href="pizzadeals.html#deals">Deals</a>
         <a href="order.html#order-heading" class="active" aria-current="page">Order</a>
         <a href="track.html">Track</a>
+        <a href="https://romeos-project-x-ordering.vercel.app" class="nav-sister-brand" target="_blank" rel="noopener noreferrer" title="Order from Sister Brand: Romeo's Pizza Nigeria"><i class="fa-solid fa-pizza-slice" aria-hidden="true"></i> Romeo's Pizza</a>
       </nav>
       <a href="#cart-heading" class="nav-cart-link" id="nav-cart-link" aria-label="Shopping cart (0 items)" title="View your shopping cart">
         <i class="fa-solid fa-cart-shopping" aria-hidden="true"></i>
@@ -269,6 +281,20 @@
             </section>
           </div>
 
+          <!-- Sister-Brand Cart & Checkout Upsell: Romeo's Pizza Nigeria -->
+          <div class="order-field">
+            <section class="sister-upsell-card" aria-label="Romeo's Pizza Partner Upsell">
+              <div class="sister-upsell-content">
+                <div class="sister-upsell-badge"><i class="fa-solid fa-pizza-slice" aria-hidden="true"></i> Pair with Hot Artisan Pizza</div>
+                <h3 class="sister-upsell-title">Craving hot, cheesy pizza to go with dessert?</h3>
+                <p class="sister-upsell-desc">Complete your feast with freshly baked stone pizzas, crispy wings, and savoury shawarma from our partner kitchen, <strong>Romeo's Pizza Nigeria</strong>.</p>
+                <a href="https://romeos-project-x-ordering.vercel.app/order.html" class="sister-upsell-btn" target="_blank" rel="noopener noreferrer">
+                  <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i> Order From Romeo's Pizza
+                </a>
+              </div>
+            </section>
+          </div>
+
           <div class="order-field">
             <label for="order-items">Other items or order details <span class="optional">(optional)</span></label>
             <textarea
@@ -366,6 +392,9 @@
         <a href="privacy.html">Privacy Policy</a>
         <a href="terms.html">Terms &amp; Conditions</a>
       </nav>
+      <div class="footer-sister-brand">
+        <p>Sister Brand: <a href="https://romeos-project-x-ordering.vercel.app" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-pizza-slice" aria-hidden="true"></i> Romeo's Pizza Nigeria</a> — Fresh Stone-Crust Pizza, Wings &amp; Shawarma</p>
+      </div>
       <p class="footer-text">&copy; 2026 Coldberry Ice Cream Nigeria. All rights reserved.</p>
     </footer>
   </body>

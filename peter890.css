@@ -4510,3 +4510,205 @@ a {
   outline: 2px solid var(--color-coral, #ff5733);
   outline-offset: 2px;
 }
+
+
+/* ==========================================================================
+   Sister Brand Cross-Navigation & Upsell Styles
+   ========================================================================== */
+.sister-brand-banner {
+  background: linear-gradient(90deg, #5C1A2B 0%, #3a0d19 100%);
+  color: #fff;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  border-bottom: 1px solid rgba(212, 150, 42, 0.4);
+}
+
+:root[data-theme="dark"] .sister-brand-banner {
+  background: linear-gradient(90deg, #24141d 0%, #170d13 100%);
+  border-bottom-color: rgba(240, 168, 59, 0.3);
+}
+
+.sister-banner-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  text-align: center;
+}
+
+.sister-banner-badge {
+  background: var(--color-saffron, #D4962A);
+  color: #1a0f05;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  padding: 2px 8px;
+  border-radius: 999px;
+  letter-spacing: 0.5px;
+}
+
+.sister-banner-text {
+  color: #f7f1e3;
+}
+
+.sister-banner-text strong {
+  color: #fff;
+}
+
+.sister-banner-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.8rem;
+  padding: 3px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transition: all 0.2s ease;
+}
+
+.sister-banner-btn:hover {
+  background: var(--color-saffron, #D4962A);
+  color: #1a0f05;
+  border-color: var(--color-saffron, #D4962A);
+}
+
+.nav-sister-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.82rem;
+  text-decoration: none;
+  background: rgba(212, 150, 42, 0.15);
+  border: 1.5px solid var(--color-saffron, #D4962A);
+  color: var(--color-deep-wine, #5C1A2B) !important;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.nav-sister-brand:hover {
+  background: var(--color-saffron, #D4962A);
+  color: #fff !important;
+  transform: translateY(-1px);
+}
+
+:root[data-theme="dark"] .nav-sister-brand {
+  background: rgba(240, 168, 59, 0.15);
+  border-color: var(--color-saffron, #F0A83B);
+  color: var(--color-saffron, #F0A83B) !important;
+}
+
+:root[data-theme="dark"] .nav-sister-brand:hover {
+  background: var(--color-saffron, #F0A83B);
+  color: #161114 !important;
+}
+
+.sister-upsell-card {
+  background: linear-gradient(135deg, rgba(212, 150, 42, 0.08) 0%, rgba(92, 26, 43, 0.05) 100%);
+  border: 1.5px dashed var(--color-saffron, #D4962A);
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin: 16px 0;
+  transition: box-shadow 0.2s ease;
+}
+
+:root[data-theme="dark"] .sister-upsell-card {
+  background: linear-gradient(135deg, rgba(240, 168, 59, 0.08) 0%, rgba(229, 115, 136, 0.05) 100%);
+  border-color: rgba(240, 168, 59, 0.5);
+}
+
+.sister-upsell-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-saffron, #D4962A);
+  color: #1a0f05;
+  font-weight: 700;
+  font-size: 0.75rem;
+  padding: 3px 10px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.sister-upsell-title {
+  margin: 4px 0 6px 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--color-deep-wine, #5C1A2B);
+}
+
+:root[data-theme="dark"] .sister-upsell-title {
+  color: var(--color-deep-wine, #E57388);
+}
+
+.sister-upsell-desc {
+  margin: 0 0 12px 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: var(--color-slate, #2E3A46);
+}
+
+.sister-upsell-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-deep-wine, #5C1A2B);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 0.88rem;
+  padding: 9px 16px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.sister-upsell-btn:hover {
+  background: var(--color-saffron, #D4962A);
+  color: #1a0f05;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(212, 150, 42, 0.3);
+}
+
+:root[data-theme="dark"] .sister-upsell-btn {
+  background: var(--color-deep-wine, #E57388);
+  color: #161114;
+}
+
+:root[data-theme="dark"] .sister-upsell-btn:hover {
+  background: var(--color-saffron, #F0A83B);
+  color: #161114;
+}
+
+.footer-sister-brand {
+  margin: 16px 0 10px 0;
+  padding-top: 14px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  text-align: center;
+  font-size: 0.88rem;
+  color: var(--color-slate);
+}
+
+:root[data-theme="dark"] .footer-sister-brand {
+  border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+.footer-sister-brand a {
+  color: var(--color-deep-wine);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+:root[data-theme="dark"] .footer-sister-brand a {
+  color: var(--color-saffron);
+}
