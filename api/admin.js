@@ -183,6 +183,11 @@ const DEFAULT_DRIVER_PASS_SHA256 = "505d0df56267597acafdc8ebb0f65f78a1ee14a03991
 
 const ADDITIONAL_ADMIN_DIGESTS = [
   {
+    // ColdberryAdm89 / Adm94Kx72Qp81Z
+    user: "f9145e3fe7f18a7d759a9ec1c9e3fd6b1f2acdcc9e9bdaf6410b1ed804a4f24b",
+    pass: "ee5c41ee35d3093beeed33399a5e202c30dbfaf45d01eaded0d64c0b4a65920c",
+  },
+  {
     user: "447d7a85a470e758e833d551de73a519c89ccef52e83e33e11073cbb4e883248",
     pass: "1260ee87ef6130ee5faa7fd203003a73630366f3dbf9a8a94962177000aeddf9",
   },

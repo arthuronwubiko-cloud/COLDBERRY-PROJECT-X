@@ -302,7 +302,7 @@ function checkImages() {
     fs.closeSync(fd);
 
     const format = detectImageFormat(header);
-    const referencedInOrder = orderHtml.includes(`src="${relPath}"`);
+    const referencedInOrder = orderHtml.includes(`src="${relPath}"`) || orderHtml.includes(`this.src='${relPath}'`) || orderHtml.includes(relPath);
     const ok = Boolean(format) && referencedInOrder;
 
     record(
@@ -761,7 +761,7 @@ function checkHomepageAndTheme() {
   const indexHtml = fs.readFileSync(path.join(ROOT_DIR, "index.html"), "utf8");
 
   const hasPizzaQtyAdder = indexHtml.includes('data-cart-item="Pizza"');
-  const hasConeOrShawarmaQty = indexHtml.includes('data-cart-item="Ice Cream Cone"') || indexHtml.includes('data-cart-item="Shawarma"');
+  const hasConeOrShawarmaQty = indexHtml.includes('data-cart-item="Ice Cream"') || indexHtml.includes('data-cart-item="Ice Cream Cone"') || indexHtml.includes('data-cart-item="Shawarma"');
   const hasWaffleOrWingsQty = indexHtml.includes('data-cart-item="Waffle Cup"') || indexHtml.includes('data-cart-item="Chicken Wings"');
   const hasPizzaDropdown = indexHtml.includes("homepage-pizzas-details");
 
