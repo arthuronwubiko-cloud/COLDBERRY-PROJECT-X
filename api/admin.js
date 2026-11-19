@@ -56,14 +56,14 @@ function buildPromoEmailHtml({ subject, textBody, ctaText, ctaUrl }) {
   return `<!DOCTYPE html><html><body style="margin:0;padding:24px;background:#f7f4ef;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#1e1e1e;">
   <div style="max-width:580px;margin:0 auto;background:#ffffff;border-radius:14px;overflow:hidden;border:1px solid #eadfd2;">
     <div style="background:#1c1917;color:#ffffff;padding:20px 24px;">
-      <div style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#f59e0b;font-weight:700;">Romeo's Pizza Nigeria</div>
+      <div style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#f59e0b;font-weight:700;">Coldberry Ice Cream Nigeria</div>
       <h1 style="margin:6px 0 0;font-size:20px;line-height:1.3;">${safeSubject}</h1>
     </div>
     <div style="padding:24px;font-size:15px;line-height:1.6;">
       <p style="margin:0 0 16px;">${safeBody}</p>
       ${ctaBlock}
       <hr style="border:none;border-top:1px solid #eee4d8;margin:24px 0;" />
-      <p style="margin:0;font-size:12px;color:#6b7280;">You received this promotional update because you registered an account with Romeo's Pizza Nigeria.</p>
+      <p style="margin:0;font-size:12px;color:#6b7280;">You received this promotional update because you registered an account with Coldberry Ice Cream Nigeria.</p>
     </div>
   </div>
 </body></html>`;
@@ -71,7 +71,7 @@ function buildPromoEmailHtml({ subject, textBody, ctaText, ctaUrl }) {
 
 async function dispatchPromoEmails({ recipients, subject, textBody, ctaText, ctaUrl }) {
   const html = buildPromoEmailHtml({ subject, textBody, ctaText, ctaUrl });
-  const fromEmail = process.env.PROMO_FROM_EMAIL || "Romeo's Pizza Nigeria <onboarding@resend.dev>";
+  const fromEmail = process.env.PROMO_FROM_EMAIL || "Coldberry Ice Cream Nigeria <onboarding@resend.dev>";
 
   if (process.env.RESEND_API_KEY) {
     let sentCount = 0;
@@ -114,7 +114,7 @@ async function dispatchPromoEmails({ recipients, subject, textBody, ctaText, cta
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            sender: { name: "Romeo's Pizza Nigeria", email: senderEmail },
+            sender: { name: "Coldberry Ice Cream Nigeria", email: senderEmail },
             to: [{ email: to }],
             subject,
             htmlContent: html,
@@ -149,7 +149,7 @@ async function dispatchPromoEmails({ recipients, subject, textBody, ctaText, cta
           },
           body: JSON.stringify({
             personalizations: [{ to: [{ email: to }] }],
-            from: { email: senderEmail, name: "Romeo's Pizza Nigeria" },
+            from: { email: senderEmail, name: "Coldberry Ice Cream Nigeria" },
             subject,
             content: [
               { type: "text/plain", value: textBody },

@@ -1,6 +1,6 @@
-// Standalone server for hosting the Romeo's Pizza Order Verification Console separately.
+// Standalone server for hosting the Coldberry Ice Cream Order Verification Console separately.
 // Runs on its own origin/port (default: http://localhost:4000) and proxies /api/* calls
-// to the main ordering backend (default: https://romeos-project-x-ordering.vercel.app).
+// to the main ordering backend (default: https://coldberry-project-x.vercel.app).
 
 const http = require("http");
 const fs = require("fs");
@@ -10,7 +10,7 @@ const url = require("url");
 const CONSOLE_PORT = Number(process.env.ADMIN_PORT || 4000);
 const API_ORIGIN = (
   process.env.API_ORIGIN ||
-  (process.env.VERCEL ? "https://romeos-project-x-ordering.vercel.app" : "http://localhost:3000")
+  (process.env.VERCEL ? "https://coldberry-project-x.vercel.app" : "http://localhost:3000")
 ).replace(/\/+$/, "");
 const CONSOLE_DIR = __dirname;
 

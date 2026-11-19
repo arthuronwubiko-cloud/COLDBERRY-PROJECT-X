@@ -1,7 +1,7 @@
 {
-  "name": "romeos-project-x-admin",
+  "name": "coldberry-project-x-admin",
   "version": "1.0.0",
-  "description": "Separately hosted, role-locked Order Verification Console for Romeo's Pizza Nigeria",
+  "description": "Separately hosted, role-locked Order Verification Console for Coldberry Ice Cream Nigeria",
   "private": true,
   "scripts": {
     "dev": "node local-dev-server.js"

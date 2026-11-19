@@ -1,6 +1,6 @@
-// Standalone server for hosting the Romeo's Pizza Delivery Driver Console separately.
+// Standalone server for hosting the Coldberry Ice Cream Delivery Driver Console separately.
 // Runs on its own origin/port (default: http://localhost:4001) and proxies /api/* calls
-// to the main ordering backend (default: https://romeos-project-x-ordering.vercel.app).
+// to the main ordering backend (default: https://coldberry-project-x.vercel.app).
 
 const http = require("http");
 const fs = require("fs");
@@ -10,7 +10,7 @@ const url = require("url");
 const DRIVER_PORT = Number(process.env.DRIVER_PORT || 4001);
 const API_ORIGIN = (
   process.env.API_ORIGIN ||
-  (process.env.VERCEL ? "https://romeos-project-x-ordering.vercel.app" : "http://localhost:3000")
+  (process.env.VERCEL ? "https://coldberry-project-x.vercel.app" : "http://localhost:3000")
 ).replace(/\/+$/, "");
 const CONSOLE_DIR = __dirname;
 
