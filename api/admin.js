@@ -31,6 +31,12 @@ const {
   getRoleCredential,
   getAllRoleCredentials,
   saveRoleCredential,
+  createRoleAccount,
+  getRoleAccount,
+  listRoleAccounts,
+  setRoleAccountDisabled,
+  deleteRoleAccount,
+  shutdownAllRoleAccounts,
 } = require("./db");
 
 const CREDENTIAL_REGEX = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z0-9]{14}$/;
@@ -398,18 +404,28 @@ async function authenticateCredentialsAsync(username, password) {
   const pHex = sha256Hex(password);
   const staticAuth = authenticateCredentials(username, password);
 
-  // Admin credentials are never overridden or shut down by role_credentials
+  // Admin credentials are never overridden or shut down by role_credentials / role_accounts
   if (staticAuth && staticAuth.role === "admin") {
     return staticAuth;
   }
 
-  const { staff: staffRec, driver: driverRec } = await getAllRoleCredentials();
+  // 1. Check multi-account table (role_accounts) for this specific username
+  const acct = await getRoleAccount(cleanUser);
+  if (acct) {
+    if (acct.disabled) {
+      return { disabled: true, role: acct.role };
+    }
+    if (acct.password_hash && timingSafeHexEqual(pHex, acct.password_hash)) {
+      return { username: acct.username, role: acct.role };
+    }
+    return null;
+  }
 
-  // Check if either staff or driver has an active DB override or is shut down
+  // 2. Check role-level override / shutdown (role_credentials)
+  const { staff: staffRec, driver: driverRec } = await getAllRoleCredentials();
   for (const [roleName, rec] of [["staff", staffRec], ["driver", driverRec]]) {
     if (!rec) continue;
     if (rec.disabled) {
-      // If user is trying the matching username or the static credentials for this shut-down role, reject as disabled
       if ((rec.username && rec.username === cleanUser) || (staticAuth && staticAuth.role === roleName)) {
         return { disabled: true, role: roleName };
       }
@@ -420,7 +436,6 @@ async function authenticateCredentialsAsync(username, password) {
       if (userMatches && timingSafeHexEqual(pHex, rec.password_hash)) {
         return { username: cleanUser, role: roleName };
       }
-      // Once a role has a rotated password in DB, old static credentials for that role are invalidated
       if (staticAuth && staticAuth.role === roleName) {
         return null;
       }
@@ -480,6 +495,12 @@ async function resolveAuthFromRequest(req) {
     const tokenAuth = verifySessionToken(candidateToken);
     if (tokenAuth) {
       if (tokenAuth.role === "staff" || tokenAuth.role === "driver") {
+        const acct = await getRoleAccount(tokenAuth.username);
+        if (acct) {
+          if (acct.disabled) return null;
+          const acctUpdatedMs = Date.parse(acct.updated_at || 0) || 0;
+          if (acctUpdatedMs > (tokenAuth.iat || 0)) return null;
+        }
         const rec = await getRoleCredential(tokenAuth.role);
         if (rec) {
           if (rec.disabled) return null;
@@ -799,55 +820,77 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    // 6. Admin Random Password Rotation for Staff / Driver (Admin Only)
-    if (action === "rotate_role_password") {
+    // 6. Admin Random Password Generation / Rotation for Staff / Driver (1 to 10 accounts, Admin Only)
+    if (action === "rotate_role_password" || action === "create_role_account") {
       const postAuth = await resolveAuthFromRequest(req);
       if (!postAuth) {
         return res.status(401).json({ error: "Unauthorized. Admin authentication required." });
       }
       if (postAuth.role !== "admin") {
-        return res.status(403).json({ error: "Access denied: Only admin accounts can rotate staff or driver passwords." });
+        return res.status(403).json({ error: "Access denied: Only admin accounts can generate staff or driver passwords." });
       }
       const targetRole = String(body.role || "").trim().toLowerCase();
       if (!["staff", "driver"].includes(targetRole)) {
         return res.status(400).json({ error: "Role must be 'staff' or 'driver'." });
       }
 
-      const existing = await getRoleCredential(targetRole);
-      let newUsername = typeof body.username === "string" && CREDENTIAL_REGEX.test(body.username.trim())
-        ? body.username.trim()
-        : (existing?.username && CREDENTIAL_REGEX.test(existing.username) && body.rotateUsername !== true
-            ? existing.username
-            : generateRandom14CharCredential());
-      if (body.rotateUsername === true || !existing?.username) {
-        newUsername = generateRandom14CharCredential();
-      }
-      const newPassword = generateRandom14CharCredential();
-      const passwordHash = sha256Hex(newPassword);
+      const count = Math.min(Math.max(parseInt(body.count, 10) || 1, 1), 10);
+      const baseLabel = String(body.label || "").trim().slice(0, 50);
+      const accounts = [];
 
-      const saved = await saveRoleCredential({
+      for (let i = 0; i < count; i++) {
+        const newUsername =
+          count === 1 && typeof body.username === "string" && CREDENTIAL_REGEX.test(body.username.trim())
+            ? body.username.trim()
+            : generateRandom14CharCredential();
+        const newPassword = generateRandom14CharCredential();
+        const passwordHash = sha256Hex(newPassword);
+        const itemLabel = baseLabel
+          ? (count > 1 ? `${baseLabel} #${i + 1}` : baseLabel)
+          : `${targetRole === "driver" ? "Driver" : "Staff"} #${i + 1}`;
+
+        const savedAcct = await createRoleAccount({
+          username: newUsername,
+          role: targetRole,
+          label: itemLabel,
+          passwordHash,
+          createdBy: postAuth.username,
+        });
+        if (savedAcct.error) {
+          return res.status(400).json({ error: savedAcct.error });
+        }
+        accounts.push({
+          username: newUsername,
+          password: newPassword,
+          label: itemLabel,
+          disabled: false,
+          createdAt: savedAcct.account?.created_at || new Date().toISOString(),
+        });
+      }
+
+      // Clear any role-wide shutdown lock so newly generated accounts can sign in immediately
+      const savedRole = await saveRoleCredential({
         role: targetRole,
-        username: newUsername,
-        passwordHash,
+        username: accounts[0].username,
+        passwordHash: null,
         disabled: false,
         updatedBy: postAuth.username,
       });
-      if (saved.error) {
-        return res.status(400).json({ error: saved.error });
-      }
 
       return res.status(200).json({
         success: true,
         role: targetRole,
-        username: newUsername,
-        password: newPassword,
+        count: accounts.length,
+        accounts,
+        username: accounts[0].username,
+        password: accounts[0].password,
         disabled: false,
         updatedBy: postAuth.username,
-        updatedAt: saved.record?.updated_at || new Date().toISOString(),
+        updatedAt: savedRole.record?.updated_at || new Date().toISOString(),
       });
     }
 
-    // 7. Admin Shut Down / Disable Staff or Driver Access (Admin Only)
+    // 7. Admin Shut Down ALL Accounts for Staff or Driver (Admin Only)
     if (action === "shutdown_role_password") {
       const postAuth = await resolveAuthFromRequest(req);
       if (!postAuth) {
@@ -861,14 +904,7 @@ module.exports = async function handler(req, res) {
         return res.status(400).json({ error: "Role must be 'staff' or 'driver'." });
       }
 
-      const existing = await getRoleCredential(targetRole);
-      const saved = await saveRoleCredential({
-        role: targetRole,
-        username: existing?.username || null,
-        passwordHash: null,
-        disabled: true,
-        updatedBy: postAuth.username,
-      });
+      const saved = await shutdownAllRoleAccounts(targetRole, postAuth.username);
       if (saved.error) {
         return res.status(400).json({ error: saved.error });
       }
@@ -880,6 +916,36 @@ module.exports = async function handler(req, res) {
         updatedBy: postAuth.username,
         updatedAt: saved.record?.updated_at || new Date().toISOString(),
       });
+    }
+
+    // 8. Admin Shut Down / Re-enable or Delete a Single Staff/Driver Account (Admin Only)
+    if (action === "shutdown_role_account") {
+      const postAuth = await resolveAuthFromRequest(req);
+      if (!postAuth) {
+        return res.status(401).json({ error: "Unauthorized. Admin authentication required." });
+      }
+      if (postAuth.role !== "admin") {
+        return res.status(403).json({ error: "Access denied: Only admin accounts can shut down staff or driver accounts." });
+      }
+      const targetUsername = String(body.username || "").trim();
+      if (!targetUsername) return res.status(400).json({ error: "Username is required." });
+      const resDisable = await setRoleAccountDisabled({ username: targetUsername, disabled: body.disabled !== false });
+      if (resDisable.error) return res.status(404).json({ error: resDisable.error });
+      return res.status(200).json({ success: true, account: resDisable.account });
+    }
+
+    if (action === "delete_role_account") {
+      const postAuth = await resolveAuthFromRequest(req);
+      if (!postAuth) {
+        return res.status(401).json({ error: "Unauthorized. Admin authentication required." });
+      }
+      if (postAuth.role !== "admin") {
+        return res.status(403).json({ error: "Access denied: Only admin accounts can delete staff or driver accounts." });
+      }
+      const targetUsername = String(body.username || "").trim();
+      if (!targetUsername) return res.status(400).json({ error: "Username is required." });
+      await deleteRoleAccount(targetUsername);
+      return res.status(200).json({ success: true, deleted: true, username: targetUsername });
     }
 
     // Default POST: Login / verify 14-character alphanumeric username + password
@@ -1199,18 +1265,29 @@ module.exports = async function handler(req, res) {
     if (auth.role !== "admin") {
       return res.status(403).json({ error: "Access denied: Only admin accounts can view staff and driver credential status." });
     }
-    const { staff, driver } = await getAllRoleCredentials();
-    const formatRoleStatus = (roleName, rec) => ({
+    const [{ staff, driver }, allAccounts] = await Promise.all([
+      getAllRoleCredentials(),
+      listRoleAccounts(),
+    ]);
+    const staffAccounts = (allAccounts || []).filter((a) => a.role === "staff");
+    const driverAccounts = (allAccounts || []).filter((a) => a.role === "driver");
+    const formatRoleStatus = (roleName, rec, accts) => ({
       role: roleName,
       username: rec?.username || null,
       disabled: Boolean(rec?.disabled),
-      hasCustomPassword: Boolean(rec?.password_hash),
+      hasCustomPassword: Boolean(rec?.password_hash) || accts.some((a) => !a.disabled),
+      activeCount: accts.filter((a) => !a.disabled).length,
+      totalCount: accts.length,
       updatedBy: rec?.updated_by || null,
       updatedAt: rec?.updated_at || null,
     });
     return res.status(200).json({
-      staff: formatRoleStatus("staff", staff),
-      driver: formatRoleStatus("driver", driver),
+      staff: formatRoleStatus("staff", staff, staffAccounts),
+      driver: formatRoleStatus("driver", driver, driverAccounts),
+      accounts: {
+        staff: staffAccounts,
+        driver: driverAccounts,
+      },
     });
   }
 

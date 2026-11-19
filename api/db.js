@@ -335,6 +335,19 @@ async function ensureNeonSchema() {
           updated_at    TIMESTAMPTZ NOT NULL DEFAULT NOW()
         )
       `;
+      await sql`
+        CREATE TABLE IF NOT EXISTS role_accounts (
+          username      TEXT PRIMARY KEY,
+          role          TEXT NOT NULL,
+          label         TEXT,
+          password_hash TEXT NOT NULL,
+          disabled      BOOLEAN NOT NULL DEFAULT FALSE,
+          created_by    TEXT,
+          created_at    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+          updated_at    TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        )
+      `;
+      await sql`CREATE INDEX IF NOT EXISTS role_accounts_role_idx ON role_accounts (role, created_at DESC)`;
       return sql;
     })().catch((err) => {
       neonSchemaPromise = null; // allow a retry on the next request
@@ -2133,6 +2146,253 @@ async function saveRoleCredential({ role, username = null, passwordHash = null, 
   return { success: true, record };
 }
 
+const LOCAL_ROLE_ACCOUNTS_FILE = path.join(require("os").tmpdir(), "romeos-role-accounts.json");
+
+function readLocalRoleAccountsFile() {
+  try {
+    if (!fs.existsSync(LOCAL_ROLE_ACCOUNTS_FILE)) return [];
+    const parsed = JSON.parse(fs.readFileSync(LOCAL_ROLE_ACCOUNTS_FILE, "utf8"));
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (_) {
+    return [];
+  }
+}
+
+function writeLocalRoleAccountsFile(list) {
+  try {
+    fs.writeFileSync(LOCAL_ROLE_ACCOUNTS_FILE, JSON.stringify(list), "utf8");
+  } catch (_) {}
+}
+
+async function createRoleAccount({ username, role, label = "", passwordHash, createdBy = "admin" }) {
+  const cleanRole = String(role || "").trim().toLowerCase();
+  const cleanUser = String(username || "").trim();
+  if (!["staff", "driver"].includes(cleanRole) || !cleanUser || !passwordHash) {
+    return { error: "Valid role, username, and passwordHash are required." };
+  }
+  const nowIso = new Date().toISOString();
+  const record = {
+    username: cleanUser,
+    role: cleanRole,
+    label: String(label || "").trim().slice(0, 60),
+    password_hash: String(passwordHash),
+    disabled: false,
+    created_by: String(createdBy || "admin"),
+    created_at: nowIso,
+    updated_at: nowIso,
+  };
+
+  const list = readLocalRoleAccountsFile().filter((a) => a.username !== cleanUser);
+  list.unshift(record);
+  writeLocalRoleAccountsFile(list);
+
+  if (isNeonConfigured()) {
+    try {
+      const sql = await ensureNeonSchema();
+      const rows = await sql`
+        INSERT INTO role_accounts (username, role, label, password_hash, disabled, created_by, created_at, updated_at)
+        VALUES (${record.username}, ${record.role}, ${record.label}, ${record.password_hash}, false, ${record.created_by}, ${record.created_at}, ${record.updated_at})
+        ON CONFLICT (username) DO UPDATE SET
+          role = EXCLUDED.role,
+          label = EXCLUDED.label,
+          password_hash = EXCLUDED.password_hash,
+          disabled = false,
+          updated_at = EXCLUDED.updated_at
+        RETURNING username, role, label, disabled, created_by, created_at, updated_at
+      `;
+      if (rows && rows[0]) return { success: true, account: rows[0] };
+    } catch (err) {
+      console.warn("[RoleAccounts] Neon insert warning:", err.message);
+    }
+  }
+
+  const supabase = getSupabaseConfig();
+  if (supabase) {
+    try {
+      await fetch(`${supabase.url}/rest/v1/role_accounts?on_conflict=username`, {
+        method: "POST",
+        headers: supabaseHeaders(supabase, { Prefer: "resolution=merge-duplicates,return=representation" }),
+        body: JSON.stringify(record),
+      });
+    } catch (_) {}
+  }
+
+  return { success: true, account: record };
+}
+
+async function getRoleAccount(username) {
+  const cleanUser = String(username || "").trim();
+  if (!cleanUser) return null;
+
+  if (isNeonConfigured()) {
+    try {
+      const sql = await ensureNeonSchema();
+      const rows = await sql`
+        SELECT username, role, label, password_hash, disabled, created_by, created_at, updated_at
+        FROM role_accounts
+        WHERE username = ${cleanUser}
+        LIMIT 1
+      `;
+      if (rows && rows[0]) return rows[0];
+    } catch (_) {}
+  }
+
+  const supabase = getSupabaseConfig();
+  if (supabase) {
+    try {
+      const res = await fetch(
+        `${supabase.url}/rest/v1/role_accounts?username=eq.${encodeURIComponent(cleanUser)}&limit=1`,
+        { headers: supabaseHeaders(supabase) }
+      );
+      if (res.ok) {
+        const rows = await res.json();
+        if (Array.isArray(rows) && rows[0]) return rows[0];
+      }
+    } catch (_) {}
+  }
+
+  return readLocalRoleAccountsFile().find((a) => a.username === cleanUser) || null;
+}
+
+async function listRoleAccounts(role = null) {
+  const cleanRole = role ? String(role).trim().toLowerCase() : null;
+
+  if (isNeonConfigured()) {
+    try {
+      const sql = await ensureNeonSchema();
+      const rows = cleanRole
+        ? await sql`SELECT username, role, label, disabled, created_by, created_at, updated_at FROM role_accounts WHERE role = ${cleanRole} ORDER BY created_at DESC LIMIT 100`
+        : await sql`SELECT username, role, label, disabled, created_by, created_at, updated_at FROM role_accounts ORDER BY created_at DESC LIMIT 200`;
+      if (Array.isArray(rows)) return rows;
+    } catch (_) {}
+  }
+
+  const supabase = getSupabaseConfig();
+  if (supabase) {
+    try {
+      const filter = cleanRole ? `role=eq.${encodeURIComponent(cleanRole)}&` : "";
+      const res = await fetch(
+        `${supabase.url}/rest/v1/role_accounts?${filter}select=username,role,label,disabled,created_by,created_at,updated_at&order=created_at.desc&limit=200`,
+        { headers: supabaseHeaders(supabase) }
+      );
+      if (res.ok) {
+        const rows = await res.json();
+        if (Array.isArray(rows)) return rows;
+      }
+    } catch (_) {}
+  }
+
+  const localList = readLocalRoleAccountsFile();
+  const filtered = cleanRole ? localList.filter((a) => a.role === cleanRole) : localList;
+  return filtered.map(({ password_hash, ...rest }) => rest);
+}
+
+async function setRoleAccountDisabled({ username, disabled }) {
+  const cleanUser = String(username || "").trim();
+  if (!cleanUser) return { error: "Username is required." };
+  const nowIso = new Date().toISOString();
+  const flag = Boolean(disabled);
+
+  const list = readLocalRoleAccountsFile();
+  const idx = list.findIndex((a) => a.username === cleanUser);
+  if (idx >= 0) {
+    list[idx].disabled = flag;
+    list[idx].updated_at = nowIso;
+    writeLocalRoleAccountsFile(list);
+  }
+
+  if (isNeonConfigured()) {
+    try {
+      const sql = await ensureNeonSchema();
+      const rows = await sql`
+        UPDATE role_accounts
+        SET disabled = ${flag}, updated_at = ${nowIso}
+        WHERE username = ${cleanUser}
+        RETURNING username, role, label, disabled, created_by, created_at, updated_at
+      `;
+      if (rows && rows[0]) return { success: true, account: rows[0] };
+    } catch (_) {}
+  }
+
+  const supabase = getSupabaseConfig();
+  if (supabase) {
+    try {
+      await fetch(`${supabase.url}/rest/v1/role_accounts?username=eq.${encodeURIComponent(cleanUser)}`, {
+        method: "PATCH",
+        headers: supabaseHeaders(supabase),
+        body: JSON.stringify({ disabled: flag, updated_at: nowIso }),
+      });
+    } catch (_) {}
+  }
+
+  return idx >= 0 ? { success: true, account: list[idx] } : { error: "Account not found." };
+}
+
+async function deleteRoleAccount(username) {
+  const cleanUser = String(username || "").trim();
+  if (!cleanUser) return { error: "Username is required." };
+
+  const list = readLocalRoleAccountsFile();
+  const next = list.filter((a) => a.username !== cleanUser);
+  writeLocalRoleAccountsFile(next);
+
+  if (isNeonConfigured()) {
+    try {
+      const sql = await ensureNeonSchema();
+      await sql`DELETE FROM role_accounts WHERE username = ${cleanUser}`;
+    } catch (_) {}
+  }
+
+  const supabase = getSupabaseConfig();
+  if (supabase) {
+    try {
+      await fetch(`${supabase.url}/rest/v1/role_accounts?username=eq.${encodeURIComponent(cleanUser)}`, {
+        method: "DELETE",
+        headers: supabaseHeaders(supabase),
+      });
+    } catch (_) {}
+  }
+
+  return { success: true, username: cleanUser };
+}
+
+async function shutdownAllRoleAccounts(role, updatedBy = "admin") {
+  const cleanRole = String(role || "").trim().toLowerCase();
+  if (!["staff", "driver"].includes(cleanRole)) return { error: "Invalid role." };
+  const nowIso = new Date().toISOString();
+
+  const list = readLocalRoleAccountsFile();
+  let changed = false;
+  for (const acct of list) {
+    if (acct.role === cleanRole) {
+      acct.disabled = true;
+      acct.updated_at = nowIso;
+      changed = true;
+    }
+  }
+  if (changed) writeLocalRoleAccountsFile(list);
+
+  if (isNeonConfigured()) {
+    try {
+      const sql = await ensureNeonSchema();
+      await sql`UPDATE role_accounts SET disabled = true, updated_at = ${nowIso} WHERE role = ${cleanRole}`;
+    } catch (_) {}
+  }
+
+  const supabase = getSupabaseConfig();
+  if (supabase) {
+    try {
+      await fetch(`${supabase.url}/rest/v1/role_accounts?role=eq.${encodeURIComponent(cleanRole)}`, {
+        method: "PATCH",
+        headers: supabaseHeaders(supabase),
+        body: JSON.stringify({ disabled: true, updated_at: nowIso }),
+      });
+    } catch (_) {}
+  }
+
+  return saveRoleCredential({ role: cleanRole, username: null, passwordHash: null, disabled: true, updatedBy });
+}
+
 defaultHandler.insertOrder = insertOrder;
 defaultHandler.getOrders = getOrders;
 defaultHandler.allocatePin = allocatePin;
@@ -2166,6 +2426,12 @@ defaultHandler.getPromotionalEmails = getPromotionalEmails;
 defaultHandler.getRoleCredential = getRoleCredential;
 defaultHandler.getAllRoleCredentials = getAllRoleCredentials;
 defaultHandler.saveRoleCredential = saveRoleCredential;
+defaultHandler.createRoleAccount = createRoleAccount;
+defaultHandler.getRoleAccount = getRoleAccount;
+defaultHandler.listRoleAccounts = listRoleAccounts;
+defaultHandler.setRoleAccountDisabled = setRoleAccountDisabled;
+defaultHandler.deleteRoleAccount = deleteRoleAccount;
+defaultHandler.shutdownAllRoleAccounts = shutdownAllRoleAccounts;
 defaultHandler.getOrdersByCustomer = getOrdersByCustomer;
 defaultHandler.recordVisitorHit = recordVisitorHit;
 defaultHandler.getActiveVisitorCount = getActiveVisitorCount;
