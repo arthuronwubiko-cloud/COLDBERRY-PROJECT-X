@@ -11,29 +11,29 @@
   // Dedicated WhatsApp dispatch contacts for each branch outlet
   const BRANCH_CONTACTS = {
     "Garki, Abuja": {
-      phone: "2349055303848",
-      display: "+234 905 530 3848",
+      phone: "2349022348457",
+      display: "+234 902 234 8457",
       name: "Garki Branch",
       city: "Abuja",
       envKey: "BRANCH_GARKI",
     },
     "Lugbe, Abuja": {
-      phone: "2349055303849",
-      display: "+234 905 530 3849",
+      phone: "2347012080564",
+      display: "+234 701 208 0564",
       name: "Lugbe Branch",
       city: "Abuja",
       envKey: "BRANCH_LUGBE",
     },
     "Yaba, Lagos": {
-      phone: "2348023456701",
-      display: "+234 802 345 6701",
+      phone: "2348125178510",
+      display: "+234 812 517 8510",
       name: "Yaba Branch",
       city: "Lagos",
       envKey: "BRANCH_YABA",
     },
     "Surulere, Lagos": {
-      phone: "2348023456702",
-      display: "+234 802 345 6702",
+      phone: "2347072102474",
+      display: "+234 707 210 2474",
       name: "Surulere Branch",
       city: "Lagos",
       envKey: "BRANCH_SURULERE",
@@ -46,8 +46,8 @@
       envKey: "BRANCH_OKOTA",
     },
     "Festac, Lagos": {
-      phone: "2348023456704",
-      display: "+234 802 345 6704",
+      phone: "2349132156844",
+      display: "+234 913 215 6844",
       name: "Festac Branch",
       city: "Lagos",
       envKey: "BRANCH_FESTAC",
