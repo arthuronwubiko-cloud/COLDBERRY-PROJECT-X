@@ -125,8 +125,26 @@ const server = http.createServer(async (req, res) => {
   }
 
   // Route static files
-  if (pathname === "/" || pathname === "") {
-    pathname = "/index.html";
+  // Route static files & clean URLs
+  const cleanUrlMap = {
+    "/": "/index.html",
+    "": "/index.html",
+    "/admin": "/admin.html",
+    "/admin-console": "/admin.html",
+    "/driver": "/driver.html",
+    "/driver-console": "/driver.html",
+    "/feedback": "/feedback.html",
+    "/customer-feedback": "/feedback.html",
+    "/refunds": "/refunds.html",
+    "/refund-tokens": "/refunds.html",
+    "/login": "/login.html",
+    "/order": "/order.html",
+    "/track": "/track.html",
+    "/menu": "/890b.html",
+    "/deals": "/pizzadeals.html",
+  };
+  if (cleanUrlMap[pathname]) {
+    pathname = cleanUrlMap[pathname];
   }
 
   let decodedPath;
