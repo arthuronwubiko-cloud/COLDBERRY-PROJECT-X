@@ -488,14 +488,43 @@
         color: var(--rfb-muted, #6b7280);
       }
 
+      /* Elevated position when bottom floating cart is present */
+      body.has-menu-cart #romeos-feedback-bubble-root,
+      body:has(.menu-cart) #romeos-feedback-bubble-root {
+        bottom: calc(5.25rem + env(safe-area-inset-bottom, 0px));
+      }
+
       @media (max-width: 480px) {
         #romeos-feedback-bubble-root {
-          bottom: 1rem;
-          left: 1rem;
+          bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+          left: calc(0.75rem + env(safe-area-inset-left, 0px));
+        }
+        body.has-menu-cart #romeos-feedback-bubble-root,
+        body:has(.menu-cart) #romeos-feedback-bubble-root {
+          bottom: calc(5.25rem + env(safe-area-inset-bottom, 0px));
         }
         .rfb-popover-card {
-          width: calc(100vw - 2rem);
-          max-width: 350px;
+          width: min(360px, calc(100vw - 1.5rem));
+          max-width: calc(100vw - 1.5rem);
+          max-height: calc(85vh - env(safe-area-inset-bottom, 0px));
+          overflow-y: auto;
+          -webkit-overflow-scrolling: touch;
+        }
+      }
+
+      @media (max-width: 360px) {
+        #romeos-feedback-bubble-root {
+          bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+          left: calc(0.5rem + env(safe-area-inset-left, 0px));
+        }
+        .rfb-trigger-btn {
+          padding: 0.5rem 0.85rem;
+          font-size: 0.85rem;
+        }
+        .rfb-popover-card {
+          width: calc(100vw - 1rem);
+          max-width: calc(100vw - 1rem);
+          padding: 1rem 0.75rem;
         }
       }
     `;
@@ -504,6 +533,10 @@
 
   function createFeedbackWidget() {
     injectStyles();
+
+    if (document.querySelector(".menu-cart")) {
+      document.body.classList.add("has-menu-cart");
+    }
 
     const root = document.createElement("div");
     root.id = "romeos-feedback-bubble-root";
