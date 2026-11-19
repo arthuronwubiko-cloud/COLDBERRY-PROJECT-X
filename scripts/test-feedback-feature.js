@@ -83,7 +83,7 @@ async function runFeedbackVerification() {
       rating: 5,
       customer_name: "Test Customer",
       order_pin: "654321",
-      tags: ["🍕 Hot & Fresh", "⚡ Fast Delivery"],
+      tags: ["🍦 Rich & Creamy", "⚡ Fast Cold-Bag Delivery"],
       comments: uniqueComment,
       source: "automated_test"
     });
@@ -155,8 +155,8 @@ async function runFeedbackVerification() {
         rating: 4,
         customer_name: "Fatima",
         order_pin: "777888",
-        tags: ["😋 Great Taste"],
-        comments: "Very tasty thin crust!",
+        tags: ["😋 Authentic Flavours", "🧇 Crispy Waffle Bowl"],
+        comments: "Delicious rolled Madagascar vanilla with strawberry swirl!",
         source: "web_bubble"
       }
     };

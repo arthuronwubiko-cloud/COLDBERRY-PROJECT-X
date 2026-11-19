@@ -17,14 +17,20 @@
     "🍦 Rich & Creamy",
     "⚡ Fast Cold-Bag Delivery",
     "😋 Authentic Flavours",
-    "🛵 Friendly Courier"
+    "🛵 Friendly Courier",
+    "🧇 Crispy Waffle Bowl",
+    "🍓 Fresh Berry Swirls",
+    "🍧 Perfect 2-in-1 Tub",
+    "❄️ Perfectly Chilled"
   ];
 
   const COMPLAINT_TAGS = [
     "🐢 Delayed Delivery",
     "🍨 Melted / Wrong Scoop",
     "🧇 Missing Waffle / Cone",
-    "💳 Payment / Refund Issue"
+    "💳 Payment / Refund Issue",
+    "🥄 Missing Spoons / Napkins",
+    "🍓 Wrong Scoop Flavour"
   ];
 
   const RATING_DESCRIPTIONS = [
@@ -519,8 +525,8 @@
 
           <!-- Feedback vs Complaint Switcher -->
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.4rem;margin-bottom:0.75rem;" role="tablist" aria-label="Feedback type">
-            <button type="button" id="rfb-mode-feedback" data-rfb-mode="feedback" aria-selected="true" style="padding:0.45rem;border-radius:8px;border:1px solid var(--rfb-border,#e5e7eb);background:#ff5733;color:#fff;font-weight:700;font-size:0.8rem;cursor:pointer;">⭐ Review</button>
-            <button type="button" id="rfb-mode-complaint" data-rfb-mode="complaint" aria-selected="false" style="padding:0.45rem;border-radius:8px;border:1px solid var(--rfb-border,#e5e7eb);background:var(--rfb-chip-bg,#f3f4f6);color:var(--rfb-text,#1f2937);font-weight:700;font-size:0.8rem;cursor:pointer;">⚠️ Complaint</button>
+            <button type="button" id="rfb-mode-feedback" data-rfb-mode="feedback" aria-selected="true" style="padding:0.45rem;border-radius:8px;border:1px solid var(--rfb-border,#e5e7eb);background:#ff5733;color:#fff;font-weight:700;font-size:0.8rem;cursor:pointer;">⭐ Sweet Review</button>
+            <button type="button" id="rfb-mode-complaint" data-rfb-mode="complaint" aria-selected="false" style="padding:0.45rem;border-radius:8px;border:1px solid var(--rfb-border,#e5e7eb);background:var(--rfb-chip-bg,#f3f4f6);color:var(--rfb-text,#1f2937);font-weight:700;font-size:0.8rem;cursor:pointer;">⚠️ Scoop Issue</button>
           </div>
 
           <!-- Interactive Star Rating -->
@@ -536,7 +542,7 @@
           </div>
 
           <!-- Quick Tags -->
-          <div class="rfb-tags-label">Quick Tags:</div>
+          <div class="rfb-tags-label">Quick Flavour &amp; Delivery Tags:</div>
           <div class="rfb-tags-grid" id="rfb-tags-grid">
             ${QUICK_TAGS.map(tag => `<button type="button" class="rfb-tag-chip" data-tag="${tag}">${tag}</button>`).join("")}
           </div>
@@ -554,7 +560,7 @@
 
           <!-- Submit Button -->
           <button type="button" id="rfb-submit-btn" class="rfb-submit-btn">
-            <span>Send Feedback</span> 🚀
+            <span>Send Ice Cream Feedback</span> 🍦
           </button>
         </div>
 
@@ -564,7 +570,7 @@
             <i class="fa-solid fa-check" aria-hidden="true">✓</i>
           </div>
           <h4>Thank You!</h4>
-          <p>Your feedback was received and synced directly to our parlor &amp; couriers. We appreciate you!</p>
+          <p>Your feedback was received and synced directly to our creamery &amp; couriers. We appreciate you!</p>
         </div>
       </div>
 
@@ -572,7 +578,7 @@
       <button type="button" id="rfb-trigger" class="rfb-trigger-btn" aria-haspopup="dialog" aria-expanded="false" aria-label="Open client feedback form">
         <i class="fa-solid fa-star rfb-trigger-star" style="color: #FFD700;" aria-hidden="true">★</i>
         <span>Feedback</span>
-        <span class="rfb-badge" style="background:#db2777;color:#fff;">Cool</span>
+        <span class="rfb-badge" style="background:#db2777;color:#fff;">Chilled</span>
       </button>
     `;
 

@@ -768,20 +768,90 @@ async function getOrders({ limit = 100, offset = 0 } = {}) {
 
 const LOCAL_FEEDBACK_FILE = fs.existsSync("/tmp") ? "/tmp/romeos-feedback-store.json" : path.join(require("os").tmpdir(), "romeos-feedback-store.json");
 
+const SEED_ICE_CREAM_FEEDBACK = [
+  {
+    id: "seed-fb-1",
+    created_at: new Date(Date.now() - 3600000 * 2).toISOString(),
+    rating: 5,
+    customer_name: "Amina Bello",
+    order_pin: "819204",
+    tags: "🍦 Rich & Creamy, 🧇 Crispy Waffle Bowl",
+    comments: "The artisanal rolled Madagascar vanilla and berry swirls were packed in thermal insulated bags and stayed perfectly frozen! Best dessert treat in Abuja.",
+    source: "web_bubble",
+    feedback_type: "feedback"
+  },
+  {
+    id: "seed-fb-2",
+    created_at: new Date(Date.now() - 3600000 * 6).toISOString(),
+    rating: 5,
+    customer_name: "Chinedu Eke",
+    order_pin: "394821",
+    tags: "🍧 Perfect 2-in-1 Tub, 😋 Authentic Flavours",
+    comments: "Ordered the Champion 2-in-1 split tub with Belgian Chocolate and Pistachio Crunch. Creamy texture and generous portions!",
+    source: "web_bubble",
+    feedback_type: "feedback"
+  },
+  {
+    id: "seed-fb-3",
+    created_at: new Date(Date.now() - 3600000 * 14).toISOString(),
+    rating: 5,
+    customer_name: "Zainab Bakare",
+    order_pin: "602184",
+    tags: "⚡ Fast Cold-Bag Delivery, 🛵 Friendly Courier",
+    comments: "Delivered in under 25 minutes. Courier was super polite and the waffle bowls were still completely crunchy and chilled.",
+    source: "web_bubble",
+    feedback_type: "feedback"
+  },
+  {
+    id: "seed-fb-4",
+    created_at: new Date(Date.now() - 3600000 * 26).toISOString(),
+    rating: 4,
+    customer_name: "Tunde Adeyemi",
+    order_pin: "481920",
+    tags: "🍓 Fresh Berry Swirls, 🍦 Rich & Creamy",
+    comments: "Really rich and velvety texture. Love the fresh strawberry drizzle on top of the waffle cones.",
+    source: "web_bubble",
+    feedback_type: "feedback"
+  },
+  {
+    id: "seed-fb-5",
+    created_at: new Date(Date.now() - 3600000 * 38).toISOString(),
+    rating: 5,
+    customer_name: "Ngozi Kalu",
+    order_pin: "772910",
+    tags: "😋 Authentic Flavours, 🧇 Crispy Waffle Bowl",
+    comments: "Caramel biscoff rolled sundaes are pure heaven. We will definitely be ordering again for our family treat night!",
+    source: "web_bubble",
+    feedback_type: "feedback"
+  }
+];
+
 function readLocalFeedbackFile() {
   try {
-    if (!fs.existsSync(LOCAL_FEEDBACK_FILE)) return [];
+    if (!fs.existsSync(LOCAL_FEEDBACK_FILE)) {
+      writeLocalFeedbackFile(SEED_ICE_CREAM_FEEDBACK);
+      return [...SEED_ICE_CREAM_FEEDBACK];
+    }
     const raw = fs.readFileSync(LOCAL_FEEDBACK_FILE, "utf8");
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
+    if (!Array.isArray(parsed) || parsed.length === 0) {
+      writeLocalFeedbackFile(SEED_ICE_CREAM_FEEDBACK);
+      return [...SEED_ICE_CREAM_FEEDBACK];
+    }
+    return parsed;
   } catch (_) {
-    return [];
+    return [...SEED_ICE_CREAM_FEEDBACK];
   }
 }
 
 function writeLocalFeedbackFile(list) {
   try {
-    fs.writeFileSync(LOCAL_FEEDBACK_FILE, JSON.stringify(list.slice(0, 300)), "utf8");
+    const data = JSON.stringify(list.slice(0, 300));
+    fs.writeFileSync(LOCAL_FEEDBACK_FILE, data, "utf8");
+    const coldberryStore = "/tmp/coldberry-feedback-store.json";
+    if (LOCAL_FEEDBACK_FILE !== coldberryStore) {
+      fs.writeFileSync(coldberryStore, data, "utf8");
+    }
   } catch (_) {}
 }
 
