@@ -113,23 +113,28 @@ function formatTrackingOrderPayload(order, now = Date.now()) {
 }
 
 module.exports = async function handler(req, res) {
+  const {
+    acquireRequestSlot,
+    releaseRequestSlot,
+    checkRateLimit,
+    getClientIp,
+    getCorsOrigin,
+    getCachedResponse,
+    setCachedResponse,
+  } = require("./overload-protection");
+
   res.setHeader("Cache-Control", "no-store");
-  res.setHeader("Access-Control-Allow-Origin", req.headers?.origin || "*");
+  const allowedOrigin = getCorsOrigin(req);
+  if (allowedOrigin) {
+    res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
+    res.setHeader("Vary", "Origin");
+  }
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
   if (req.method === "OPTIONS") {
     return res.status(204).send("");
   }
-
-  const {
-    acquireRequestSlot,
-    releaseRequestSlot,
-    checkRateLimit,
-    getClientIp,
-    getCachedResponse,
-    setCachedResponse,
-  } = require("./overload-protection");
 
   const clientIp = getClientIp(req);
   const rateLimit = checkRateLimit(clientIp);
@@ -183,7 +188,10 @@ module.exports = async function handler(req, res) {
     }
 
     const cacheKey = `track:${phone}:${pin}`;
-    const now = Number.isFinite(body._testNow) ? body._testNow : Date.now();
+    const allowTestClock =
+      !process.env.VERCEL &&
+      (process.env.NODE_ENV === "test" || process.env.ALLOW_TEST_CLOCK === "1");
+    const now = allowTestClock && Number.isFinite(body._testNow) ? body._testNow : Date.now();
 
     if (!isCancelAction && !isMarkReceivedAction) {
       // Micro-cache check for lookup queries, recalculating live cancel timer

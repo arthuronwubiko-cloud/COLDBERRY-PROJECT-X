@@ -512,7 +512,7 @@
                 autocapitalize="none"
                 autocorrect="off"
                 spellcheck="false"
-                placeholder="e.g. RomeosRider890"
+                placeholder="14-char rider username"
                 required
               />
             </div>
@@ -537,23 +537,6 @@
               />
             </div>
 
-            <details style="margin: 0.5rem 0 1rem; font-size: 0.82rem; color: var(--muted); background: var(--surface-2); padding: 0.55rem 0.75rem; border-radius: 8px;">
-              <summary style="cursor: pointer; font-weight: 700;">
-                <i class="fa-solid fa-key" aria-hidden="true"></i> Quick Credential Helper
-              </summary>
-              <div style="margin-top: 0.45rem; line-height: 1.4;">
-                <div>User: <code style="font-weight: 700; color: var(--coral);">RomeosRider890</code></div>
-                <div>Pass: <code style="font-weight: 700; color: var(--coral);">Rdr72Kp45Lw19Q</code></div>
-                <button
-                  type="button"
-                  id="fill-demo-creds"
-                  class="driver-btn driver-btn-secondary"
-                  style="margin-top: 0.5rem; font-size: 0.78rem; padding: 0.35rem 0.65rem;"
-                >
-                  Fill Rider Credentials
-                </button>
-              </div>
-            </details>
 
             <p id="login-error" role="alert" style="color: var(--danger); font-size: 0.85rem; margin: 0 0 0.85rem;" hidden></p>
 
@@ -659,7 +642,6 @@
         const passCount = document.getElementById("pass-count");
         const loginError = document.getElementById("login-error");
         const loginBtn = document.getElementById("login-btn");
-        const fillDemoCredsBtn = document.getElementById("fill-demo-creds");
         const riderStatusBadge = document.getElementById("rider-status-badge");
         const refreshBtn = document.getElementById("refresh-btn");
         const logoutBtn = document.getElementById("logout-btn");
@@ -676,11 +658,20 @@
           return "";
         }
 
+        function esc(str) {
+          return String(str == null ? "" : str)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#39;");
+        }
+
         function showToast(msg, isError = false) {
           const t = document.createElement("div");
           t.className = "toast";
           if (isError) t.style.background = "var(--danger)";
-          t.innerHTML = `<i class="fa-solid ${isError ? "fa-circle-exclamation" : "fa-circle-check"}"></i> <span>${msg}</span>`;
+          t.innerHTML = `<i class="fa-solid ${isError ? "fa-circle-exclamation" : "fa-circle-check"}"></i> <span>${esc(msg)}</span>`;
           document.body.appendChild(t);
           setTimeout(() => {
             t.style.opacity = "0";
@@ -700,14 +691,6 @@
 
         loginUserInput.addEventListener("input", updateCharCounters);
         loginPassInput.addEventListener("input", updateCharCounters);
-
-        if (fillDemoCredsBtn) {
-          fillDemoCredsBtn.addEventListener("click", () => {
-            loginUserInput.value = "RomeosRider890";
-            loginPassInput.value = "Rdr72Kp45Lw19Q";
-            updateCharCounters();
-          });
-        }
 
         // Auth submit
         loginForm.addEventListener("submit", async (e) => {
@@ -980,6 +963,17 @@
           const mapsUrl = buildGoogleMapsLink(address, location);
           const waUrl = buildWhatsAppLink(phone, customerName, id);
 
+          const safeId = esc(id);
+          const safePin = esc(pin);
+          const safeCustomerName = esc(customerName);
+          const safePhone = esc(phone);
+          const safeAddress = esc(address);
+          const safeLocation = esc(location);
+          const safeStatus = esc(status);
+          const safeTimeStr = esc(timeStr);
+          const safeMapsUrl = esc(mapsUrl);
+          const safeWaUrl = esc(waUrl);
+
           // Status Badge Pill
           let pillHtml = "";
           if (status === "preparing") {
@@ -991,7 +985,7 @@
           } else if (status === "completed") {
             pillHtml = `<span class="status-pill pill-completed"><i class="fa-solid fa-circle-check"></i> Delivered</span>`;
           } else {
-            pillHtml = `<span class="status-pill pill-ready">${status}</span>`;
+            pillHtml = `<span class="status-pill pill-ready">${safeStatus}</span>`;
           }
 
           // Payment Badge (PAID vs COLLECT PAYMENT)
@@ -1020,7 +1014,7 @@
                 type="button"
                 class="driver-action-btn action-pickup"
                 data-action="update-status"
-                data-id="${id}"
+                data-id="${safeId}"
                 data-next-status="out_for_delivery"
               >
                 <i class="fa-solid fa-motorcycle" aria-hidden="true"></i> Pick Up &amp; Start Delivery
@@ -1032,7 +1026,7 @@
                 type="button"
                 class="driver-action-btn action-complete"
                 data-action="update-status"
-                data-id="${id}"
+                data-id="${safeId}"
                 data-next-status="completed"
               >
                 <i class="fa-solid fa-circle-check" aria-hidden="true"></i> Handed Over to Customer
@@ -1047,15 +1041,15 @@
           }
 
           return `
-            <article class="delivery-card status-${status}" data-order-id="${id}">
+            <article class="delivery-card status-${safeStatus}" data-order-id="${safeId}">
               <div class="card-top">
                 <div>
-                  <div class="card-order-id">#${id}</div>
-                  <span class="card-pin"><i class="fa-solid fa-key"></i> PIN: <strong>${pin}</strong></span>
+                  <div class="card-order-id">#${safeId}</div>
+                  <span class="card-pin"><i class="fa-solid fa-key"></i> PIN: <strong>${safePin}</strong></span>
                 </div>
                 <div style="text-align: right;">
                   <div>${pillHtml}</div>
-                  <div class="card-time" style="margin-top: 0.3rem;"><i class="fa-regular fa-clock"></i> ${timeStr}</div>
+                  <div class="card-time" style="margin-top: 0.3rem;"><i class="fa-regular fa-clock"></i> ${safeTimeStr}</div>
                 </div>
               </div>
 
@@ -1064,10 +1058,10 @@
                 <div class="address-title">
                   <i class="fa-solid fa-location-dot" style="color: var(--coral);"></i> Delivery Address
                 </div>
-                <div class="address-text">${address}</div>
-                <div class="address-sub"><i class="fa-solid fa-city"></i> Zone: ${location}</div>
+                <div class="address-text">${safeAddress}</div>
+                <div class="address-sub"><i class="fa-solid fa-city"></i> Zone: ${safeLocation}</div>
 
-                <a href="${mapsUrl}" target="_blank" rel="noopener noreferrer" class="driver-btn driver-btn-map" style="width: 100%;">
+                <a href="${safeMapsUrl}" target="_blank" rel="noopener noreferrer" class="driver-btn driver-btn-map" style="width: 100%;">
                   <i class="fa-solid fa-map-location-dot" aria-hidden="true"></i> Open in Google Maps
                 </a>
               </div>
@@ -1075,16 +1069,16 @@
               <!-- Customer Contact -->
               <div style="display: flex; justify-content: space-between; align-items: center; margin: 0.5rem 0 0.25rem;">
                 <div style="font-weight: 800; font-size: 0.95rem;">
-                  <i class="fa-solid fa-user" style="color: var(--muted);"></i> ${customerName}
+                  <i class="fa-solid fa-user" style="color: var(--muted);"></i> ${safeCustomerName}
                 </div>
-                <div style="font-size: 0.85rem; color: var(--muted); font-family: monospace;">${phone}</div>
+                <div style="font-size: 0.85rem; color: var(--muted); font-family: monospace;">${safePhone}</div>
               </div>
 
               <div class="contact-grid">
-                <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="driver-btn driver-btn-wa">
+                <a href="${safeWaUrl}" target="_blank" rel="noopener noreferrer" class="driver-btn driver-btn-wa">
                   <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> WhatsApp
                 </a>
-                <a href="tel:${phone}" class="driver-btn driver-btn-call">
+                <a href="tel:${safePhone}" class="driver-btn driver-btn-call">
                   <i class="fa-solid fa-phone" aria-hidden="true"></i> Call
                 </a>
               </div>
@@ -1104,8 +1098,8 @@
                 </div>
                 <details style="margin-top: 0.45rem; font-size: 0.8rem; color: var(--muted);">
                   <summary style="cursor: pointer;">Itemized Receipt Details</summary>
-                  <div style="margin-top: 0.35rem; white-space: pre-line; color: var(--text);">${pkg.raw}</div>
-                  ${order.notes ? `<div style="margin-top: 0.35rem; color: var(--coral);"><strong>Customer Notes:</strong> ${order.notes}</div>` : ""}
+                  <div style="margin-top: 0.35rem; white-space: pre-line; color: var(--text);">${esc(pkg.raw)}</div>
+                  ${order.notes ? `<div style="margin-top: 0.35rem; color: var(--coral);"><strong>Customer Notes:</strong> ${esc(order.notes)}</div>` : ""}
                 </details>
               </div>
 

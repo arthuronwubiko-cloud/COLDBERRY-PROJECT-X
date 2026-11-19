@@ -3,7 +3,7 @@
 // Neon Postgres and Supabase with local fallback.
 
 const { insertFeedback, getFeedback } = require("./db");
-const { getClientIp, checkRateLimit } = require("./overload-protection");
+const { getClientIp, checkRateLimit, getCorsOrigin } = require("./overload-protection");
 
 function parseBody(req) {
   if (typeof req.body === "object" && req.body !== null) return req.body;
@@ -19,7 +19,11 @@ function parseBody(req) {
 
 module.exports = async function handler(req, res) {
   res.setHeader("Cache-Control", "no-store");
-  res.setHeader("Access-Control-Allow-Origin", req.headers?.origin || "*");
+  const allowedOrigin = getCorsOrigin(req);
+  if (allowedOrigin) {
+    res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
+    res.setHeader("Vary", "Origin");
+  }
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
@@ -31,16 +35,20 @@ module.exports = async function handler(req, res) {
     const limit = Math.min(Number(req.query?.limit) || 20, 100);
     const offset = Math.max(Number(req.query?.offset) || 0, 0);
     const result = await getFeedback({ limit, offset });
+    const sanitizedFeedback = (result.feedback || []).map((item) => {
+      const { order_pin, ...rest } = item || {};
+      return rest;
+    });
     return res.status(200).json({
-      feedback: result.feedback || [],
+      feedback: sanitizedFeedback,
       provider: result.provider,
-      count: result.feedback?.length || 0,
+      count: sanitizedFeedback.length,
     });
   }
 
   if (req.method === "POST") {
     const ip = getClientIp(req);
-    const rateCheck = checkRateLimit(ip, 30, 60 * 1000); // 30 per min
+    const rateCheck = checkRateLimit(ip, 30, 60 * 1000, "feedback_post"); // 30 per min
     if (!rateCheck.allowed) {
       return res.status(429).json({ error: "Too many feedback requests. Please wait a moment." });
     }
