@@ -4691,24 +4691,84 @@ a {
 }
 
 .footer-sister-brand {
-  margin: 16px 0 10px 0;
-  padding-top: 14px;
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  margin: 22px auto 14px auto;
+  max-width: 680px;
+  padding: 14px 22px;
   text-align: center;
-  font-size: 0.88rem;
-  color: var(--color-slate);
+  background: linear-gradient(135deg, #FFFDF8 0%, #FFF3D6 100%);
+  border: 2px solid #EAA023;
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgba(234, 160, 35, 0.28);
 }
 
-:root[data-theme="dark"] .footer-sister-brand {
-  border-top-color: rgba(255, 255, 255, 0.1);
+:root[data-theme="dark"] .footer-sister-brand,
+:root:not([data-theme="light"]) .footer-sister-brand {
+  background: linear-gradient(135deg, #2D1E16 0%, #1E120D 100%);
+  border: 2px solid #F6B84A;
+  box-shadow: 0 4px 22px rgba(246, 184, 74, 0.32);
+}
+
+.footer-sister-brand p {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: #3b2207;
+}
+
+:root[data-theme="dark"] .footer-sister-brand p,
+:root:not([data-theme="light"]) .footer-sister-brand p {
+  color: #FFF3D6;
+}
+
+.footer-sister-brand .footer-sister-pill {
+  display: inline-flex;
+  align-items: center;
+  background: #FF5733;
+  color: #FFFFFF !important;
+  font-weight: 800;
+  font-size: 0.76rem;
+  padding: 4px 11px;
+  border-radius: 999px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  box-shadow: 0 2px 8px rgba(255, 87, 51, 0.4);
 }
 
 .footer-sister-brand a {
-  color: var(--color-deep-wine);
-  font-weight: 600;
-  text-decoration: underline;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #EAA023;
+  color: #1A0F02 !important;
+  font-weight: 800;
+  font-size: 0.92rem;
+  padding: 6px 15px;
+  border-radius: 999px;
+  text-decoration: none !important;
+  transition: all 0.2s ease;
+  box-shadow: 0 3px 10px rgba(234, 160, 35, 0.35);
 }
 
-:root[data-theme="dark"] .footer-sister-brand a {
-  color: var(--color-saffron);
+.footer-sister-brand a:hover {
+  background: #FF5733;
+  color: #FFFFFF !important;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 16px rgba(255, 87, 51, 0.45);
+}
+
+:root[data-theme="dark"] .footer-sister-brand a,
+:root:not([data-theme="light"]) .footer-sister-brand a {
+  background: #F6B84A;
+  color: #1A0F02 !important;
+}
+
+:root[data-theme="dark"] .footer-sister-brand a:hover,
+:root:not([data-theme="light"]) .footer-sister-brand a:hover {
+  background: #FF6B4A;
+  color: #FFFFFF !important;
 }
