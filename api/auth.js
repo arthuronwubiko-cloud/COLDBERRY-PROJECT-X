@@ -47,13 +47,17 @@ function isRateLimited(ip) {
   return bucket.count > 30;
 }
 
+let ephemeralAuthSecret = null;
 function getAuthSecret() {
-  return (
-    process.env.CUSTOMER_AUTH_SECRET ||
-    process.env.ADMIN_SESSION_SECRET ||
-    process.env.DATABASE_URL ||
-    "romeos-customer-auth-secret-fallback-key"
-  );
+  const secret = process.env.CUSTOMER_AUTH_SECRET || process.env.ADMIN_SESSION_SECRET;
+  if (secret) return secret;
+  if (process.env.VERCEL || process.env.NODE_ENV === "production") {
+    throw new Error("CUSTOMER_AUTH_SECRET or ADMIN_SESSION_SECRET must be configured in production.");
+  }
+  if (!ephemeralAuthSecret) {
+    ephemeralAuthSecret = crypto.randomBytes(32).toString("hex");
+  }
+  return ephemeralAuthSecret;
 }
 
 function hashPassword(password) {
