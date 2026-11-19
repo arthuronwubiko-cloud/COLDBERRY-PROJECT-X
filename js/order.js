@@ -1079,20 +1079,9 @@
 
       function updateBranchContactDisplay() {
         const branchContactEl = document.getElementById("branch-contact-info");
-        const branchPhoneEl = document.getElementById("branch-contact-phone");
-        const branchNameEl = document.getElementById("branch-contact-name");
-        const loc = orderLocation ? orderLocation.value : "";
-        if (!branchContactEl) return;
-        if (!loc || !BRANCH_CONTACTS[loc]) {
+        if (branchContactEl) {
           branchContactEl.hidden = true;
-          return;
         }
-        const branch = BRANCH_CONTACTS[loc];
-        const rawPhone = getBranchWhatsAppNumber(loc);
-        const displayPhone = branch.display || `+${rawPhone}`;
-        if (branchPhoneEl) branchPhoneEl.textContent = displayPhone;
-        if (branchNameEl) branchNameEl.textContent = branch.name || loc;
-        branchContactEl.hidden = false;
       }
 
       if (orderLocation) {
@@ -1770,11 +1759,9 @@
 
         const branchNoticeEl = document.getElementById("order-branch-route-note");
         const confirmBranchName = document.getElementById("confirm-branch-name");
-        const confirmBranchNumber = document.getElementById("confirm-branch-number");
         const branchInfo = BRANCH_CONTACTS[payload.location];
-        if (branchNoticeEl && confirmBranchName && confirmBranchNumber && branchInfo) {
+        if (branchNoticeEl && confirmBranchName && branchInfo) {
           confirmBranchName.textContent = branchInfo.name;
-          confirmBranchNumber.textContent = branchInfo.display;
           branchNoticeEl.hidden = false;
         }
 
