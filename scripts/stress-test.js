@@ -2,6 +2,7 @@
 // Runs 5 intensive stress-testing rounds to try to break the system under
 // concurrency, boundary pricing, adversarial security payloads, and PIN retention.
 
+process.env.NODE_ENV = process.env.NODE_ENV || "test";
 const path = require("path");
 const assert = require("assert");
 
