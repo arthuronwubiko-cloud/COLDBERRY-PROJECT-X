@@ -2,7 +2,7 @@
 <html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#161114" />
     <title>Locked Order Verification Console | Coldberry Ice Cream Nigeria</title>
     <link
@@ -651,6 +651,9 @@
           <button type="button" class="console-tab-btn active" id="tab-btn-orders" data-tab="orders">
             <i class="fa-solid fa-list-check" aria-hidden="true"></i> Orders Database <span class="tab-badge" id="tab-orders-badge">0</span>
           </button>
+          <button type="button" class="console-tab-btn" id="tab-btn-completed" data-tab="completed">
+            <i class="fa-solid fa-circle-check" aria-hidden="true"></i> Completed Orders <span class="tab-badge" id="tab-completed-badge">0</span>
+          </button>
           <button type="button" class="console-tab-btn" id="tab-btn-refunds" data-tab="refunds">
             <i class="fa-solid fa-ticket" aria-hidden="true"></i> 15-Char Refund Tokens <span class="tab-badge" id="tab-refunds-badge">0</span>
           </button>
@@ -661,7 +664,10 @@
             <i class="fa-solid fa-user-check" aria-hidden="true"></i> Signed-In People <span class="tab-badge" id="tab-users-badge">0</span>
           </button>
           <button type="button" class="console-tab-btn" id="tab-btn-access" data-tab="access" hidden>
-            <i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Staff &amp; Driver Passwords
+            <i class="fa-solid fa-shield-halved" aria-hidden="true"></i> Role Passwords
+          </button>
+          <button type="button" class="console-tab-btn" id="tab-btn-deleted" data-tab="deleted" hidden>
+            <i class="fa-solid fa-trash-can-arrow-up" aria-hidden="true"></i> Deleted Items <span class="tab-badge" id="tab-deleted-badge">0</span>
           </button>
         </div>
 
@@ -988,14 +994,29 @@
           </div>
         </div>
 
-        <!-- Panel 5: Staff & Driver Access Control (Admin Only) -->
+        <!-- Panel 1B: Completed Orders Section -->
+        <div id="panel-completed" class="admin-card" hidden>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.75rem;">
+            <div>
+              <h2 style="font-size: 1.25rem; margin: 0 0 0.2rem;">
+                <i class="fa-solid fa-circle-check" style="color: #20c997;" aria-hidden="true"></i> Completed Orders
+              </h2>
+              <small style="color: var(--muted);">Orders marked as completed are moved here automatically so the active staff queue stays focused.</small>
+            </div>
+            <span class="status-badge status-completed" id="completed-orders-count-pill">0 Completed</span>
+          </div>
+          <div id="completed-orders-empty" style="text-align: center; padding: 2rem; color: var(--muted);">No completed orders yet.</div>
+          <div id="completed-orders-list" class="receipts-grid" hidden></div>
+        </div>
+
+        <!-- Panel 5: Role Password Access Control -->
         <div id="panel-access" class="admin-card" hidden>
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
             <div>
               <h2 style="font-size: 1.25rem; margin: 0 0 0.2rem;">
-                <i class="fa-solid fa-shield-halved" style="color: var(--coral);" aria-hidden="true"></i> Staff &amp; Driver Password Control
+                <i class="fa-solid fa-shield-halved" style="color: var(--coral);" aria-hidden="true"></i> Role Password Control
               </h2>
-              <small style="color: var(--muted);">Generate random 14-character passwords or immediately shut down Staff and Driver access.</small>
+              <small style="color: var(--muted);">Generate random 14-character passwords or immediately shut down Staff, Driver, Manager, and Pseudo Admin access.</small>
             </div>
             <button type="button" id="refresh-access-btn" class="admin-btn admin-btn-secondary" style="padding: 0.4rem 0.85rem; font-size: 0.85rem;">
               <i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh Status
@@ -1047,7 +1068,7 @@
                   <option value="5">5 accounts</option>
                   <option value="10">10 accounts</option>
                 </select>
-                <input type="text" id="access-driver-label" class="admin-input" aria-label="Driver label prefix" placeholder="Label (e.g. Lagos Rider)" style="flex: 1; min-width: 130px; padding: 0.45rem 0.65rem;" />
+                <input type="text" id="access-driver-label" class="admin-input" aria-label="Driver label prefix" placeholder="Label (e.g. Garki Rider)" style="flex: 1; min-width: 130px; padding: 0.45rem 0.65rem;" />
               </div>
               <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
                 <button type="button" class="admin-btn" id="rotate-driver-btn">
@@ -1060,6 +1081,96 @@
               <div id="access-driver-output" hidden style="margin-top: 1rem; padding: 0.85rem; border-radius: 8px; border: 1px dashed var(--coral); background: rgba(255,87,51,0.06); font-size: 0.84rem;"></div>
               <div id="access-driver-list" style="margin-top: 1rem; display: grid; gap: 0.45rem; font-size: 0.82rem;"></div>
             </div>
+
+            <!-- Manager Access Card (Full Admin Only) -->
+            <div id="access-manager-card" hidden style="background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                <h3 style="margin: 0; font-size: 1.08rem;"><i class="fa-solid fa-user-shield" style="color: var(--coral);" aria-hidden="true"></i> Manager Accounts</h3>
+                <span id="access-manager-badge" class="status-badge status-pending">Loading...</span>
+              </div>
+              <div id="access-manager-meta" style="font-size: 0.84rem; color: var(--muted); margin-bottom: 0.85rem; line-height: 1.5;"></div>
+              <div style="display: flex; gap: 0.5rem; margin-bottom: 0.65rem; flex-wrap: wrap;">
+                <select id="access-manager-count" class="admin-input" aria-label="Number of manager passwords to generate" style="width: auto; min-width: 90px; padding: 0.45rem 0.6rem;">
+                  <option value="1">1 account</option>
+                  <option value="2">2 accounts</option>
+                  <option value="3">3 accounts</option>
+                  <option value="5">5 accounts</option>
+                  <option value="10">10 accounts</option>
+                </select>
+                <input type="text" id="access-manager-label" class="admin-input" aria-label="Manager label prefix" placeholder="Label (e.g. Garki Manager)" style="flex: 1; min-width: 130px; padding: 0.45rem 0.65rem;" />
+              </div>
+              <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <button type="button" class="admin-btn" id="rotate-manager-btn">
+                  <i class="fa-solid fa-shuffle" aria-hidden="true"></i> Generate Random Password(s)
+                </button>
+                <button type="button" class="quick-btn danger" id="shutdown-manager-btn" style="padding: 0.55rem 0.9rem;">
+                  <i class="fa-solid fa-power-off" aria-hidden="true"></i> Shut Down All
+                </button>
+              </div>
+              <div id="access-manager-output" hidden style="margin-top: 1rem; padding: 0.85rem; border-radius: 8px; border: 1px dashed var(--coral); background: rgba(255,87,51,0.06); font-size: 0.84rem;"></div>
+              <div id="access-manager-list" style="margin-top: 1rem; display: grid; gap: 0.45rem; font-size: 0.82rem;"></div>
+            </div>
+
+            <!-- Pseudo Admin Access Card (Full Admin Only) -->
+            <div id="access-pseudo_admin-card" hidden style="background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                <h3 style="margin: 0; font-size: 1.08rem;"><i class="fa-solid fa-user-gear" style="color: var(--coral);" aria-hidden="true"></i> Pseudo Admin Accounts</h3>
+                <span id="access-pseudo_admin-badge" class="status-badge status-pending">Loading...</span>
+              </div>
+              <div id="access-pseudo_admin-meta" style="font-size: 0.84rem; color: var(--muted); margin-bottom: 0.85rem; line-height: 1.5;"></div>
+              <div style="display: flex; gap: 0.5rem; margin-bottom: 0.65rem; flex-wrap: wrap;">
+                <select id="access-pseudo_admin-count" class="admin-input" aria-label="Number of pseudo admin passwords to generate" style="width: auto; min-width: 90px; padding: 0.45rem 0.6rem;">
+                  <option value="1">1 account</option>
+                  <option value="2">2 accounts</option>
+                  <option value="3">3 accounts</option>
+                  <option value="5">5 accounts</option>
+                  <option value="10">10 accounts</option>
+                </select>
+                <input type="text" id="access-pseudo_admin-label" class="admin-input" aria-label="Pseudo Admin label prefix" placeholder="Label (e.g. Ops Lead)" style="flex: 1; min-width: 130px; padding: 0.45rem 0.65rem;" />
+              </div>
+              <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                <button type="button" class="admin-btn" id="rotate-pseudo_admin-btn">
+                  <i class="fa-solid fa-shuffle" aria-hidden="true"></i> Generate Random Password(s)
+                </button>
+                <button type="button" class="quick-btn danger" id="shutdown-pseudo_admin-btn" style="padding: 0.55rem 0.9rem;">
+                  <i class="fa-solid fa-power-off" aria-hidden="true"></i> Shut Down All
+                </button>
+              </div>
+              <div id="access-pseudo_admin-output" hidden style="margin-top: 1rem; padding: 0.85rem; border-radius: 8px; border: 1px dashed var(--coral); background: rgba(255,87,51,0.06); font-size: 0.84rem;"></div>
+              <div id="access-pseudo_admin-list" style="margin-top: 1rem; display: grid; gap: 0.45rem; font-size: 0.82rem;"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 6: Deleted Items Archive (Full Admin Only) -->
+        <div id="panel-deleted" class="admin-card" hidden>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.15rem; flex-wrap: wrap; gap: 0.75rem;">
+            <div>
+              <h2 style="font-size: 1.25rem; margin: 0 0 0.2rem;">
+                <i class="fa-solid fa-trash-can-arrow-up" style="color: var(--danger);" aria-hidden="true"></i> Deleted Orders &amp; Items Archive
+              </h2>
+              <small style="color: var(--muted);">Permanent audit record of all deleted orders (Admin only — hidden from Manager Terminal).</small>
+            </div>
+            <button type="button" id="refresh-deleted-btn" class="admin-btn admin-btn-secondary" style="padding: 0.4rem 0.85rem; font-size: 0.85rem;">
+              <i class="fa-solid fa-rotate" aria-hidden="true"></i> Refresh Archive
+            </button>
+          </div>
+          <div id="deleted-empty" style="text-align: center; padding: 2rem; color: var(--muted);">No deleted orders recorded yet.</div>
+          <div style="overflow-x: auto;">
+            <table class="admin-table" id="deleted-table" hidden>
+              <thead>
+                <tr>
+                  <th>Deleted At</th>
+                  <th>Order ID / PIN</th>
+                  <th>Customer</th>
+                  <th>Items</th>
+                  <th>Total</th>
+                  <th>Refund Token</th>
+                  <th>Deleted By</th>
+                </tr>
+              </thead>
+              <tbody id="deleted-body"></tbody>
+            </table>
           </div>
         </div>
       </section>
@@ -1210,8 +1321,13 @@
           themeBtn.innerHTML = `<i class="fa-solid fa-${next === "dark" ? "moon" : "sun"}" aria-hidden="true"></i>`;
         });
 
+        function isPrivilegedRole(role) {
+          return role === "admin" || role === "pseudo_admin" || role === "manager";
+        }
+
         function applyRoleUI(role, username) {
-          const isAdmin = role === "admin";
+          const isAdmin = isPrivilegedRole(role);
+          const isFullAdmin = role === "admin";
           roleBadge.hidden = false;
           userLabel.hidden = false;
           const hFb = document.getElementById("header-feedback-link");
@@ -1220,7 +1336,13 @@
           if (hRf) hRf.hidden = false;
           userLabel.textContent = username;
           roleBadge.className = `role-badge ${isAdmin ? "role-admin" : "role-staff"}`;
-          roleBadge.textContent = isAdmin ? "Admin · Full Access" : "Regular User · State Change Only";
+          roleBadge.textContent = isFullAdmin
+            ? "Admin · Full Access"
+            : role === "pseudo_admin"
+              ? "Pseudo Admin · Operations"
+              : role === "manager"
+                ? "Manager · Operations"
+                : "Regular User · State Change Only";
 
           staffNotice.hidden = isAdmin;
           analyticsBar.hidden = !isAdmin;
@@ -1229,9 +1351,17 @@
           if (usersTabBtn) usersTabBtn.hidden = !isAdmin;
           const accessTabBtn = document.getElementById("tab-btn-access");
           if (accessTabBtn) accessTabBtn.hidden = !isAdmin;
-          roleSubtitle.textContent = isAdmin
-            ? "Full administrative access: inspect orders, update state, cancel, delete, and export."
-            : "Staff operational console: advance order state as pizzas move from oven to delivery.";
+          const deletedTabBtn = document.getElementById("tab-btn-deleted");
+          if (deletedTabBtn) deletedTabBtn.hidden = !isFullAdmin;
+          const mgrCard = document.getElementById("access-manager-card");
+          if (mgrCard) mgrCard.hidden = !isFullAdmin;
+          const pseudoCard = document.getElementById("access-pseudo_admin-card");
+          if (pseudoCard) pseudoCard.hidden = !isFullAdmin;
+          roleSubtitle.textContent = isFullAdmin
+            ? "Full administrative access: inspect orders, update state, cancel, delete, archive deleted items, and generate all role passwords."
+            : isAdmin
+              ? "Manager & Operations console: inspect orders, update state, cancel, delete, manage staff/driver passwords, and export."
+              : "Staff operational console: advance active orders from oven to delivery. Completed orders move to Completed Orders.";
 
           Array.from(quickStatusSelect.options).forEach((opt) => {
             if (opt.dataset.adminOnly === "true") {
@@ -1261,11 +1391,15 @@
           const usersBody = document.getElementById("users-body");
           const accessTabBtn = document.getElementById("tab-btn-access");
           const panelAccess = document.getElementById("panel-access");
+          const deletedTabBtn = document.getElementById("tab-btn-deleted");
+          const panelDeleted = document.getElementById("panel-deleted");
           if (usersTabBtn) usersTabBtn.hidden = true;
           if (panelUsers) panelUsers.hidden = true;
           if (usersBody) usersBody.innerHTML = "";
           if (accessTabBtn) accessTabBtn.hidden = true;
           if (panelAccess) panelAccess.hidden = true;
+          if (deletedTabBtn) deletedTabBtn.hidden = true;
+          if (panelDeleted) panelDeleted.hidden = true;
           dashboardPanel.hidden = true;
           authPanel.hidden = false;
           ordersBody.innerHTML = "";
@@ -1655,12 +1789,35 @@
         }
 
         function renderOrders(orders, role) {
-          const isAdmin = role === "admin";
+          const isAdmin = isPrivilegedRole(role);
+          const isStaff = role === "staff";
+          const completedOrders = orders.filter((o) => String(o.status || "").toLowerCase() === "completed");
+          const completedBadge = document.getElementById("tab-completed-badge");
+          if (completedBadge) completedBadge.textContent = completedOrders.length;
+          const completedPill = document.getElementById("completed-orders-count-pill");
+          if (completedPill) completedPill.textContent = `${completedOrders.length} Completed`;
+          const completedEmpty = document.getElementById("completed-orders-empty");
+          const completedList = document.getElementById("completed-orders-list");
+          if (completedEmpty && completedList) {
+            if (completedOrders.length === 0) {
+              completedEmpty.hidden = false;
+              completedList.hidden = true;
+              completedList.innerHTML = "";
+            } else {
+              completedEmpty.hidden = true;
+              completedList.hidden = false;
+              completedList.innerHTML = completedOrders.map((o) => buildReceiptCardHtml(o, isAdmin)).join("");
+            }
+          }
+
           const query = filterSearch.value.trim().toLowerCase();
           const paymentFilter = filterPayment.value;
           const sortMode = filterSort.value;
 
           let filtered = orders.filter((o) => {
+            if (isStaff && String(o.status || "").toLowerCase() === "completed") {
+              return false;
+            }
             if (query) {
               const hay = `${o.order_id || ""} ${o.order_pin || ""} ${o.customer_name || ""} ${o.customer_phone || ""} ${o.location || ""} ${o.items || ""}`.toLowerCase();
               if (!hay.includes(query)) return false;
@@ -1671,6 +1828,13 @@
             if (paymentFilter === "pending" && isPaid) return false;
             return true;
           });
+
+          const ordersBadge = document.getElementById("tab-orders-badge");
+          if (ordersBadge) {
+            ordersBadge.textContent = isStaff
+              ? orders.filter((o) => String(o.status || "").toLowerCase() !== "completed").length
+              : orders.length;
+          }
 
           // Sorting in order of newness (default) or other modes
           filtered.sort((a, b) => {
@@ -2194,7 +2358,8 @@
 
         async function loadAccessControl() {
           const token = sessionStorage.getItem(TOKEN_KEY);
-          if (!token || sessionStorage.getItem(ROLE_KEY) !== "admin") return;
+          const currentRole = sessionStorage.getItem(ROLE_KEY);
+          if (!token || !isPrivilegedRole(currentRole)) return;
           try {
             const res = await fetch(`${getApiBase()}/api/admin?tab=credentials`, {
               headers: { Authorization: `Bearer ${token}` },
@@ -2202,7 +2367,11 @@
             const data = await res.json().catch(() => ({}));
             if (!res.ok) throw new Error(data.error || "Unable to load credential status");
 
-            ["staff", "driver"].forEach((role) => {
+            const rolesToRender = currentRole === "admin"
+              ? ["staff", "driver", "manager", "pseudo_admin"]
+              : ["staff", "driver"];
+
+            rolesToRender.forEach((role) => {
               const info = data[role] || {};
               const accts = (data.accounts && data.accounts[role]) || [];
               const badge = document.getElementById(`access-${role}-badge`);
@@ -2251,7 +2420,8 @@
 
         async function rotateRolePassword(role) {
           const token = sessionStorage.getItem(TOKEN_KEY);
-          if (!token || sessionStorage.getItem(ROLE_KEY) !== "admin") return;
+          const currentRole = sessionStorage.getItem(ROLE_KEY);
+          if (!token || !isPrivilegedRole(currentRole)) return;
           const out = document.getElementById(`access-${role}-output`);
           const countEl = document.getElementById(`access-${role}-count`);
           const labelEl = document.getElementById(`access-${role}-label`);
@@ -2302,7 +2472,8 @@
 
         async function shutdownRolePassword(role) {
           const token = sessionStorage.getItem(TOKEN_KEY);
-          if (!token || sessionStorage.getItem(ROLE_KEY) !== "admin") return;
+          const currentRole = sessionStorage.getItem(ROLE_KEY);
+          if (!token || !isPrivilegedRole(currentRole)) return;
           const out = document.getElementById(`access-${role}-output`);
           try {
             const res = await fetch(`${getApiBase()}/api/admin`, {
@@ -2323,11 +2494,51 @@
           }
         }
 
+        async function loadDeletedOrders() {
+          const token = sessionStorage.getItem(TOKEN_KEY);
+          if (!token || sessionStorage.getItem(ROLE_KEY) !== "admin") return;
+          const emptyEl = document.getElementById("deleted-empty");
+          const tableEl = document.getElementById("deleted-table");
+          const bodyEl = document.getElementById("deleted-body");
+          const badgeEl = document.getElementById("tab-deleted-badge");
+          try {
+            const res = await fetch(`${getApiBase()}/api/admin?tab=deleted&_t=${Date.now()}`, {
+              headers: { Authorization: `Bearer ${token}` },
+            });
+            const data = await res.json().catch(() => ({}));
+            if (!res.ok) throw new Error(data.error || "Failed to load deleted archive");
+            const list = data.deletedOrders || [];
+            if (badgeEl) badgeEl.textContent = list.length;
+            if (!emptyEl || !tableEl || !bodyEl) return;
+            if (list.length === 0) {
+              emptyEl.hidden = false;
+              tableEl.hidden = true;
+              bodyEl.innerHTML = "";
+              return;
+            }
+            emptyEl.hidden = true;
+            tableEl.hidden = false;
+            bodyEl.innerHTML = list.map((d) => `
+              <tr>
+                <td style="font-size:0.8rem;color:var(--muted);">${formatDate(d.deleted_at)}</td>
+                <td><div><code>${esc(d.order_id)}</code></div>${d.order_pin ? `<small style="color:var(--muted);">PIN: ${esc(d.order_pin)}</small>` : ""}</td>
+                <td><div><strong>${esc(d.customer_name || "Customer")}</strong></div><small style="color:var(--muted);">${esc(d.customer_phone || "")}</small></td>
+                <td style="max-width:260px;font-size:0.82rem;">${esc(d.items || "")}</td>
+                <td><strong>${formatMoney(d.grand_total)}</strong></td>
+                <td>${d.refund_token ? `<code>${esc(d.refund_token)}</code>` : "<span style='color:var(--muted);'>—</span>"}</td>
+                <td><div><code>${esc(d.deleted_by || "admin")}</code></div><small style="color:var(--muted);">${esc(d.deleted_reason || "")}</small></td>
+              </tr>
+            `).join("");
+          } catch (e) {
+            showToast(e.message || "Failed to load deleted archive.", true);
+          }
+        }
+
         const panelAccessEl = document.getElementById("panel-access");
         if (panelAccessEl) {
           panelAccessEl.addEventListener("click", async (e) => {
             const token = sessionStorage.getItem(TOKEN_KEY);
-            if (!token || sessionStorage.getItem(ROLE_KEY) !== "admin") return;
+            if (!token || !isPrivilegedRole(sessionStorage.getItem(ROLE_KEY))) return;
             const shutBtn = e.target.closest("[data-acct-shutdown]");
             const enBtn = e.target.closest("[data-acct-enable]");
             const delBtn = e.target.closest("[data-acct-delete]");
@@ -2356,22 +2567,33 @@
               if (res.ok) {
                 showToast(`Account ${username} deleted ✓`);
                 loadAccessControl();
+              } else {
+                const d = await res.json().catch(() => ({}));
+                showToast(d.error || "Delete failed.", true);
               }
             }
           });
         }
 
-        const panels = { orders: "panel-orders", refunds: "panel-refunds", feedback: "panel-feedback", users: "panel-users", access: "panel-access" };
+        const panels = { orders: "panel-orders", completed: "panel-completed", refunds: "panel-refunds", feedback: "panel-feedback", users: "panel-users", access: "panel-access", deleted: "panel-deleted" };
         function switchTab(name) {
-          if ((name === "users" || name === "access") && sessionStorage.getItem(ROLE_KEY) !== "admin") {
+          const currentRole = sessionStorage.getItem(ROLE_KEY);
+          if ((name === "users" || name === "access") && !isPrivilegedRole(currentRole)) {
             name = "orders";
           }
-          Object.entries(panels).forEach(([k, id]) => { document.getElementById(id).hidden = k !== name; });
+          if (name === "deleted" && currentRole !== "admin") {
+            name = "orders";
+          }
+          Object.entries(panels).forEach(([k, id]) => {
+            const el = document.getElementById(id);
+            if (el) el.hidden = k !== name;
+          });
           document.querySelectorAll(".console-tab-btn").forEach((b) => b.classList.toggle("active", b.dataset.tab === name));
           if (name === "refunds") loadRefunds();
           if (name === "feedback") loadFeedback();
           if (name === "users") loadUsers();
           if (name === "access") loadAccessControl();
+          if (name === "deleted") loadDeletedOrders();
         }
         document.querySelectorAll(".console-tab-btn").forEach((b) => b.addEventListener("click", () => switchTab(b.dataset.tab)));
         document.getElementById("refresh-feedback-btn").addEventListener("click", loadFeedback);
@@ -2379,10 +2601,20 @@
         if (fbFilterEl) fbFilterEl.addEventListener("change", loadFeedback);
         document.getElementById("refresh-users-btn").addEventListener("click", loadUsers);
         document.getElementById("refresh-access-btn").addEventListener("click", loadAccessControl);
+        const refreshDeletedBtn = document.getElementById("refresh-deleted-btn");
+        if (refreshDeletedBtn) refreshDeletedBtn.addEventListener("click", loadDeletedOrders);
         document.getElementById("rotate-staff-btn").addEventListener("click", () => rotateRolePassword("staff"));
         document.getElementById("shutdown-staff-btn").addEventListener("click", () => shutdownRolePassword("staff"));
         document.getElementById("rotate-driver-btn").addEventListener("click", () => rotateRolePassword("driver"));
         document.getElementById("shutdown-driver-btn").addEventListener("click", () => shutdownRolePassword("driver"));
+        const rotateMgrBtn = document.getElementById("rotate-manager-btn");
+        if (rotateMgrBtn) rotateMgrBtn.addEventListener("click", () => rotateRolePassword("manager"));
+        const shutMgrBtn = document.getElementById("shutdown-manager-btn");
+        if (shutMgrBtn) shutMgrBtn.addEventListener("click", () => shutdownRolePassword("manager"));
+        const rotatePseudoBtn = document.getElementById("rotate-pseudo_admin-btn");
+        if (rotatePseudoBtn) rotatePseudoBtn.addEventListener("click", () => rotateRolePassword("pseudo_admin"));
+        const shutPseudoBtn = document.getElementById("shutdown-pseudo_admin-btn");
+        if (shutPseudoBtn) shutPseudoBtn.addEventListener("click", () => shutdownRolePassword("pseudo_admin"));
 
         document.getElementById("refresh-orders-btn").addEventListener("click", () => fetchOrders(false));
         document.getElementById("logout-btn").addEventListener("click", () => lockConsole());
@@ -2407,7 +2639,7 @@
         });
 
         exportCsvBtn.addEventListener("click", () => {
-          if (sessionStorage.getItem(ROLE_KEY) !== "admin") return;
+          if (!isPrivilegedRole(sessionStorage.getItem(ROLE_KEY))) return;
           const headers = ["order_id", "order_pin", "customer_name", "customer_phone", "fulfilment", "location", "items", "status", "created_at"];
           const rows = currentOrders.map((o) =>
             headers.map((h) => `"${String(o[h] || "").replace(/"/g, '""')}"`).join(",")

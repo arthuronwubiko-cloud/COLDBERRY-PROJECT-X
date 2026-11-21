@@ -26,6 +26,8 @@
     },
     { "source": "/admin", "destination": "/admin.html" },
     { "source": "/admin-console", "destination": "/admin.html" },
+    { "source": "/manager", "destination": "/manager.html" },
+    { "source": "/manager-console", "destination": "/manager.html" },
     { "source": "/feedback", "destination": "/feedback.html" },
     { "source": "/customer-feedback", "destination": "/feedback.html" },
     { "source": "/refunds", "destination": "/refunds.html" },
