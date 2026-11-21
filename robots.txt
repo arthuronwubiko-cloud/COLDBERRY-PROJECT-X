@@ -9,6 +9,11 @@ Disallow: /manager-console
 Disallow: /driver
 Disallow: /driver.html
 Disallow: /driver-console
+Disallow: /feedback
+Disallow: /feedback.html
+Disallow: /refunds
+Disallow: /refunds.html
+Disallow: /refund-tokens
 Disallow: /api/
 
 Sitemap: https://coldberry-project-x-ordering.vercel.app/sitemap.xml
