@@ -11,8 +11,19 @@ A modern, responsive ice cream and dessert ordering platform for **Coldberry Ice
 ├── pizzadeals.html
 ├── order.html
 ├── track.html
+├── login.html
+├── driver.html
 ├── admin.html
+├── feedback.html
+├── refunds.html
+├── privacy.html
+├── terms.html
 ├── admin-console/
+│   ├── index.html
+│   ├── server.js
+│   ├── vercel.json
+│   └── package.json
+├── driver-console/
 │   ├── index.html
 │   ├── server.js
 │   ├── vercel.json
@@ -22,17 +33,22 @@ A modern, responsive ice cream and dessert ordering platform for **Coldberry Ice
 │   ├── site.js
 │   ├── cart.js
 │   ├── deals-interactive.js
-│   └── order.js
+│   ├── order.js
+│   └── feedback-bubble.js
 ├── api/
 │   ├── orders.js
 │   ├── track.js
-│   ├── overload-protection.js
-│   ├── pin-manager.js
+│   ├── feedback.js
+│   ├── auth.js
 │   ├── admin.js
+│   ├── pin-manager.js
+│   ├── overload-protection.js
 │   └── db.js
 ├── migrations/
-│   └── 001_order_pin_and_tracking.sql
+│   ├── 001_order_pin_and_tracking.sql
+│   └── 002_customer_feedback.sql
 ├── images/
+│   ├── coldberry-logo.png
 │   ├── chicken-wings.jpg
 │   ├── shawarma.jpg
 │   ├── coca-cola.jpg
@@ -41,6 +57,7 @@ A modern, responsive ice cream and dessert ordering platform for **Coldberry Ice
 │   └── schweppes-pet.png
 ├── scripts/
 │   ├── verify-all.js
+│   ├── test-feedback-feature.js
 │   ├── stress-test.js
 │   └── overload-test.js
 ├── ARCHITECTURE.md
@@ -56,32 +73,42 @@ A modern, responsive ice cream and dessert ordering platform for **Coldberry Ice
 
 | File | Purpose |
 | --- | --- |
-| [`index.html`](./index.html) | Home page with hero section, menu highlights (including a consolidated 13-pizza dropdown inside the Pizza card), locations, gallery, search, and footer. |
-| [`890b.html`](./890b.html) | Full menu page with pizza categories (Traditional, Special, Exclusive), sides, drinks, and deal previews with eligible-pizza accordions. |
-| [`pizzadeals.html`](./pizzadeals.html) | Deals page with featured combos, interactive flavor selectors, and related pizza accordions with quick-select buttons. |
-| [`order.html`](./order.html) | Order checkout form with delivery/pickup selection, interactive cart summary, "🍗 Add Popular Sides & Extras" section, order PIN display, direct tracking link, consent, and WhatsApp handoff. |
-| [`track.html`](./track.html) | Real-time customer order tracking interface querying orders by phone number + 6-digit PIN, with 5-stage visual progress stepper, dark/light theme support, and live details. |
-| [`admin.html`](./admin.html) | Store Manager Verification Console locked behind 14-character alphanumeric Username & Password (`admin` and `staff` RBAC roles). |
+| [`index.html`](./index.html) | Home page with hero section, menu highlights, locations, gallery, search, and footer. |
+| [`890b.html`](./890b.html) | Full menu page with ice cream categories, tubs, rolled ice cream, toppings, drinks, and deal previews with eligible-flavour accordions. |
+| [`pizzadeals.html`](./pizzadeals.html) | Deals page with featured combos, interactive flavor selectors, and related accordions with quick-select buttons. |
+| [`order.html`](./order.html) | Order checkout form with segmented 50/50 delivery/pickup selection, dynamic branch WhatsApp routing, interactive cart summary, sides & extras, order PIN display, direct tracking link, consent, and WhatsApp handoff. |
+| [`track.html`](./track.html) | Real-time customer order tracking interface querying orders by phone number + 6-digit PIN, with 5-stage responsive visual progress stepper, dark/light theme support, and live details. |
+| [`login.html`](./login.html) | Customer registration & account management with 6-region accordion phone selector (150+ countries), HttpOnly session cookies, and active session view. |
+| [`driver.html`](./driver.html) | Dedicated Delivery Driver / Rider Console with 14-character login, Google Maps route integration, WhatsApp courier chat, order package summary, and delivery state controls. |
+| [`driver-console/`](./driver-console/server.js) | Standalone, separately hostable driver console server and Vercel configuration for independent rider dispatch deployment. |
+| [`admin.html`](./admin.html) | Store Manager Verification Console locked behind 14-character alphanumeric Username & Password (`admin` and `staff` RBAC roles), campaign broadcasting, and customer account administration. |
 | [`admin-console/`](./admin-console/server.js) | Standalone, separately hosted console server (`npm run start:console` on port `4000`) and Vercel config for isolated console deployment. |
-| [`prices.json`](./prices.json) | Canonical single source of truth defining all 4 pizza tiers, 3 standard sizes, combos, sides/drinks, and fee rules. |
+| [`feedback.html`](./feedback.html) | Customer feedback and scoop complaint portal synced to dual databases (Neon Postgres + Supabase) via `/api/feedback`. |
+| [`refunds.html`](./refunds.html) | 15-character alphanumeric customer refund token claim and status verification page. |
+| [`prices.json`](./prices.json) | Canonical single source of truth defining all categories, standard sizes, combos, sides/drinks, and fee rules. |
 | [`privacy.html`](./privacy.html) | Nigeria Data Protection Act (NDPA 2023) compliant privacy policy detailing data collected, legal basis, WhatsApp data transmission, browser storage disclosure, and data subject rights. |
 | [`terms.html`](./terms.html) | Terms & Conditions of service detailing ordering rules, flat ₦800 service fee, delivery fee policy, perishable food cancellation/refund policy, and dispute resolution. |
 | [`ARCHITECTURE.md`](./ARCHITECTURE.md) | Comprehensive architecture map, Mermaid diagrams, and connection matrix detailing how HTML pages, CSS, JS modules, browser storage, APIs, and databases connect. |
 | [`js/site.js`](./js/site.js) | Real-time live search for home-page previews and full-menu products/combos with Enter-key handoff, plus interactive dark/light theme switcher with `localStorage` persistence and `<meta name="theme-color">` sync. |
 | [`js/cart.js`](./js/cart.js) | Client-side cart state management, quantity limits (1–10), and cross-page synchronization via `localStorage`. |
 | [`js/deals-interactive.js`](./js/deals-interactive.js) | Handles interactive pull-down selectors, size pricing updates, deal flavor pickers, Half & Half visual split preview, and related flavour accordions with descriptive `Scoop 1` and `Scoop 2` buttons. |
-| [`js/order.js`](./js/order.js) | Client-side form validation, two-way cart sync, live subtotal, ₦800 service fee, 15% delivery fee calculation in ₦, and WhatsApp order synthesis. |
-| [`api/orders.js`](./api/orders.js) | Serverless endpoint validating order payloads, computing itemized pricing/totals, issuing non-recycling 6-digit order verification PINs (5-day window), persisting to database (optional), and generating WhatsApp click-to-chat links. |
-| [`api/track.js`](./api/track.js) | Serverless endpoint resolving customer tracking requests via Phone + 6-digit PIN with 5-step status lifecycle progression. |
+| [`js/order.js`](./js/order.js) | Client-side form validation, two-way cart sync, live subtotal, ₦800 service fee, 15% delivery fee calculation in ₦, branch WhatsApp routing, and WhatsApp order synthesis. |
+| [`js/feedback-bubble.js`](./js/feedback-bubble.js) | Floating client feedback & complaint bubble with rating stars, dual-DB sync, safe-area padding, and dynamic clearance above the sticky bottom cart. |
+| [`api/orders.js`](./api/orders.js) | Serverless endpoint validating order payloads, computing itemized pricing/totals, issuing non-recycling 6-digit order verification PINs (5-day window), persisting to database (optional), and generating branch-routed WhatsApp click-to-chat links. |
+| [`api/track.js`](./api/track.js) | Serverless endpoint resolving customer tracking requests via Phone + 6-digit PIN with 5-step status lifecycle progression, 12-min cancellation, and 15-char refund tokens. |
+| [`api/feedback.js`](./api/feedback.js) | Dual-DB serverless API syncing customer reviews and complaints to Neon Postgres and Supabase with local fallback. |
+| [`api/auth.js`](./api/auth.js) | Customer account registration, login, HttpOnly cookie sessions, and refund token lookup. |
 | [`api/overload-protection.js`](./api/overload-protection.js) | Overload fail-safe engine featuring sliding-window rate limiting, active request concurrency governor, database circuit breaker, and 5-second read micro-caching. |
 | [`api/pin-manager.js`](./api/pin-manager.js) | Order Verification PIN manager generating random 6-digit PINs (`100000`–`999999`) and enforcing strict 5-day non-recycling retention via atomic database allocation or memory/disk storage. |
-| [`api/admin.js`](./api/admin.js) | Protected admin endpoint to query stored orders (`GET`) and advance order preparation status (`PATCH`). |
+| [`api/admin.js`](./api/admin.js) | Protected admin endpoint to query stored orders (`GET`), advance preparation status (`PATCH`), broadcast campaigns, manage customer accounts, and delete claimed refund tokens. |
 | [`api/db.js`](./api/db.js) | Database client adapter supporting Neon Postgres and Supabase order persistence, atomic PIN allocation, and live order tracking queries. |
 | [`migrations/001_order_pin_and_tracking.sql`](./migrations/001_order_pin_and_tracking.sql) | SQL schema migration provisioning `order_pins` retention table, order lifecycle status column, and atomic `allocate_order_pin` database function. |
-| [`scripts/verify-all.js`](./scripts/verify-all.js) | 102-point automated regression test suite validating syntax, size naming, card counts, Half & Half accordion component, image assets, pricing math, homepage preview & theme controller, navbar shopping cart icon, WhatsApp Order API, random 6-digit PIN 5-day retention, 1-click PIN clipboard copy, RBAC console auth (14-char credentials), 12-minute customer cancellation, order tracking lifecycle, single source of truth prices, and legal compliance. |
+| [`migrations/002_customer_feedback.sql`](./migrations/002_customer_feedback.sql) | SQL schema migration provisioning `customer_feedback` table on Neon Postgres and Supabase. |
+| [`scripts/verify-all.js`](./scripts/verify-all.js) | 103-point automated regression test suite validating syntax, size naming, card counts, Half & Half accordion component, image assets, pricing math, homepage preview & theme controller, navbar shopping cart icon, branch WhatsApp Order API, random 6-digit PIN 5-day retention, 1-click PIN clipboard copy, RBAC console auth (14-char credentials), driver console, customer auth & 6-region phone picker, refund tokens, 12-minute customer cancellation, order tracking lifecycle, single source of truth prices, and legal compliance. |
+| [`scripts/test-feedback-feature.js`](./scripts/test-feedback-feature.js) | 15-point test suite validating dual-DB schema, feedback insertion, retrieval, CORS, validation, and bubble script integration across all customer pages. |
 | [`scripts/stress-test.js`](./scripts/stress-test.js) | 5-round adversarial stress test suite verifying high-concurrency collision resistance (100 PINs), all 507 Half & Half permutations, XSS fuzzing, tracking lifecycle, and 5-day non-recycling math. |
 | [`scripts/overload-test.js`](./scripts/overload-test.js) | System overload suite testing 5,000 rapid concurrent PIN allocations, 100,000 pricing engine calculations, 1,000 HTTP connection flood, and massive buffer injection. |
-| [`peter890.css`](./peter890.css) | Centralized stylesheet for all pages: responsive layout, brand palette, typography, touch targets, and accessibility. |
+| [`peter890.css`](./peter890.css) | Centralized stylesheet for all pages: responsive layout, brand palette, typography, touch targets, safe-area insets, and accessibility. |
 | [`README.md`](./README.md) | Project overview, feature documentation, architecture, usage notes, and testing guide. |
 | [`VERIFICATION-LOG.md`](./VERIFICATION-LOG.md) | Historical verification logs and test execution records. |
 
@@ -180,43 +207,62 @@ A separately hostable, strictly locked verification console for Store Admins and
 
 ## Upgraded features
 
-- **Canonical Pizza Sizing & Live Pricing Sync**:
-  - Standardized strictly to three official sizes: **Medium (10")**, **Large (12")**, and **Champion (16")**. The outdated "Jumbo" terminology has been completely retired across markup, scripts, and tests.
-  - Live pricing synchronized directly across three distinct tiers:
-    - **Traditional** (Pepperoni, BBQ Chicken, Chicken Supreme, Veggie Supreme, BBQ Beef):
-      - Medium (10"): ₦11,200 | Large (12"): ₦14,150 | Champion (16"): ₦21,200
-    - **Special** (Beef Suya, Shawarma Pizza, Chicken Suya, Sweet Chilli Chicken):
-      - Medium (10"): ₦12,200 | Large (12"): ₦14,800 | Champion (16"): ₦22,000
-    - **Exclusive** (Meatylover, Sweet & Hot, Margherita):
-      - Medium (10"): ₦13,500 | Large (12"): ₦15,000 | Champion (16"): ₦23,500
-- **Relocated Homepage Pizza Dropdown & Deal Selectors**:
-  - Consolidated all 12 pizzas (Traditional, Special, and Exclusive) into a single scrollable `<details class="related-pizzas-details homepage-pizzas-details">` accordion inside the Pizza preview card on `index.html`, displaying thumbnails, size pricing tags (`Med`, `Lrg`, `Champion`), and direct `Order` links (`890b.html#<id>`).
-  - Removed individual category accordions from the 12 pizza cards on `890b.html` for cleaner browsing while retaining eligible-pizza `<details>` accordions on deal cards.
-  - On `pizzadeals.html` and the `890b.html` deals preview, deals feature interactive dropdown selectors (`.deal-pizza-select` managed by `js/deals-interactive.js`) for choosing combo pizza flavors, updating cart keys and quantity steppers in real time, accompanied by accordions of eligible pizzas with quick "Select" buttons.
+- **Comprehensive Mobile Viewport Proportions (320px – 768px)**:
+  - Universal `viewport-fit=cover` meta tags across all 10 HTML pages on the site, fully compatible with iOS Dynamic Island, iPhone notches, and Android edge-to-edge screens.
+  - Safe area inset handling (`env(safe-area-inset-top)`, `env(safe-area-inset-bottom)`, `env(safe-area-inset-left)`, `env(safe-area-inset-right)`) preventing content clipping behind home bars or gesture areas.
+  - Fluid clamp typography and layout constraints (`overflow-x: hidden; width: 100%; max-width: 100vw; -webkit-text-size-adjust: 100%;`) eliminating unwanted horizontal side-scrolling.
+  - Responsive Segmented 50/50 Fulfilment Toggle on `order.html` for screens $\le 520\text{px}$ (`flex: 1 1 0; min-height: 44px;`).
+  - Adaptive 5-stage progress micro-stepper on `track.html` scaling gracefully to compact 320px–360px screens (circles scaling $40\text{px} \to 32\text{px} \to 26\text{px}$, line margins shrinking) without truncation.
+  - Vertically stacked Order PIN row on mobile with 100% width touch-friendly ($44\text{px}$) Copy PIN, Cancel Order, and Order Received buttons.
+  - Form input protection with `font-size: 16px` on mobile $\le 480\text{px}$ to prevent iOS Safari auto-zooming.
+  - Dynamic collision clearance for the floating Customer Feedback bubble (`#romeos-feedback-bubble-root`), automatically elevating to `calc(5.25rem + env(safe-area-inset-bottom))` whenever the sticky bottom cart bar (`.menu-cart`) is present so checkout buttons are never covered.
+
+- **Dynamic Branch-Specific WhatsApp Contact Routing**:
+  - Automatically routes customer orders to the specific WhatsApp business line for the chosen branch location (e.g. Garki, Lugbe, Yaba, Surulere, Okota, Festac, Ajao) instead of a single generic number.
+  - Displays a clean green badge in the order form with the destination branch number and details.
+  - Configurable via branch environment variables (`BRANCH_GARKI_PHONE`, `BRANCH_YABA_PHONE`, or JSON `BRANCH_CONTACTS`).
+
+- **Dedicated Rider & Delivery Driver Console (`driver.html` & `driver-console/`)**:
+  - Mobile-first console locked behind 14-character alphanumeric Rider credentials (`RomeosRider890` / `Rdr72Kp45Lw19Q`).
+  - Filters strictly to active delivery orders, with unmasked customer delivery addresses and phone numbers.
+  - Direct 1-tap **Google Maps** route navigation with turn-by-turn directions to the delivery destination.
+  - Direct 1-tap **WhatsApp Courier Chat** link to contact the customer directly.
+  - Real-time delivery status controls (`Out for Delivery` -> `Delivered`).
+
+- **Dual-Database Synchronized Customer Feedback (`js/feedback-bubble.js`, `api/feedback.js`, `feedback.html`)**:
+  - Floating client feedback widget present across all customer pages with smooth animation, dark/light theme awareness, star ratings (1–5), quick flavour tags, and complaint mode switcher.
+  - Dual-write synchronization: writes simultaneously to **Neon Postgres** (`customer_feedback` table) and **Supabase REST**, with fallback to `/tmp/romeos-feedback-store.json`.
+  - CORS-enabled `api/feedback` endpoint supporting rating validation, review retrieval, and complaint tagging.
+
+- **Main Site Customer Registration & Account Management (`login.html`, `api/auth.js`)**:
+  - Customer sign up & login with username/password, encrypted password storage, and secure HttpOnly cookie session management.
+  - Interactive **6-Region Phone Country Selector** supporting 150+ international countries across Africa, Europe, Americas, Asia, Middle East, and Oceania.
+  - Customer profile modal showing active session status and history.
+
+- **Customer Refund Tokens & Administrative Deletion (`refunds.html`)**:
+  - Generates secure 15-character alphanumeric refund tokens (`R...`) when orders are cancelled or deleted.
+  - Surfaces tokens to customers via `/api/track` and authenticated `/api/auth` profiles.
+  - Admin RBAC allows deleting claimed (used) tokens while blocking deletion of unclaimed tokens or staff deletions (`403`).
+
+- **Canonical Ice Cream Sizing & Live Pricing Sync**:
+  - Standardized strictly to three official tub sizes: **Medium**, **Large**, and **Champion**.
+  - Live pricing synchronized directly across categories and varieties.
+- **Relocated Homepage Menu Dropdown & Deal Selectors**:
+  - Consolidated flavours into a single scrollable `<details class="related-pizzas-details homepage-pizzas-details">` accordion inside the preview card on `index.html`.
+  - Deals feature interactive dropdown selectors (`.deal-pizza-select`) for customizing deal tubs, updating cart keys and quantity steppers in real time.
 - **Interactive Dark / Light Theme Switcher & Mobile `theme-color` Sync**:
-  - An accessible circular `.theme-toggle` button (`#theme-toggle`) in the navigation bar of all pages (`index.html`, `890b.html`, `pizzadeals.html`, `order.html`) allows customers to switch between dark and light themes at any time.
+  - An accessible circular `.theme-toggle` button (`#theme-toggle`) in the navigation bar of all pages allows customers to switch between dark and light themes at any time.
   - Choice is persisted in `localStorage` under `romeos-theme` and applied across pages via `[data-theme="dark"]` and `[data-theme="light"]` attributes on `:root`.
-  - Default theme is light (`--color-ivory: #F7F1E3`, `--color-deep-wine: #5C1A2B`). Dark theme (`--color-ivory: #161114`, `--color-slate: #F4EDE3`, `--color-deep-wine: #E57388`, `--color-saffron: #F0A83B`) is applied when toggled or when `prefers-color-scheme: dark` is active (unless overridden by light mode).
-  - Dynamically updates `<meta name="theme-color">` (`#161114` in dark mode, `#5C1A2B` in light mode) and toggle button icons/labels.
-- **Checkout Add-ons ("🍗 Add Popular Sides & Extras")**:
-  - Embedded directly into `order.html`, this section enables 1-click addition of popular sides and beverages:
-    - *Chicken Wings (6 pcs)* — ₦4,700
-    - *Shawarma Roll* — ₦4,400
-    - *Cold Coca-Cola (50cl)* — ₦900
-  - Includes interactive quantity steppers enforcing safe limits (0 to 10 items) and instant two-way synchronization with the cart summary.
+  - Default theme is light (`--color-ivory: #F7F1E3`, `--color-deep-wine: #5C1A2B`). Dark theme (`--color-ivory: #161114`, `--color-slate: #F4EDE3`, `--color-deep-wine: #E57388`, `--color-saffron: #F0A83B`) is applied when toggled or when `prefers-color-scheme: dark` is active.
+- **Checkout Add-ons ("Add Popular Sides & Extras")**:
+  - Embedded directly into `order.html`, enabling 1-click addition of popular sides and beverages with interactive quantity steppers enforcing safe limits (0 to 10 items).
 - **Two-Way Cart Synchronization & Live Price Calculations**:
-  - Operates across all pages and tabs via `localStorage` keys (`romeos_cart` and `romeos-pizza-cart`) and custom `cart:change` DOM events.
-  - Client-side calculation engine (`calculateOrderTotals` in `js/order.js`) computes real-time subtotals, flat ₦800 service fee, delivery fee (or ₦0 for pickup), and calculates the grand total in Nigerian Naira (₦).
+  - Operates across all pages and tabs via `localStorage` keys and custom `cart:change` DOM events.
+  - Client-side calculation engine computes real-time subtotals, flat ₦800 service fee, delivery fee (or ₦0 for pickup), and grand total in Nigerian Naira (₦).
 - **Itemized WhatsApp Order Handoff (`/api/orders` + Client Fallback)**:
-  - Form submission dispatches the payload to `POST /api/orders`, which validates inputs, computes itemized line prices (`getItemPrice`) and totals (`calculateOrderTotals`), persists the order record if a database is configured, and returns `{ orderId, pricing, whatsappUrl }`.
-  - When deployed as static HTML without serverless routes, `js/order.js` falls back seamlessly to `buildClientWhatsAppUrl()` and fetches `/api/orders?diagnostics=1` on load when available to sync the configured restaurant recipient number.
-  - The generated WhatsApp message includes customer information, fulfilment type, delivery address or pickup store, itemized product breakdown with quantities and unit/line prices, and a dedicated `*Payment Summary*` (Subtotal, ₦800 Service Fee, explicit Delivery Fee line hiding the internal calculation rate, and Grand Total).
+  - Form submission dispatches the payload to `POST /api/orders`, which validates inputs, computes line prices, persists the order record, and generates the branch-routed WhatsApp click-to-chat URL.
 - **Live Search & Instant Feedback**:
-  - `js/site.js` provides instant filtering without page reloads. Filters home preview cards and matching rows inside `.homepage-pizzas-details` with Enter-key transition to `890b.html?search=<query>`, where full-menu items and deal combos are dynamically searched and announced via `aria-live`.
-- **Responsive Layout & Accessibility**:
-  - Centralized in `peter890.css` with breakpoints at 1024px, 800px, 650px, 520px, and 380px.
-  - Meets WCAG 2.5.5 touch target minimums (≥44px, including `#theme-toggle`), WCAG AA/AAA color contrast, `:focus-visible` keyboard focus indicators, flattened cross-browser dark theme rules (`[data-theme="dark"]` and `prefers-color-scheme: dark`), and `prefers-reduced-motion` compliance.
-  - Essential animation design: eliminated heavy floating lifts (`translateY`), image scaling (`scale(1.04/1.05)`), icon spins, and button bounces in favor of fast, crisp, accessible state transitions (≤0.15s–0.2s for colors, borders, and shadows).
+  - `js/site.js` provides instant filtering without page reloads across previews and full-menu items.
 
 ## Customer Theme Switcher
 
@@ -293,35 +339,30 @@ npm run test:overload
 # Or: node scripts/overload-test.js
 ```
 
-### What the test suite checks (81 points)
+### What the test suite checks (103 checks in verify-all.js + 15 in test-feedback-feature.js)
 
-1. **JavaScript Syntax Sanity (14 checks)**: Verifies that all project scripts (`admin-console/server.js`, `api/admin.js`, `api/db.js`, `api/orders.js`, `api/overload-protection.js`, `api/pin-manager.js`, `api/track.js`, `dev-server.js`, `js/cart.js`, `js/deals-interactive.js`, `js/order.js`, `js/site.js`, `scripts/overload-test.js`, `scripts/stress-test.js`) compile cleanly without syntax errors.
-2. **Size Naming Hygiene (1 check)**: Scans all HTML and JS files for any legacy "Jumbo" references, ensuring 100% adherence to the canonical Medium / Large / Champion naming convention.
-3. **Menu Pizza Cards, Sizing & Half/Half Accordion (15 checks)**: Confirms that all 12 pizza cards in `890b.html` include Medium, Large, and Champion size options, default to Large, have accurate live prices, and includes the Half & Half 2-in-1 accordion builder.
-4. **Image Asset Integrity (3 checks)**: Verifies that local side and drink images (`images/chicken-wings.jpg`, `images/shawarma.jpg`, `images/coca-cola.jpg`) exist on disk, are valid non-empty files, and are correctly referenced in `order.html`.
+1. **JavaScript Syntax Sanity (14 checks)**: Verifies that all project scripts compile cleanly without syntax errors.
+2. **Size Naming Hygiene (1 check)**: Scans all HTML and JS files for any legacy terminology, ensuring strict adherence to canonical Medium / Large / Champion naming.
+3. **Menu Cards, Sizing & Half/Half Accordion (15 checks)**: Confirms menu cards include Medium, Large, and Champion size options, default to Large, have accurate live prices, and includes the Half & Half 2-in-1 accordion builder.
+4. **Image Asset Integrity (3 checks)**: Verifies that local side and drink images exist on disk, are valid non-empty files, and are correctly referenced.
 5. **Pricing Math & Order Logic (15 checks)**:
-   - Validates unit prices for pizzas across categories and sizes (e.g., Pepperoni Champion: ₦21,200, Beef Suya Large: ₦14,800, Meatylover Champion: ₦23,500).
-   - Validates unit prices for popular sides (Chicken Wings 6 pcs: ₦4,700) and combo deals (The Festive Box: ₦28,000).
+   - Validates unit prices across categories and tub sizes.
+   - Validates unit prices for popular sides and combo deals.
    - Validates Coca-Cola (50cl) canonical unit price at ₦900 across order and menu pages.
    - Validates flat service fee logic: exactly ₦800 for orders with items (`serviceFee = 800`).
    - Validates delivery fee logic: exactly 15% of subtotal for delivery orders and ₦0 (Free Pickup) for pickup orders.
    - Validates subtotal, service fee, and grand total arithmetic for multi-item carts (`grandTotal = subtotal + serviceFee + deliveryFee`).
    - Validates WhatsApp message summary generation, ensuring itemized subtotals, ₦800 service fee, explicit delivery fee line (hiding internal calculation formulas), and grand totals are formatted correctly.
-   - Cross-checks all 39 menu pizza size-price combinations against the pricing logic in `js/order.js`.
+   - Cross-checks all 39 menu size-price combinations against the pricing logic in `js/order.js`.
    - Validates Half & Half 5% surcharge formula across all tiers and permutations.
-6. **Homepage Pizza Card & Theme Controller (6 checks)**: Confirms the generic Pizza card quantity control was removed from `index.html`, all HTML pages include `#theme-toggle`, `js/site.js`, and Font Awesome, and `window.ThemeController` toggles dark/light mode with persistence and `aria-pressed`/`theme-color` updates.
-7. **WhatsApp Order & Tracking API (7 checks)**: Exercises `api/orders.js` for `GET ?diagnostics=1`, Delivery and Pickup itemized WhatsApp URL & `*Payment Summary*` generation, 6-digit PIN 5-day retention, rejection of missing consent (`400`) and invalid phones (`400`), `PUT` method rejection (`405`), and live tracking lookup via `GET /api/track`.
-8. **Legal Compliance, Footers & Core Upgrades (13 checks)**:
-   - Confirms `privacy.html` and `terms.html` exist with compliant policy text.
-   - Confirms footer navigation across all pages links to `privacy.html` and `terms.html`.
-   - Confirms `order.html` consent checkbox explicitly links to both `Terms & Conditions` and `Privacy Policy`.
-   - Confirms deal eligibility accordions use clean descriptive `Pizza 1` and `Pizza 2` quick-select buttons without ambiguous `#1` / `#2` tags.
-   - Confirms Coca-Cola is displayed at ₦900 and cart UI renders `#cart-service-row`.
-   - Confirms `#order-pin-container` and `#order-pin-display` exist in `order.html`.
-   - Confirms `prices.json` exists as single source of truth.
-   - Confirms `track.html` exists with interactive lookup form and progress stepper.
-   - Confirms Half & Half visual 2-in-1 split circle preview in `890b.html`.
-   - Confirms `dev-server.js` contains 0 hard-coded secrets or credentials.
+6. **Homepage Card & Theme Controller (6 checks)**: Confirms all HTML pages include `#theme-toggle`, `js/site.js`, and Font Awesome, and `window.ThemeController` toggles dark/light mode with persistence and `aria-pressed`/`theme-color` updates.
+7. **Branch-Specific WhatsApp Order & Tracking API (7 checks)**: Exercises `api/orders.js` for `GET ?diagnostics=1`, Delivery and Pickup WhatsApp URL generation with destination branch phone routing, 6-digit PIN 5-day retention, input validation, and live tracking lookup via `GET /api/track`.
+8. **Legal Compliance, Footers & Core Upgrades (13 checks)**: Confirms `privacy.html` and `terms.html` policy text, footer links, checkout consent notice, Coca-Cola ₦900 display, `#order-pin-container` & `#copy-pin-btn`, `prices.json` single source of truth, and `track.html` progress stepper.
+9. **Role-Based Verification Console & PII Masking (7 checks)**: Confirms 14-character alphanumeric login enforcement, Admin full access, Staff operational state progression with PII masking and cancel/delete block (`403`).
+10. **Delivery Rider Console & Routes (4 checks)**: Confirms dedicated rider console, 14-char login (`RomeosRider890`), Google Maps and WhatsApp integration, and delivery-only order filtering.
+11. **Customer Accounts & Country Picker (5 checks)**: Confirms user registration, 6-region phone picker with 150+ countries, HttpOnly cookie sessions, and duplicate prevention.
+12. **Refund Tokens System (4 checks)**: Confirms 15-character refund token generation on order deletion, customer tracking/auth surfacing, and admin claim/deletion RBAC.
+13. **Customer Feedback & Dual-DB Sync (15 checks)**: Confirms Neon Postgres schema creation, dual-write to Neon + Supabase, rating validation, complaint mode, and feedback bubble script integration across all customer HTML pages.
 
 For historical test logs and manual audit records, refer to [`VERIFICATION-LOG.md`](./VERIFICATION-LOG.md).
 

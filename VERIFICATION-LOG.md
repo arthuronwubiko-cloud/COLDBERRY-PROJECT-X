@@ -783,6 +783,97 @@ This log records project verification results only; it does not contain private 
   - Verified live dual-server execution (`dev-server.js` on `:3901` + `admin-console/server.js` on `:4901`).
 
 
+## 2026-11-19 — Dynamic Branch WhatsApp Contact Routing
+
+### Changes implemented & verified
+
+- **Branch-Specific WhatsApp Destination Routing (`api/orders.js`, `order.html`, `js/order.js`, `peter890.css`)**:
+  - Replaced single static phone handoff with dynamic branch contact routing based on selected store location.
+  - Implemented canonical mapping for Abuja branches (Garki `2349055303848`, Lugbe `2349055303849`, Wuse II, Jabi) and Lagos branches (Yaba `2348023456701`, Surulere `2348023456702`, Okota `2348023456703`, Festac `2348023456704`, Ajao `2348023456705`).
+  - Added live branch contact indicator badge in `order.html` showing the assigned branch contact and hours.
+  - Added environment variable overrides (`BRANCH_GARKI_PHONE`, `BRANCH_YABA_PHONE`, and JSON `BRANCH_CONTACTS`).
+- **Automated Verification**:
+  - Updated `scripts/verify-all.js` with test check 6c verifying Yaba pickup orders route to `2348023456701`.
+
+
+## 2026-11-19 — Rider & Delivery Driver Console (`driver.html` & `driver-console/`)
+
+### Changes implemented & verified
+
+- **Dedicated Mobile Driver Console**:
+  - Created `driver.html` and standalone `driver-console/` package (`driver-console/server.js`, `driver-console/index.html`, `driver-console/vercel.json`, `driver-console/package.json`).
+  - Locked console behind 14-character alphanumeric credentials (`RomeosRider890` / `Rdr72Kp45Lw19Q`).
+  - Implemented delivery-only filtering in `GET /api/orders` with unmasked customer delivery addresses and phone numbers.
+  - Built direct 1-tap **Google Maps** turn-by-turn route navigation button.
+  - Built direct 1-tap **WhatsApp Courier Chat** link to contact customers.
+  - Added live order status advancement (`out_for_delivery` -> `completed`) with staff-level cancel/delete lockout (`HTTP 403`).
+- **Automated Verification**:
+  - Added 4 automated driver console checks to `scripts/verify-all.js`.
+
+
+## 2026-11-19 — Customer Registration, 6-Region Phone Selector & Auth Sessions
+
+### Changes implemented & verified
+
+- **Customer Authentication & Account Management (`login.html`, `api/auth.js`)**:
+  - Built `/login.html` with customer username and password registration, encrypted password storage, and HttpOnly session cookies.
+  - Created interactive **6-Region Phone Country Selector** supporting 150+ international countries across Africa, Europe, Americas, Asia, Middle East, and Oceania.
+  - Added customer profile modal displaying active session status, registered phone, and historical refund tokens.
+- **Automated Verification**:
+  - Added 5 automated customer auth checks to `scripts/verify-all.js`.
+
+
+## 2026-11-19 — Customer 15-Character Refund Tokens & Admin RBAC
+
+### Changes implemented & verified
+
+- **Customer Refund Tokens (`refunds.html`, `api/track.js`, `api/admin.js`, `api/auth.js`)**:
+  - Automatic generation of secure 15-character alphanumeric refund tokens (`R...`) upon order cancellation or deletion.
+  - Surfaced tokens to customers via `/api/track` and authenticated `/api/auth` session profiles.
+  - Implemented Admin-only RBAC deletion of claimed tokens, with strict `403` blocking of Staff accounts or unclaimed token deletions.
+- **Automated Verification**:
+  - Added 4 automated refund token checks to `scripts/verify-all.js`.
+
+
+## 2026-11-19 — Dual-DB Customer Feedback & Complaint Synchronization
+
+### Changes implemented & verified
+
+- **Floating Client Feedback Bubble (`js/feedback-bubble.js`, `api/feedback.js`, `feedback.html`, `migrations/002_customer_feedback.sql`)**:
+  - Built floating feedback widget across all customer-facing HTML pages with star ratings (1–5), quick flavour tags, and complaint mode switcher.
+  - Connected simultaneously to **Neon Postgres** (`customer_feedback` table) and **Supabase REST**, with fallback to `/tmp/romeos-feedback-store.json`.
+  - Added CORS allowlisting, input validation, and review retrieval in `api/feedback.js`.
+- **Automated Verification**:
+  - Created dedicated 15-point test suite (`scripts/test-feedback-feature.js`): **15/15 checks passed**.
+
+
+## 2026-11-19 — Comprehensive Mobile Responsiveness, Safe-Area Insets & Sticky Cart Collision Avoidance
+
+### Changes implemented & verified
+
+- **Universal Viewport Meta Upgrades**:
+  - Upgraded `<meta name="viewport">` across all 10 HTML files (`index.html`, `890b.html`, `pizzadeals.html`, `order.html`, `track.html`, `login.html`, `privacy.html`, `terms.html`, `driver.html`, `admin.html`) to include `viewport-fit=cover`.
+  - Removed non-standard `maximum-scale=1.0, user-scalable=no` from `driver.html` to guarantee full WCAG 1.4.4 zoom compliance and edge-to-edge rendering on iPhone Dynamic Island and Android devices.
+- **Horizontal Overflow Shield & Safe-Area Padding (`peter890.css`)**:
+  - Added `overflow-x: hidden; width: 100%; max-width: 100vw; -webkit-text-size-adjust: 100%;` to `html, body`.
+  - Added safe area padding `env(safe-area-inset-*)` on `body` and sticky bottom elements (`.menu-cart`).
+- **Segmented 50/50 Fulfilment Selector (`order.html`, `peter890.css`)**:
+  - Implemented responsive segmented 50/50 card toggle for Delivery vs Pickup on screens $\le 520\text{px}$ (`flex: 1 1 0; min-height: 44px;`).
+- **Progress Stepper Micro-Rules across Viewports (`track.html`, `peter890.css`)**:
+  - On $\le 480\text{px}$: Step circles scale to $32\text{px}$, labels to $0.65\text{rem}$ with line margins shrinking to prevent side scroll.
+  - On $\le 360\text{px}$ (e.g. Galaxy Fold / iPhone SE 1st gen): Step circles scale to $26\text{px}$, labels to $0.58\text{rem}$, and connecting lines dynamically shrink to fit within 280px available width.
+- **Order PIN Row & Touch Target Scaling (`order.html`, `peter890.css`)**:
+  - Vertically stacked PIN row on mobile with 100% width touch-friendly ($44\text{px}$) Copy PIN, Cancel Order, and Order Received buttons.
+  - Enforced `font-size: 16px` on form inputs on mobile $\le 480\text{px}$ to prevent iOS Safari auto-zooming.
+  - Scaled Sister Brand footer banner into a centered touch-friendly mobile block card on $\le 600\text{px}$.
+- **Feedback Bubble & Sticky Cart Collision Clearance (`js/feedback-bubble.js`)**:
+  - Implemented dynamic cart detection: detects when `.menu-cart` is present and elevates `#romeos-feedback-bubble-root` to `calc(5.25rem + env(safe-area-inset-bottom, 0px))` so the checkout button is never obscured.
+  - Added modal viewport clamping (`width: min(360px, calc(100vw - 1.5rem)); max-height: calc(85vh - env(safe-area-inset-bottom, 0px)); overflow-y: auto;`) for compact mobile screens.
+- **Automated Verification**:
+  - Ran `scripts/verify-all.js`: **103/103 checks passed (`0` failed)**. Zero regressions.
+  - Ran `scripts/test-feedback-feature.js`: **15/15 checks passed (`0` failed)**. Zero regressions.
+
+
 ## 2026-11-21 — Multi-Account Password Generation, Real Branch Routing, Manager Terminal, Completed Queue & Deleted Archive
 
 ### Changes implemented & verified
@@ -800,3 +891,4 @@ This log records project verification results only; it does not contain private 
 - **Automated Verification**:
   - Ran `npm test` (`103/103` passed).
   - Ran end-to-end RBAC & archive verification (`admin`, `manager`, `pseudo_admin` login, `HTTP 403` isolation on `GET ?tab=deleted` and `manager`/`pseudo_admin` password generation, `deleted_orders` archive persistence, and `manager.html` DOM exclusions): all passed.
+
