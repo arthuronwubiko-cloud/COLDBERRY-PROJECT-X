@@ -781,3 +781,22 @@ This log records project verification results only; it does not contain private 
   - Updated `scripts/verify-all.js` to **81 checks** (**81/81 passed, 0 failed**).
   - Updated `scripts/stress-test.js` with RBAC + 12-minute cancel boundary tests across **5/5 rounds** (all passed).
   - Verified live dual-server execution (`dev-server.js` on `:3901` + `admin-console/server.js` on `:4901`).
+
+
+## 2026-11-21 — Multi-Account Password Generation, Real Branch Routing, Manager Terminal, Completed Queue & Deleted Archive
+
+### Changes implemented & verified
+
+- **Multi-Account Staff & Driver Password Generation (`api/db.js`, `api/admin.js`, `admin.html`)**:
+  - Added `role_accounts` schema and CRUD helpers (`createRoleAccount`, `getRoleAccount`, `listRoleAccounts`, `setRoleAccountDisabled`, `deleteRoleAccount`, `shutdownAllRoleAccounts`).
+  - Admin can generate `1`–`10` random 14-character alphanumeric accounts per role with optional labels, shut down/re-enable or delete individual accounts, or shut down all accounts for a role.
+- **Real Branch WhatsApp Routing & Hidden Page Numbers (`js/order.js`, `order.html`, `scripts/verify-all.js`)**:
+  - Updated `BRANCH_CONTACTS` with real branch WhatsApp numbers for Garki, Lugbe, Yaba, Surulere, and Festac while keeping branch phone numbers hidden from the customer-facing `order.html` UI.
+- **Manager Terminal (`/manager`), Completed Orders Queue, Deleted Items Archive & Pseudo-Admin Passwords (`manager.html`, `admin.html`, `api/admin.js`, `api/db.js`, `vercel.json`)**:
+  - Created `manager.html` and added `/manager` and `/manager-console` rewrites in `vercel.json`.
+  - Added `deleted_orders` persistence (`saveDeletedOrder`, `getDeletedOrders`) and `GET /api/admin?tab=deleted` (restricted to full `admin` accounts; `HTTP 403` for `manager`, `pseudo_admin`, `staff`, `driver`).
+  - Expanded role password generation to `manager` and `pseudo_admin` (full `admin` only; `HTTP 403` for non-admin roles).
+  - Separated `completed` orders out of the active `staff` order console (`#panel-orders`) into the dedicated **Completed Orders** tab (`#panel-completed`).
+- **Automated Verification**:
+  - Ran `npm test` (`103/103` passed).
+  - Ran end-to-end RBAC & archive verification (`admin`, `manager`, `pseudo_admin` login, `HTTP 403` isolation on `GET ?tab=deleted` and `manager`/`pseudo_admin` password generation, `deleted_orders` archive persistence, and `manager.html` DOM exclusions): all passed.
