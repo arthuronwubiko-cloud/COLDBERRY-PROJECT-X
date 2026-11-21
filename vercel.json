@@ -58,7 +58,15 @@
     {
       "source": "/api/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "no-store" }
+        { "key": "Cache-Control", "value": "no-store" },
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }
+      ]
+    },
+    {
+      "source": "/(admin|admin\\.html|admin-console|manager|manager\\.html|manager-console|driver|driver\\.html|driver-console|feedback|feedback\\.html|refunds|refunds\\.html|refund-tokens)(.*)",
+      "headers": [
+        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" },
+        { "key": "Cache-Control", "value": "no-store, must-revalidate" }
       ]
     }
   ]
