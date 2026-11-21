@@ -348,6 +348,27 @@ async function ensureNeonSchema() {
         )
       `;
       await sql`CREATE INDEX IF NOT EXISTS role_accounts_role_idx ON role_accounts (role, created_at DESC)`;
+      await sql`
+        CREATE TABLE IF NOT EXISTS deleted_orders (
+          id                 SERIAL PRIMARY KEY,
+          order_id           TEXT NOT NULL,
+          order_pin          TEXT,
+          customer_name      TEXT,
+          customer_phone     TEXT,
+          fulfilment         TEXT,
+          location           TEXT,
+          items              TEXT,
+          grand_total        NUMERIC,
+          payment_status     TEXT,
+          status             TEXT,
+          deleted_by         TEXT,
+          deleted_reason     TEXT,
+          refund_token       TEXT,
+          original_timestamp TEXT,
+          deleted_at         TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        )
+      `;
+      await sql`CREATE INDEX IF NOT EXISTS deleted_orders_at_idx ON deleted_orders (deleted_at DESC)`;
       return sql;
     })().catch((err) => {
       neonSchemaPromise = null; // allow a retry on the next request
@@ -2050,9 +2071,11 @@ function writeLocalRoleCredsFile(map) {
   } catch (_) {}
 }
 
+const ROLE_CREDENTIAL_ROLES = ["staff", "driver", "manager", "pseudo_admin"];
+
 async function getRoleCredential(role) {
   const cleanRole = String(role || "").trim().toLowerCase();
-  if (!["staff", "driver"].includes(cleanRole)) return null;
+  if (!ROLE_CREDENTIAL_ROLES.includes(cleanRole)) return null;
 
   if (isNeonConfigured()) {
     try {
@@ -2086,17 +2109,19 @@ async function getRoleCredential(role) {
 }
 
 async function getAllRoleCredentials() {
-  const [staff, driver] = await Promise.all([
+  const [staff, driver, manager, pseudo_admin] = await Promise.all([
     getRoleCredential("staff"),
     getRoleCredential("driver"),
+    getRoleCredential("manager"),
+    getRoleCredential("pseudo_admin"),
   ]);
-  return { staff, driver };
+  return { staff, driver, manager, pseudo_admin };
 }
 
 async function saveRoleCredential({ role, username = null, passwordHash = null, disabled = false, updatedBy = "admin" }) {
   const cleanRole = String(role || "").trim().toLowerCase();
-  if (!["staff", "driver"].includes(cleanRole)) {
-    return { error: "Role must be 'staff' or 'driver'." };
+  if (!ROLE_CREDENTIAL_ROLES.includes(cleanRole)) {
+    return { error: "Role must be 'staff', 'driver', 'manager', or 'pseudo_admin'." };
   }
   const nowIso = new Date().toISOString();
   const record = {
@@ -2167,7 +2192,7 @@ function writeLocalRoleAccountsFile(list) {
 async function createRoleAccount({ username, role, label = "", passwordHash, createdBy = "admin" }) {
   const cleanRole = String(role || "").trim().toLowerCase();
   const cleanUser = String(username || "").trim();
-  if (!["staff", "driver"].includes(cleanRole) || !cleanUser || !passwordHash) {
+  if (!ROLE_CREDENTIAL_ROLES.includes(cleanRole) || !cleanUser || !passwordHash) {
     return { error: "Valid role, username, and passwordHash are required." };
   }
   const nowIso = new Date().toISOString();
@@ -2425,6 +2450,121 @@ defaultHandler.savePromotionalEmail = savePromotionalEmail;
 defaultHandler.getPromotionalEmails = getPromotionalEmails;
 defaultHandler.getRoleCredential = getRoleCredential;
 defaultHandler.getAllRoleCredentials = getAllRoleCredentials;
+const LOCAL_DELETED_ORDERS_FILE = path.join(require("os").tmpdir(), "romeos-deleted-orders.json");
+
+function readLocalDeletedOrdersFile() {
+  try {
+    if (!fs.existsSync(LOCAL_DELETED_ORDERS_FILE)) return [];
+    const parsed = JSON.parse(fs.readFileSync(LOCAL_DELETED_ORDERS_FILE, "utf8"));
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (_) {
+    return [];
+  }
+}
+
+function writeLocalDeletedOrdersFile(list) {
+  try {
+    fs.writeFileSync(LOCAL_DELETED_ORDERS_FILE, JSON.stringify(list.slice(0, 500)), "utf8");
+  } catch (_) {}
+}
+
+async function saveDeletedOrder(record) {
+  const nowIso = record?.deleted_at || record?.deletedAt || new Date().toISOString();
+  const entry = {
+    order_id: String(record?.order_id || record?.orderId || ""),
+    order_pin: record?.order_pin || record?.orderPin || null,
+    customer_name: record?.customer_name || record?.customerName || "Customer",
+    customer_phone: record?.customer_phone || record?.customerPhone || "",
+    fulfilment: record?.fulfilment || "Delivery",
+    location: record?.location || "",
+    items: typeof record?.items === "string" ? record.items : JSON.stringify(record?.items || []),
+    grand_total: Number(record?.grand_total ?? record?.grandTotal ?? 0) || 0,
+    payment_status: record?.payment_status || record?.paymentStatus || "pending",
+    status: record?.status || "deleted",
+    deleted_by: String(record?.deleted_by || record?.deletedBy || "admin"),
+    deleted_reason: String(record?.deleted_reason || record?.deletedReason || "Order Deleted"),
+    refund_token: record?.refund_token || record?.refundToken || null,
+    original_timestamp: record?.original_timestamp || record?.originalTimestamp || null,
+    deleted_at: nowIso,
+  };
+
+  const localList = readLocalDeletedOrdersFile();
+  localList.unshift(entry);
+  writeLocalDeletedOrdersFile(localList);
+
+  if (isNeonConfigured()) {
+    try {
+      const sql = await ensureNeonSchema();
+      const rows = await sql`
+        INSERT INTO deleted_orders (
+          order_id, order_pin, customer_name, customer_phone, fulfilment, location,
+          items, grand_total, payment_status, status, deleted_by, deleted_reason,
+          refund_token, original_timestamp, deleted_at
+        )
+        VALUES (
+          ${entry.order_id}, ${entry.order_pin}, ${entry.customer_name}, ${entry.customer_phone},
+          ${entry.fulfilment}, ${entry.location}, ${entry.items}, ${entry.grand_total},
+          ${entry.payment_status}, ${entry.status}, ${entry.deleted_by}, ${entry.deleted_reason},
+          ${entry.refund_token}, ${entry.original_timestamp}, ${entry.deleted_at}
+        )
+        RETURNING *
+      `;
+      if (rows && rows[0]) return { success: true, record: rows[0], provider: "neon" };
+    } catch (err) {
+      console.warn("[DeletedOrders] Neon insert warning:", err.message);
+    }
+  }
+
+  const supabase = getSupabaseConfig();
+  if (supabase) {
+    try {
+      await fetch(`${supabase.url}/rest/v1/deleted_orders`, {
+        method: "POST",
+        headers: supabaseHeaders(supabase),
+        body: JSON.stringify(entry),
+      });
+      return { success: true, record: entry, provider: "supabase" };
+    } catch (_) {}
+  }
+
+  return { success: true, record: entry, provider: "local-fallback" };
+}
+
+async function getDeletedOrders({ limit = 100 } = {}) {
+  const safeLimit = Math.min(Math.max(Number(limit) || 100, 1), 500);
+
+  if (isNeonConfigured()) {
+    try {
+      const sql = await ensureNeonSchema();
+      const rows = await sql`
+        SELECT id, order_id, order_pin, customer_name, customer_phone, fulfilment, location,
+               items, grand_total, payment_status, status, deleted_by, deleted_reason,
+               refund_token, original_timestamp, deleted_at
+        FROM deleted_orders
+        ORDER BY deleted_at DESC
+        LIMIT ${safeLimit}
+      `;
+      return { deletedOrders: rows || [], provider: "neon" };
+    } catch (_) {}
+  }
+
+  const supabase = getSupabaseConfig();
+  if (supabase) {
+    try {
+      const res = await fetch(
+        `${supabase.url}/rest/v1/deleted_orders?select=*&order=deleted_at.desc&limit=${safeLimit}`,
+        { headers: supabaseHeaders(supabase) }
+      );
+      if (res.ok) {
+        const rows = await res.json();
+        return { deletedOrders: Array.isArray(rows) ? rows : [], provider: "supabase" };
+      }
+    } catch (_) {}
+  }
+
+  return { deletedOrders: readLocalDeletedOrdersFile().slice(0, safeLimit), provider: "local-fallback" };
+}
+
 defaultHandler.saveRoleCredential = saveRoleCredential;
 defaultHandler.createRoleAccount = createRoleAccount;
 defaultHandler.getRoleAccount = getRoleAccount;
@@ -2432,6 +2572,8 @@ defaultHandler.listRoleAccounts = listRoleAccounts;
 defaultHandler.setRoleAccountDisabled = setRoleAccountDisabled;
 defaultHandler.deleteRoleAccount = deleteRoleAccount;
 defaultHandler.shutdownAllRoleAccounts = shutdownAllRoleAccounts;
+defaultHandler.saveDeletedOrder = saveDeletedOrder;
+defaultHandler.getDeletedOrders = getDeletedOrders;
 defaultHandler.getOrdersByCustomer = getOrdersByCustomer;
 defaultHandler.recordVisitorHit = recordVisitorHit;
 defaultHandler.getActiveVisitorCount = getActiveVisitorCount;
